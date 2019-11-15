@@ -1,30 +1,38 @@
 package pages;
 
 import browser.Browser;
-import implementation.Button;
-import org.apache.log4j.Logger;
+import elements.Button;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import utils.ConfigFileReader;
 
 
 public class MainPage extends PageBase {
-    protected ConfigFileReader config = new ConfigFileReader();
-    private static final Logger logger = Logger.getLogger(MainPage.class);
 
-    private final Button loginButton = new Button(driver,By.className("global_action_link"), "LoginButton");
+    private final Button loginButton = new Button(By.className("global_action_link"), "LoginButton");
+    private final Button steamButton = new Button(By.className("logo"), "steamButton");
+    private final Button installSteamButton = new Button(By.className("header_installsteam_btn_content"), "installSteamButton");
+    private final Button downloadSteamButton = new Button(By.className("about_install_steam_link"), "downloadSteamButton");
 
+    public MainPage() {
+    }
 
-    public MainPage(WebDriver driver) {
-        super(driver);
+    public void openBaseUrl() {
+        Browser.navigateTo(config.getBaseUrl());
     }
 
     public void goToMainPage() {
-        Browser.navigateTo(config.getBaseUrl());
+        steamButton.click();
+    }
+
+    public void goToInstallPage() {
+        installSteamButton.click();
+    }
+
+    public void downloadSteam() {
+        downloadSteamButton.click();
     }
 
     public LoginPage goToLoginPage() {
         loginButton.click();
-        return new LoginPage(driver);
+        return new LoginPage();
     }
 }

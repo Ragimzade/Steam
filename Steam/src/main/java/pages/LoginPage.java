@@ -1,24 +1,18 @@
 package pages;
 
-import implementation.Button;
-import implementation.TextField;
-import org.apache.log4j.Logger;
+import elements.Button;
+import elements.TextField;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends PageBase {
 
-    private static final Logger logger = Logger.getLogger(LoginPage.class);
-
-    public LoginPage(WebDriver driver) {
-        super(driver);
-
+    public LoginPage() {
     }
 
-    private final TextField loginField = new TextField(driver, By.name("username"), "login");
-    private final TextField passwordField = new TextField(driver, By.xpath(".//input[@type='password']"), "password");
-    private final Button signIn = new Button(driver, By.xpath(".//button[@type='submit']"), "signin");
-    private final Button messages = new Button(driver, By.xpath("//div[@id='header_notification_link']"), "messages");
+    private final TextField loginField = new TextField(By.name("username"), "login");
+    private final TextField passwordField = new TextField(By.xpath(".//input[@type='password']"), "password");
+    private final Button signIn = new Button(By.xpath(".//button[@type='submit']"), "signin");
+    private final Button messages = new Button(By.xpath("//div[@id='header_notification_link']"), "messages");
 
     public void signIn(String login, String password) {
         loginField.typeValue(login);

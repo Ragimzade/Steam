@@ -5,13 +5,12 @@ import org.openqa.selenium.WebDriver;
 import static browser.BrowserFactory.initDriver;
 
 public class Browser {
-//    BrowserFactory factory = BrowserFactory.getInstance();
     private static WebDriver driver;
 
     private Browser() {
     }
 
-    public static   WebDriver getInstance(String browser) {
+    public static WebDriver getInstance(String browser) {
         if (driver == null) {
             driver = initDriver(browser);
         }
@@ -21,8 +20,9 @@ public class Browser {
     public static void quit() {
         if (driver != null) {
             driver.quit();
+            driver = null;
         }
-        driver = null;
+
     }
 
     public static void navigateTo(final String url) {

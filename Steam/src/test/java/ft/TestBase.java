@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeSuite;
 import pages.LoginPage;
 import pages.MainPage;
 import utils.ConfigFileReader;
+import utils.FileDownload;
 
 import java.lang.reflect.Method;
 
@@ -17,18 +18,16 @@ public class TestBase {
     private static final Logger logger = Logger.getLogger(TestBase.class);
     MainPage mainPage;
     LoginPage loginPage;
-    private Browser browser;
     ConfigFileReader config;
-
-
+    WebDriver driver;
+    FileDownload fileDownload;
     @BeforeSuite(alwaysRun = true)
     public void setUp() {
         config = ConfigFileReader.getInstance();
-        WebDriver driver = browser.getInstance(config.getBrowser("Chrome"));
-        mainPage = new MainPage(driver);
-        loginPage = new LoginPage(driver);
-
-
+        mainPage = new MainPage();
+        loginPage = new LoginPage();
+        mainPage.openBaseUrl();
+        fileDownload = new FileDownload();
     }
 
 
