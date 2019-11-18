@@ -16,7 +16,10 @@ public class LoginPage extends PageBase {
 
     public void signIn(String login, String password) {
         loginField.typeValue(login);
+        loginField.getText();
         passwordField.typeValue(password);
+        passwordField.getText();
+        signIn.isButtonOnPage();
         signIn.click();
     }
 

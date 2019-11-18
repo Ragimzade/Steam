@@ -7,7 +7,6 @@ public class ConfigFileReader {
     private static ConfigFileReader instance;
     private Properties prop;
 
-
     public ConfigFileReader() {
         prop = new Properties();
         try {
@@ -33,7 +32,6 @@ public class ConfigFileReader {
             throw new RuntimeException();
         }
     }
-
 
     public String getBaseUrl() {
         String url = prop.getProperty("BaseUrl");

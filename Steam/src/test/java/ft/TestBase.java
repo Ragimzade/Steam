@@ -9,8 +9,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import pages.LoginPage;
 import pages.MainPage;
+import pages.SteamDownloadPage;
 import utils.ConfigFileReader;
-import utils.FileDownload;
 
 import java.lang.reflect.Method;
 
@@ -20,14 +20,14 @@ public class TestBase {
     LoginPage loginPage;
     ConfigFileReader config;
     WebDriver driver;
-    FileDownload fileDownload;
+    SteamDownloadPage steamDownloadPage;
     @BeforeSuite(alwaysRun = true)
     public void setUp() {
         config = ConfigFileReader.getInstance();
         mainPage = new MainPage();
         loginPage = new LoginPage();
         mainPage.openBaseUrl();
-        fileDownload = new FileDownload();
+        steamDownloadPage = new SteamDownloadPage();
     }
 
 

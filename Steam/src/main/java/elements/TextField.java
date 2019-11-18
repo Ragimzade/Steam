@@ -2,10 +2,11 @@ package elements;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import utils.Log;
 
 public class TextField extends BaseWebElement {
 
-    private static final Logger log = Logger.getLogger(TextField.class);
+    private static final Log log = Log.getInstance();
 
     public TextField(By locator, String name) {
         super(locator, name);
