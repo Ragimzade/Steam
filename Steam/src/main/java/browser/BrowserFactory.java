@@ -12,11 +12,12 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import utils.ConfigFileReader;
 
+import java.util.HashMap;
+
 public class BrowserFactory {
 
 
     private static ConfigFileReader config = ConfigFileReader.getInstance();
-
 
 
     private BrowserFactory() {
@@ -38,16 +39,13 @@ public class BrowserFactory {
             case "CHROME":
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--safebrowsing-disable-download-protection");
-                chromeOptions.addArguments("--allow-unchecked-dangerous-downloads[3]");
-                chromeOptions.addArguments("--safebrowsing-disable-extension-blacklist");
-                chromeOptions.addArguments("disable-infobars");
-                chromeOptions.addArguments("--safebrowsing-disable");
-                // chromeOptions.addArguments("download.default_directory", downloadFilepath);
-                chromeOptions.setCapability(org.openqa.selenium.chrome.ChromeOptions.CAPABILITY, chromeOptions);
-                chromeOptions.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
-                chromeOptions.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.ACCEPT);
-                chromeOptions.setAcceptInsecureCerts(true);
+                HashMap<String, Object> chromePreferences = new HashMap<>();
+                chromePreferences.put("profile.default_content_settings.popups", 0);
+                chromePreferences.put("download.prompt_for_download", "false");
+                chromePreferences.put("download.default_directory", config.getDownloadPath());
+                chromePreferences.put("download.directory_upgrade", "true");
+                chromePreferences.put("safebrowsing.enabled", "true");
+                chromeOptions.setExperimentalOption("prefs", chromePreferences);
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case "Edge":

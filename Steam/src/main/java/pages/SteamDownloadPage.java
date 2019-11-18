@@ -16,6 +16,7 @@ public class SteamDownloadPage {
 
     public void downloadSteam() {
         downloadSteamButton.click();
+
     }
 
 

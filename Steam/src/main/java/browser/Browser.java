@@ -1,5 +1,7 @@
 package browser;
 
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 
 import static browser.BrowserFactory.initDriver;
@@ -35,5 +37,13 @@ public class Browser {
 
     public static void maximizeWindow() {
         driver.manage().window().maximize();
+    }
+
+    public static void safeAlertAccept() {
+        try {
+            driver.switchTo().alert().accept();
+        } catch (NoAlertPresentException e) {
+
+        }
     }
 }

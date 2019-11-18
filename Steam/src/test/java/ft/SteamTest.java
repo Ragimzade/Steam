@@ -1,5 +1,6 @@
 package ft;
 
+import browser.Browser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -24,6 +25,7 @@ public class SteamTest extends TestBase {
         mainPage.goToMainPage();
         mainPage.goToSteamDownloadPage();
         steamDownloadPage.downloadSteam();
+
 
         Assert.assertTrue(steamDownloadPage.download(config.getDownloadPath()));
 

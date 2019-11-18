@@ -1,11 +1,9 @@
 package elements;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import utils.Log;
-
-import java.time.Duration;
 
 public class Button extends BaseWebElement {
 
@@ -17,6 +15,7 @@ public class Button extends BaseWebElement {
 
     public boolean isClickable() {
         try {
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
             log.info(String.format("Button '%s' is clickable", name));
             return true;
         } catch (TimeoutException e) {

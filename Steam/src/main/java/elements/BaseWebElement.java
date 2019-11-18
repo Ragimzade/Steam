@@ -11,7 +11,7 @@ import utils.Log;
 import java.time.Duration;
 
 public abstract class BaseWebElement {
-    protected FluentWait  wait;
+    protected FluentWait wait;
     private static final int WAIT_DURATION_IN_SEC = 7;
     private static final int WAIT_DURATION_IN_MILL = 100;
     private static final Log log = Log.getInstance();
@@ -23,7 +23,7 @@ public abstract class BaseWebElement {
     public BaseWebElement(By locator, String name) {
         this.name = name;
         this.locator = locator;
-        driver = Browser.getInstance(config.getBrowser("FireFox"));
+        driver = Browser.getInstance(config.getBrowser("Chrome"));
         wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(WAIT_DURATION_IN_SEC)).pollingEvery(Duration.ofMillis(WAIT_DURATION_IN_MILL))
                 .ignoring(NoSuchElementException.class);
     }
