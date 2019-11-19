@@ -1,7 +1,7 @@
 package elements;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Log;
 
@@ -13,32 +13,28 @@ public class Button extends BaseWebElement {
 
     private static final Log log = Log.getInstance();
 
-    public boolean isClickable() {
+    public void waitForElementClickable() {
+        waitForCondition(ExpectedConditions.elementToBeClickable(locator));
+        log.info(String.format("Button '%s' is clickable", name));
+    }
+
+    public void click() {
+        log.info(String.format("Clicking button '%s'", name));
+        waitForElementClickable();
+        getElement(locator).click();
+        log.info(String.format("Clicking button '%s': success", name));
+    }
+
+    public boolean isButtonOnPage() {
         try {
-            wait.until(ExpectedConditions.elementToBeClickable(locator));
-            log.info(String.format("Button '%s' is clickable", name));
-            return true;
-        } catch (TimeoutException e) {
-            log.info(String.format("Button '%s' is NOT clickable", name));
+            log.info(String.format("Waiting for presence of '%s' button", name));
+            return isElementPresent();
+        } catch (NoSuchElementException ex) {
             return false;
         }
     }
 
-    public void click() {
-
-        log.info(String.format("Clicking button '%s'", name));
-        if (isClickable()) {
-            getElement(locator).click();
-            log.info(String.format("Clicking button '%s': success", name));
-        } else {
-            log.error(String.format("Button '%s' is not clickable", name));
-        }
+    public boolean waitForAbsentButton() {
+        return waitForAbsent();
     }
-
-    public boolean isButtonOnPage() {
-        return isElementPresent();
-    }
-
-
-
 }

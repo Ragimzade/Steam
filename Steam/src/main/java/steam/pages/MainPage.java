@@ -1,6 +1,5 @@
-package pages;
+package steam.pages;
 
-import browser.Browser;
 import elements.Button;
 import org.openqa.selenium.By;
 
@@ -15,18 +14,14 @@ public class MainPage extends PageBase {
     public MainPage() {
     }
 
-    public void openBaseUrl() {
-        Browser.navigateTo(config.getBaseUrl());
-    }
-
     public void goToMainPage() {
         steamButton.click();
     }
 
-    public void goToSteamDownloadPage() {
+    public SteamDownloadPage goToSteamDownloadPage() {
         installSteamButton.click();
+        return new SteamDownloadPage();
     }
-
 
 
     public LoginPage goToLoginPage() {

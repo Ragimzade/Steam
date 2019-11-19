@@ -1,18 +1,19 @@
 package browser;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import utils.ConfigFileReader;
 
 import static browser.BrowserFactory.initDriver;
 
 public class Browser {
     private static WebDriver driver;
+    private static ConfigFileReader config = ConfigFileReader.getInstance();
 
     private Browser() {
     }
 
-    public static WebDriver getInstance(String browser) {
+    public static synchronized WebDriver getInstance(String browser) {
         if (driver == null) {
             driver = initDriver(browser);
         }
@@ -27,8 +28,8 @@ public class Browser {
 
     }
 
-    public static void navigateTo(final String url) {
-        driver.get(url);
+    public static void openBaseUrl() {
+        driver.get(config.getBaseUrl());
     }
 
     public static void refreshPage() {

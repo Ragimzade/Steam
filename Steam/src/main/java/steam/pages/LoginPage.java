@@ -1,4 +1,4 @@
-package pages;
+package steam.pages;
 
 import elements.Button;
 import elements.TextField;
@@ -10,8 +10,8 @@ public class LoginPage extends PageBase {
     }
 
     private final TextField loginField = new TextField(By.name("username"), "login");
-    private final TextField passwordField = new TextField(By.xpath(".//input[@type='password']"), "password");
-    private final Button signIn = new Button(By.xpath(".//button[@type='submit']"), "signin");
+    private final TextField passwordField = new TextField(By.xpath("//input[@type='password']"), "password");
+    private final Button signIn = new Button(By.xpath("//button[@type='submit']"), "signin");
     private final Button messages = new Button(By.xpath("//div[@id='header_notification_link']"), "messages");
 
     public void signIn(String login, String password) {
@@ -25,5 +25,9 @@ public class LoginPage extends PageBase {
 
     public boolean isMessageButtonPresent() {
         return messages.isButtonOnPage();
+    }
+
+    public void absentButton() {
+        messages.waitForAbsentButton();
     }
 }

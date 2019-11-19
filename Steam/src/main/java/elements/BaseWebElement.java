@@ -1,8 +1,8 @@
 package elements;
 
 import browser.Browser;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import utils.ConfigFileReader;
@@ -23,9 +23,14 @@ public abstract class BaseWebElement {
     public BaseWebElement(By locator, String name) {
         this.name = name;
         this.locator = locator;
-        driver = Browser.getInstance(config.getBrowser("Chrome"));
-        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(WAIT_DURATION_IN_SEC)).pollingEvery(Duration.ofMillis(WAIT_DURATION_IN_MILL))
+        driver = Browser.getInstance(config.getBrowser());
+        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(WAIT_DURATION_IN_SEC))
+                .pollingEvery(Duration.ofMillis(WAIT_DURATION_IN_MILL))
                 .ignoring(NoSuchElementException.class);
+    }
+
+    protected void waitForCondition(ExpectedCondition<WebElement> conditions) {
+        wait.until(conditions);
     }
 
     WebElement getElement(By locator) {
@@ -35,12 +40,25 @@ public abstract class BaseWebElement {
     boolean isElementPresent() {
         try {
             log.info(String.format("Waiting for presence of '%s' element", name));
-            wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+            waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));
             log.info(String.format("Element '%s' present ", name));
             return true;
         } catch (TimeoutException e) {
-            log.info(String.format("waited for '%s' seclonds '%s'", WAIT_DURATION_IN_SEC, name));
+            log.info(String.format("waited for '%s' seconds '%s'", WAIT_DURATION_IN_SEC, name));
+            return false;
+        }
+    }
+
+    boolean waitForAbsent() {
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+            log.info(String.format("Element '%s' absent ", name));
+            return true;
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
             return false;
         }
     }
 }
+
+

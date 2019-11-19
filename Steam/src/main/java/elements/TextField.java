@@ -22,4 +22,8 @@ public class TextField extends BaseWebElement {
         log.info(String.format("Getting text '%s' from '%s' TextField", text, name));
         return text;
     }
+
+    public boolean waitForAbsentTextField() {
+        return waitForAbsent();
+    }
 }

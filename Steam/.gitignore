@@ -7,3 +7,6 @@ target/
 
 # idea folder
 .idea/
+
+# screenshots
+screenshots_from_tests

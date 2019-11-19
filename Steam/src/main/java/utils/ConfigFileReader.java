@@ -23,14 +23,11 @@ public class ConfigFileReader {
         return instance;
     }
 
-    public String getBrowser(String browserType) {
-        if (browserType.equals("Chrome")) {
-            return prop.getProperty("Chrome");
-        } else if (browserType.equals("FireFox")) {
-            return prop.getProperty("FireFox");
-        } else {
-            throw new RuntimeException();
-        }
+    public String getBrowser() {
+        String browser = prop.getProperty("Browser");
+        if (browser != null)
+            return browser;
+        else throw new RuntimeException("browser is null");
     }
 
     public String getBaseUrl() {
@@ -40,12 +37,6 @@ public class ConfigFileReader {
         else throw new RuntimeException("url is null");
     }
 
-    public String getDownloadPath() {
-        String url = prop.getProperty("downloadPath");
-        if (url != null)
-            return url;
-        else throw new RuntimeException("url is null");
-    }
 
     public String getLogin() {
         return prop.getProperty("Login");
