@@ -1,4 +1,5 @@
 package browser;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -12,7 +13,7 @@ public class Screenshot {
     protected static Log log = Log.getInstance();
 
     public static void takeScreenshot(WebDriver driver) {
-        String filePath = "screenshots_from_tests/" + DateUtil.getCurrentDateFormatDost();
+        String filePath = "screenshots_from_tests/" + DateUtil.getCurrentDate();
         try {
             int serialNumber = 1;
             File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -26,7 +27,7 @@ public class Screenshot {
             FileUtils.copyFile(scrFile, file);
             log.info(String.format("Saving screenshot '%s' to directory :: %s", file.getName(), filePath));
         } catch (Exception ex) {
-            log.error("There was a problem when trying to make screenshot, please try again later... Exception:: " + ex.getMessage());
+            log.error("There was a problem when trying to make screenshot. Exception:: " + ex.getMessage());
         }
     }
 

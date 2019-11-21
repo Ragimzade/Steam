@@ -10,15 +10,13 @@ public class LoginPage extends PageBase {
     }
 
     private final TextField loginField = new TextField(By.name("username"), "login");
-    private final TextField passwordField = new TextField(By.xpath("//input[@type='password']"), "password");
+    private final TextField passwordField = new TextField(By.name("password"), "password");
     private final Button signIn = new Button(By.xpath("//button[@type='submit']"), "signin");
-    private final Button messages = new Button(By.xpath("//div[@id='header_notification_link']"), "messages");
+    private final Button messages = new Button(By.id("header_notification_link"), "messages");
 
     public void signIn(String login, String password) {
         loginField.typeValue(login);
-        loginField.getText();
         passwordField.typeValue(password);
-        passwordField.getText();
         signIn.isButtonOnPage();
         signIn.click();
     }

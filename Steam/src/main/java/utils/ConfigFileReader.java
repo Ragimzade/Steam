@@ -37,12 +37,4 @@ public class ConfigFileReader {
         else throw new RuntimeException("url is null");
     }
 
-
-    public String getLogin() {
-        return prop.getProperty("Login");
-    }
-
-    public String getPassword() {
-        return prop.getProperty("Password");
-    }
 }

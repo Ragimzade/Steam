@@ -37,4 +37,8 @@ public class Button extends BaseWebElement {
     public boolean waitForAbsentButton() {
         return waitForAbsent();
     }
+
+    public void hoverButton() {
+        hoverElement();
+    }
 }

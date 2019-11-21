@@ -2,34 +2,38 @@ package elements;
 
 import browser.Browser;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import utils.ConfigFileReader;
 import utils.Log;
 
 import java.time.Duration;
+import java.util.List;
 
 public abstract class BaseWebElement {
-    protected FluentWait wait;
+    private FluentWait wait;
     private static final int WAIT_DURATION_IN_SEC = 7;
     private static final int WAIT_DURATION_IN_MILL = 100;
-    private static final Log log = Log.getInstance();
-    private ConfigFileReader config = ConfigFileReader.getInstance();
-    protected WebDriver driver;
-    protected String name;
-    protected By locator;
+    static final Log log = Log.getInstance();
+    WebDriver driver;
+    String name;
+    By locator;
 
-    public BaseWebElement(By locator, String name) {
+    BaseWebElement(By locator, String name) {
         this.name = name;
         this.locator = locator;
-        driver = Browser.getInstance(config.getBrowser());
+        driver = Browser.getInstance();
         wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(WAIT_DURATION_IN_SEC))
                 .pollingEvery(Duration.ofMillis(WAIT_DURATION_IN_MILL))
                 .ignoring(NoSuchElementException.class);
     }
 
-    protected void waitForCondition(ExpectedCondition<WebElement> conditions) {
+    void waitForConditions(ExpectedCondition<List<WebElement>> conditions) {
+        wait.until(conditions);
+    }
+
+    void waitForCondition(ExpectedCondition<WebElement> conditions) {
         wait.until(conditions);
     }
 
@@ -59,6 +63,22 @@ public abstract class BaseWebElement {
             return false;
         }
     }
+
+    void hoverElement() {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(getElement(locator)).perform();
+    }
+
+    public void scrollToMiddle() {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.scrollBy(0,500)");
+    }
+
+    public void scrollToElement(WebElement webElement) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].scrollIntoView()", webElement);
+    }
+
 }
 
 

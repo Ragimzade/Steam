@@ -13,9 +13,9 @@ public class Browser {
     private Browser() {
     }
 
-    public static synchronized WebDriver getInstance(String browser) {
+    public static synchronized WebDriver getInstance() {
         if (driver == null) {
-            driver = initDriver(browser);
+            driver = initDriver(config.getBrowser());
         }
         return driver;
     }
@@ -25,7 +25,6 @@ public class Browser {
             driver.quit();
             driver = null;
         }
-
     }
 
     public static void openBaseUrl() {
@@ -47,4 +46,6 @@ public class Browser {
 
         }
     }
+
+
 }

@@ -6,9 +6,7 @@ import java.util.Date;
 
 public class DateUtil {
 
-
-
-    public static String getCurrentDateFormatDost() {
+    public static String getCurrentDate() {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         Date date = new Date();
         return dateFormat.format(date);
