@@ -12,5 +12,4 @@ public class SteamDownloadPage extends PageBase {
     }
 
 
-
 }

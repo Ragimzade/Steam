@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import utils.ConfigFileReader;
 import utils.Log;
 
 import java.time.Duration;
@@ -13,8 +14,7 @@ import java.util.List;
 
 public abstract class BaseWebElement {
     private FluentWait wait;
-    private static final int WAIT_DURATION_IN_SEC = 7;
-    private static final int WAIT_DURATION_IN_MILL = 100;
+    private static ConfigFileReader config;
     static final Log log = Log.getInstance();
     WebDriver driver;
     String name;
@@ -23,9 +23,10 @@ public abstract class BaseWebElement {
     BaseWebElement(By locator, String name) {
         this.name = name;
         this.locator = locator;
+        config = ConfigFileReader.getInstance();
         driver = Browser.getInstance();
-        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(WAIT_DURATION_IN_SEC))
-                .pollingEvery(Duration.ofMillis(WAIT_DURATION_IN_MILL))
+        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(config.getFluentWaitInSec()))
+                .pollingEvery(Duration.ofMillis(config.getFluentWaitInMill()))
                 .ignoring(NoSuchElementException.class);
     }
 
@@ -41,14 +42,14 @@ public abstract class BaseWebElement {
         return driver.findElement(locator);
     }
 
-    boolean isElementPresent() {
+    protected boolean isElementPresent() {
         try {
             log.info(String.format("Waiting for presence of '%s' element", name));
             waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));
             log.info(String.format("Element '%s' present ", name));
             return true;
         } catch (TimeoutException e) {
-            log.info(String.format("waited for '%s' seconds '%s'", WAIT_DURATION_IN_SEC, name));
+            log.info(String.format("Waited for '%s' seconds '%s'", config.getFluentWaitInSec(), name));
             return false;
         }
     }
@@ -65,18 +66,19 @@ public abstract class BaseWebElement {
     }
 
     void hoverElement() {
+        log.info(String.format("Hovering element '%s' ", name));
         Actions builder = new Actions(driver);
         builder.moveToElement(getElement(locator)).perform();
     }
 
-    public void scrollToMiddle() {
+    protected void scrollToMiddle() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0,500)");
+        jse.executeScript("window.scrollBy(0,600)");
     }
 
-    public void scrollToElement(WebElement webElement) {
+    void scrollToElement(WebElement webElement) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("arguments[0].scrollIntoView()", webElement);
+        jse.executeScript("arguments[0].scrollIntoView(true)", webElement);
     }
 
 }

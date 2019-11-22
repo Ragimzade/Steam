@@ -7,6 +7,7 @@ public class VirtualRealityPage extends PageBase {
 
     private final Table table = new Table(By.xpath("//div[@id='tab_content_NewReleases']"), "gameTable");
 
+
     public GamePage goToGamePage(int numberOfGame) {
         table.getRows().get(numberOfGame).click();
         return new GamePage();

@@ -18,13 +18,12 @@ public class Table extends BaseWebElement {
     }
 
     public List<WebElement> getRows() {
-        scrollToMiddle();
+        scrollToElement(driver.findElement(By.id("tab_select_ComingSoon")));
         waitForConditions(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//a[@class='tab_item   app_impression_tracked']"), 3));
 
         List<WebElement> rows = driver.findElements(By.xpath("//a[@class='tab_item   app_impression_tracked']"));
         List<WebElement> first3rows = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            rows.get(i);
             first3rows.add(rows.get(i));
         }
         return first3rows;

@@ -1,6 +1,7 @@
 package elements;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class TextArea extends BaseWebElement {
@@ -14,4 +15,9 @@ public class TextArea extends BaseWebElement {
         log.info(String.format("Getting text from '%s' TextArea", name));
         return getElement(locator).getText();
     }
+
+    public WebElement getElement(By locator) {
+        return driver.findElement(locator);
+    }
+
 }

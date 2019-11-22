@@ -17,6 +17,7 @@ public class DownloadUtils {
 
     public static boolean isFileDownloaded() throws IOException {
         Path filePath = Paths.get(System.getProperty("user.dir") + "\\downloads\\SteamSetup.exe");
+        Files.deleteIfExists(filePath);
         try {
             getDelay()
                     .until(() -> filePath.toFile().exists());

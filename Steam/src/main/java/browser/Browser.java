@@ -31,6 +31,10 @@ public class Browser {
         driver.get(config.getBaseUrl());
     }
 
+    public static String getCurrentUrl() {
+       return driver.getCurrentUrl();
+    }
+
     public static void refreshPage() {
         driver.navigate().refresh();
     }

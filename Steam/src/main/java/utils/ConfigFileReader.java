@@ -16,7 +16,7 @@ public class ConfigFileReader {
         }
     }
 
-    public static ConfigFileReader getInstance() {
+    public static synchronized ConfigFileReader getInstance() {
         if (instance == null) {
             instance = new ConfigFileReader();
         }
@@ -35,6 +35,28 @@ public class ConfigFileReader {
         if (url != null)
             return url;
         else throw new RuntimeException("url is null");
+    }
+
+    public int getFluentWaitInSec() {
+        String waitInSec = prop.getProperty("FluentWaitInSec");
+        if (waitInSec != null)
+            return Integer.parseInt(waitInSec);
+        else throw new RuntimeException("FluentWaitInSec is null");
+    }
+
+    public int getFluentWaitInMill() {
+        String waitInMill = prop.getProperty("FluentWaitInMill");
+        if (waitInMill != null)
+            return Integer.parseInt(waitInMill);
+        else throw new RuntimeException("FluentWaitInMill is null");
+    }
+
+
+    public String getBrowserDownloadPath() {
+        String BrowserDownloadPath = prop.getProperty("BrowserDownloadPath");
+        if (BrowserDownloadPath != null)
+            return BrowserDownloadPath;
+        else throw new RuntimeException("BrowserDownloadPath is null");
     }
 
 }

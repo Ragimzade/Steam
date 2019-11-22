@@ -13,7 +13,7 @@ public class Button extends BaseWebElement {
 
     private static final Log log = Log.getInstance();
 
-    public void waitForElementClickable() {
+    void waitForElementClickable() {
         waitForCondition(ExpectedConditions.elementToBeClickable(locator));
         log.info(String.format("Button '%s' is clickable", name));
     }
@@ -30,6 +30,7 @@ public class Button extends BaseWebElement {
             log.info(String.format("Waiting for presence of '%s' button", name));
             return isElementPresent();
         } catch (NoSuchElementException ex) {
+            log.info(String.format("Button '%s' is not found on the page", name));
             return false;
         }
     }
