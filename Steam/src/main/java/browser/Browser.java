@@ -31,8 +31,12 @@ public class Browser {
         driver.get(config.getBaseUrl());
     }
 
+    public static void navigateTo(String url) {
+        driver.get(url);
+    }
+
     public static String getCurrentUrl() {
-       return driver.getCurrentUrl();
+        return driver.getCurrentUrl();
     }
 
     public static void refreshPage() {
@@ -46,10 +50,7 @@ public class Browser {
     public static void safeAlertAccept() {
         try {
             driver.switchTo().alert().accept();
-        } catch (NoAlertPresentException e) {
-
-        }
+        } catch (NoAlertPresentException e){}
     }
-
 
 }

@@ -1,17 +1,28 @@
 package steam.model;
 
+
+import java.util.List;
 import java.util.Objects;
 
 public class GameData {
     private String name;
     private String price;
     private String discount;
+    private List<String> platforms;
 
     public GameData setPrice(String price) {
         this.price = price;
         return this;
     }
 
+    public GameData setPlatforms(List<String> platforms) {
+        this.platforms = platforms;
+        return this;
+    }
+
+    public List<String> getPlatforms() {
+        return platforms;
+    }
 
     public GameData setDiscount(String discount) {
         this.discount = discount;
@@ -32,11 +43,9 @@ public class GameData {
         return name;
     }
 
-
     public String getPrice() {
         return price;
     }
-
 
     @Override
     public String toString() {
@@ -44,6 +53,7 @@ public class GameData {
                 "name='" + name + '\'' +
                 ", price='" + price + '\'' +
                 ", discount='" + discount + '\'' +
+                ", platforms=" + platforms +
                 '}';
     }
 
@@ -54,11 +64,12 @@ public class GameData {
         GameData gameData = (GameData) o;
         return Objects.equals(name, gameData.name) &&
                 Objects.equals(price, gameData.price) &&
-                Objects.equals(discount, gameData.discount);
+                Objects.equals(discount, gameData.discount) &&
+                Objects.equals(platforms, gameData.platforms);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, price, discount);
+        return Objects.hash(name, price, discount, platforms);
     }
 }

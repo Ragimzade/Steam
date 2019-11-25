@@ -17,6 +17,10 @@ public class Table extends BaseWebElement {
         return driver.findElement(locator);
     }
 
+    public List<WebElement> getElements(By locator) {
+        return driver.findElements(locator);
+    }
+
     public List<WebElement> getRows() {
         scrollToElement(driver.findElement(By.id("tab_select_ComingSoon")));
         waitForConditions(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//a[@class='tab_item   app_impression_tracked']"), 3));

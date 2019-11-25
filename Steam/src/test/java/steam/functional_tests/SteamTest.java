@@ -38,28 +38,34 @@ public class SteamTest extends BaseTest {
     public void gameSearchTest() {
         mainPage.openGamesTab();
         VirtualRealityPage vrPage = mainPage.goToVirtualRealityPage();
+        System.out.println(vrPage.getPlatforms(0));
         GameData firstGame = new GameData()
                 .setName(vrPage.getName(0))
                 .setDiscount(vrPage.getDiscount(0))
-                .setPrice(vrPage.getPrice(0));
+                .setPrice(vrPage.getPrice(0))
+                .setPlatforms(vrPage.getPlatforms(0));
         GameData secondGame = new GameData()
                 .setName(vrPage.getName(1))
                 .setDiscount(vrPage.getDiscount(1))
-                .setPrice(vrPage.getPrice(1));
+                .setPrice(vrPage.getPrice(1))
+                .setPlatforms(vrPage.getPlatforms(1));
         GameData thirdGame = new GameData()
                 .setName(vrPage.getName(2))
                 .setDiscount(vrPage.getDiscount(2))
-                .setPrice(vrPage.getPrice(2));
+                .setPrice(vrPage.getPrice(2))
+                .setPlatforms(vrPage.getPlatforms(2));
 
         GamePage gamePage = vrPage.goToGamePage(0);
         String firstGamePage = Browser.getCurrentUrl();
         Assert.assertEquals(gamePage.getGameName(), firstGame.getName());
         Assert.assertEquals(gamePage.getDiscount(), firstGame.getDiscount());
         Assert.assertEquals(gamePage.getGamePrice(), firstGame.getPrice());
+        Assert.assertEquals(gamePage.getPlatforms(),firstGame.getPlatforms());
         mainPage.findGame(firstGame.getName());
         Assert.assertEquals(gamePage.getGameName(), firstGame.getName());
         Assert.assertEquals(gamePage.getDiscount(), firstGame.getDiscount());
         Assert.assertEquals(gamePage.getGamePrice(), firstGame.getPrice());
+        Assert.assertEquals(gamePage.getPlatforms(),(firstGame.getPlatforms()));
         String firstGameBySearchPage = Browser.getCurrentUrl();
         Assert.assertEquals(firstGamePage, firstGameBySearchPage);
 
@@ -70,10 +76,12 @@ public class SteamTest extends BaseTest {
         Assert.assertEquals(gamePage.getGameName(), secondGame.getName());
         Assert.assertEquals(gamePage.getDiscount(), secondGame.getDiscount());
         Assert.assertEquals(gamePage.getGamePrice(), secondGame.getPrice());
+        Assert.assertEquals(gamePage.getPlatforms(),(secondGame.getPlatforms()));
         mainPage.findGame(secondGame.getName());
         Assert.assertEquals(gamePage.getGameName(), secondGame.getName());
         Assert.assertEquals(gamePage.getDiscount(), secondGame.getDiscount());
         Assert.assertEquals(gamePage.getGamePrice(), secondGame.getPrice());
+        Assert.assertEquals(gamePage.getPlatforms(),(secondGame.getPlatforms()));
         String secondGameSearchPage = Browser.getCurrentUrl();
         Assert.assertEquals(secondGamePage, secondGameSearchPage);
 
@@ -84,11 +92,14 @@ public class SteamTest extends BaseTest {
         Assert.assertEquals(gamePage.getGameName(), thirdGame.getName());
         Assert.assertEquals(gamePage.getDiscount(), thirdGame.getDiscount());
         Assert.assertEquals(gamePage.getGamePrice(), thirdGame.getPrice());
+        Assert.assertEquals(gamePage.getPlatforms(),(thirdGame.getPlatforms()));
         mainPage.findGame(thirdGame.getName());
         Assert.assertEquals(gamePage.getGameName(), thirdGame.getName());
         Assert.assertEquals(gamePage.getDiscount(), thirdGame.getDiscount());
         Assert.assertEquals(gamePage.getGamePrice(), thirdGame.getPrice());
+        Assert.assertEquals(gamePage.getPlatforms(),(thirdGame.getPlatforms()));
         String thirdGameSearchPage = Browser.getCurrentUrl();
         Assert.assertEquals(thirdGamePage, thirdGameSearchPage);
     }
+
 }

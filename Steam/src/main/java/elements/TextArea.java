@@ -12,6 +12,7 @@ public class TextArea extends BaseWebElement {
 
     public String getText() {
         waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
+        log.info(String.format("TextArea '%s' is visible", name));
         log.info(String.format("Getting text from '%s' TextArea", name));
         return getElement(locator).getText();
     }

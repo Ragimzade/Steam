@@ -59,4 +59,11 @@ public class ConfigFileReader {
         else throw new RuntimeException("BrowserDownloadPath is null");
     }
 
+    public int getPageLoadTimeout() {
+        String pageLoadTimeout = prop.getProperty("PageLoadTimeout");
+        if (pageLoadTimeout != null) {
+            return Integer.parseInt(pageLoadTimeout);
+        } else throw new RuntimeException("PageLoadTimeout is null");
+    }
+
 }

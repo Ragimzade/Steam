@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.ConfigFileReader;
 import utils.Log;
 
@@ -29,6 +30,9 @@ public abstract class BaseWebElement {
                 .pollingEvery(Duration.ofMillis(config.getFluentWaitInMill()))
                 .ignoring(NoSuchElementException.class);
     }
+
+
+
 
     void waitForConditions(ExpectedCondition<List<WebElement>> conditions) {
         wait.until(conditions);
@@ -81,6 +85,11 @@ public abstract class BaseWebElement {
         jse.executeScript("arguments[0].scrollIntoView(true)", webElement);
     }
 
+
+    void waitForPageLoaded() {
+        new WebDriverWait(driver, config.getPageLoadTimeout()).until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    }
 }
 
 
