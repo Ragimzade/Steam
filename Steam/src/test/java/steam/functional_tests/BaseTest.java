@@ -2,6 +2,9 @@ package steam.functional_tests;
 
 import browser.Browser;
 import browser.Screenshot;
+import io.qameta.allure.Attachment;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -41,8 +44,10 @@ public class BaseTest {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             System.out.println(testResult.getStatus());
             Screenshot.takeScreenshot(driver);
+            Screenshot.saveScreenshotPNG(driver);
         }
     }
+
 
     @AfterMethod(alwaysRun = true)
     public void logTestStop(ITestResult result, Method m) {

@@ -14,6 +14,11 @@ public class Screenshot {
     protected static Log log = Log.getInstance();
 
     @Attachment(value = "Page screenshot", type = "image/png")
+    public static byte[] saveScreenshotPNG(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+
     public static void takeScreenshot(WebDriver driver) {
         String filePath = "screenshots_from_tests/" + DateUtil.getCurrentDate();
         try {
