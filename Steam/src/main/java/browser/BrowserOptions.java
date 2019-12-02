@@ -21,6 +21,7 @@ public class BrowserOptions {
         chromePreferences.put("download.default_directory", System.getProperty("user.dir") + config.getBrowserDownloadPath());
         chromePreferences.put("download.directory_upgrade", "true");
         chromePreferences.put("safebrowsing.enabled", "true");
+        chromeOptions.addArguments("--lang=eng");
         chromeOptions.addArguments("start-maximized");
         chromeOptions.setExperimentalOption("prefs", chromePreferences);
 

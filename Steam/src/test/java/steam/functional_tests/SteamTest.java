@@ -4,19 +4,29 @@ import browser.Browser;
 import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import steam.model.GameData;
 import steam.pages.*;
 import utils.DownloadUtils;
 import utils.JsonParser;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SteamTest extends BaseTest {
+    private MainPage mainPage;
+
+    @DataProvider(name = "data-provider")
+    public Object[][] dataProviderMethod() {
+        return new Object[][]{{"Steam Controller Friendly"}, {"Virtual Reality"}};
+    }
 
     @BeforeMethod(alwaysRun = true)
     public void goToMainPage() {
         mainPage = new MainPage();
+        mainPage.selectEnglishLanguage();
         mainPage.goToMainPage();
     }
 
@@ -31,75 +41,62 @@ public class SteamTest extends BaseTest {
     public void downloadSteamTest() throws IOException {
         SteamDownloadPage steamDownloadPage = mainPage.goToSteamDownloadPage();
         steamDownloadPage.downloadSteam();
-        Assert.assertTrue(DownloadUtils.isFileDownloaded());
+        Assert.assertTrue(DownloadUtils.isFileDownloaded("SteamSetup.exe"));
     }
 
-    @Test
-    public void gameSearchTest() {
-        mainPage.openGamesTab();
-        VirtualRealityPage vrPage = mainPage.goToVirtualRealityPage();
-        System.out.println(vrPage.getPlatforms(0));
-        GameData firstGame = new GameData()
-                .setName(vrPage.getName(0))
-                .setDiscount(vrPage.getDiscount(0))
-                .setPrice(vrPage.getPrice(0))
-                .setPlatforms(vrPage.getPlatforms(0));
-        GameData secondGame = new GameData()
-                .setName(vrPage.getName(1))
-                .setDiscount(vrPage.getDiscount(1))
-                .setPrice(vrPage.getPrice(1))
-                .setPlatforms(vrPage.getPlatforms(1));
-        GameData thirdGame = new GameData()
-                .setName(vrPage.getName(2))
-                .setDiscount(vrPage.getDiscount(2))
-                .setPrice(vrPage.getPrice(2))
-                .setPlatforms(vrPage.getPlatforms(2));
+    @Test(dataProvider = "data-provider")
+    public void gameSearchTest(String data) {
+        SoftAssert softAssert = new SoftAssert();
+        GameCategoryPage gcPage = mainPage.goToCategoryByVisibleText(data);
+        List<GameData> games = gcPage.getSeveralGameData(3);
 
-        GamePage gamePage = vrPage.goToGamePage(0);
+        GamePage gamePage = gcPage.goToGamePage(0);
         String firstGamePage = Browser.getCurrentUrl();
-        Assert.assertEquals(gamePage.getGameName(), firstGame.getName());
-        Assert.assertEquals(gamePage.getDiscount(), firstGame.getDiscount());
-        Assert.assertEquals(gamePage.getGamePrice(), firstGame.getPrice());
-        Assert.assertEquals(gamePage.getPlatforms(),firstGame.getPlatforms());
-        mainPage.findGame(firstGame.getName());
-        Assert.assertEquals(gamePage.getGameName(), firstGame.getName());
-        Assert.assertEquals(gamePage.getDiscount(), firstGame.getDiscount());
-        Assert.assertEquals(gamePage.getGamePrice(), firstGame.getPrice());
-        Assert.assertEquals(gamePage.getPlatforms(),(firstGame.getPlatforms()));
+        softAssert.assertEquals(gamePage.getGameName(), games.get(0).getName());
+        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(0).getDiscount());
+        softAssert.assertEquals(gamePage.getGamePrice(), games.get(0).getPrice());
+        softAssert.assertEquals(gamePage.getPlatforms(), games.get(0).getPlatforms());
+        mainPage.findGame(games.get(0).getName());
+        softAssert.assertEquals(gamePage.getGameName(), games.get(0).getName());
+        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(0).getDiscount());
+        softAssert.assertEquals(gamePage.getGamePrice(), games.get(0).getPrice());
+        softAssert.assertEquals(gamePage.getPlatforms(), (games.get(0).getPlatforms()));
         String firstGameBySearchPage = Browser.getCurrentUrl();
-        Assert.assertEquals(firstGamePage, firstGameBySearchPage);
+        softAssert.assertEquals(firstGamePage, firstGameBySearchPage);
 
         mainPage.openGamesTab();
-        mainPage.goToVirtualRealityPage();
-        vrPage.goToGamePage(1);
+        mainPage.goToCategoryByVisibleText(data);
+        gcPage.goToGamePage(1);
         String secondGamePage = Browser.getCurrentUrl();
-        Assert.assertEquals(gamePage.getGameName(), secondGame.getName());
-        Assert.assertEquals(gamePage.getDiscount(), secondGame.getDiscount());
-        Assert.assertEquals(gamePage.getGamePrice(), secondGame.getPrice());
-        Assert.assertEquals(gamePage.getPlatforms(),(secondGame.getPlatforms()));
-        mainPage.findGame(secondGame.getName());
-        Assert.assertEquals(gamePage.getGameName(), secondGame.getName());
-        Assert.assertEquals(gamePage.getDiscount(), secondGame.getDiscount());
-        Assert.assertEquals(gamePage.getGamePrice(), secondGame.getPrice());
-        Assert.assertEquals(gamePage.getPlatforms(),(secondGame.getPlatforms()));
+        softAssert.assertEquals(gamePage.getGameName(), games.get(1).getName());
+        softAssert.assertEquals(gamePage.getGameName(), games.get(1).getName());
+        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(1).getDiscount());
+        softAssert.assertEquals(gamePage.getGamePrice(), games.get(1).getPrice());
+        softAssert.assertEquals(gamePage.getPlatforms(), (games.get(1).getPlatforms()));
+        mainPage.findGame(games.get(1).getName());
+        softAssert.assertEquals(gamePage.getGameName(), games.get(1).getName());
+        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(1).getDiscount());
+        softAssert.assertEquals(gamePage.getGamePrice(), games.get(1).getPrice());
+        softAssert.assertEquals(gamePage.getPlatforms(), (games.get(1).getPlatforms()));
         String secondGameSearchPage = Browser.getCurrentUrl();
-        Assert.assertEquals(secondGamePage, secondGameSearchPage);
+        softAssert.assertEquals(secondGamePage, secondGameSearchPage);
 
         mainPage.openGamesTab();
-        mainPage.goToVirtualRealityPage();
-        vrPage.goToGamePage(2);
+        mainPage.goToCategoryByVisibleText(data);
+        gcPage.goToGamePage(2);
         String thirdGamePage = Browser.getCurrentUrl();
-        Assert.assertEquals(gamePage.getGameName(), thirdGame.getName());
-        Assert.assertEquals(gamePage.getDiscount(), thirdGame.getDiscount());
-        Assert.assertEquals(gamePage.getGamePrice(), thirdGame.getPrice());
-        Assert.assertEquals(gamePage.getPlatforms(),(thirdGame.getPlatforms()));
-        mainPage.findGame(thirdGame.getName());
-        Assert.assertEquals(gamePage.getGameName(), thirdGame.getName());
-        Assert.assertEquals(gamePage.getDiscount(), thirdGame.getDiscount());
-        Assert.assertEquals(gamePage.getGamePrice(), thirdGame.getPrice());
-        Assert.assertEquals(gamePage.getPlatforms(),(thirdGame.getPlatforms()));
+        softAssert.assertEquals(gamePage.getGameName(), games.get(2).getName());
+        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(2).getDiscount());
+        softAssert.assertEquals(gamePage.getGamePrice(), games.get(2).getPrice());
+        softAssert.assertEquals(gamePage.getPlatforms(), (games.get(2).getPlatforms()));
+        mainPage.findGame(games.get(2).getName());
+        softAssert.assertEquals(gamePage.getGameName(), games.get(2).getName());
+        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(2).getDiscount());
+        softAssert.assertEquals(gamePage.getGamePrice(), games.get(2).getPrice());
+        softAssert.assertEquals(gamePage.getPlatforms(), (games.get(2).getPlatforms()));
         String thirdGameSearchPage = Browser.getCurrentUrl();
-        Assert.assertEquals(thirdGamePage, thirdGameSearchPage);
+        softAssert.assertEquals(thirdGamePage, thirdGameSearchPage);
+        softAssert.assertAll();
     }
 
 }

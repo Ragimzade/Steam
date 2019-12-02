@@ -18,6 +18,13 @@ public class JsonParser {
     public static String getPassword() throws IOException, ParseException {
         return getValue("password");
     }
+    public static String getKasperskyLogin() throws IOException, ParseException {
+        return getValue("kasperskiLogin");
+    }
+
+    public static String getKasperskyLPassword() throws IOException, ParseException {
+        return getValue("kasperskyPassword");
+    }
 
     private static String getValue(String key) throws IOException, ParseException {
         Object obj = parser.parse(new FileReader(System.getProperty("user.dir") + "\\src\\main\\resources\\creds.json"));

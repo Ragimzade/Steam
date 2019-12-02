@@ -1,7 +1,9 @@
 package browser;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import utils.ConfigFileReader;
 
 import static browser.BrowserFactory.initDriver;
@@ -27,6 +29,14 @@ public class Browser {
         }
     }
 
+    public static void openKasperskyBaseUrl() {
+        driver.get(config.getKasperskyBaseUrl());
+    }
+
+    public static int getWindowSize() {
+        return (driver.manage().window().getSize().getHeight()) / 2;
+    }
+
     public static void openBaseUrl() {
         driver.get(config.getBaseUrl());
     }
@@ -50,7 +60,8 @@ public class Browser {
     public static void safeAlertAccept() {
         try {
             driver.switchTo().alert().accept();
-        } catch (NoAlertPresentException e){}
+        } catch (NoAlertPresentException e) {
+        }
     }
 
 }

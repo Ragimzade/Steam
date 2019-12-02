@@ -1,5 +1,6 @@
 package browser;
 
+import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -12,6 +13,7 @@ import java.io.File;
 public class Screenshot {
     protected static Log log = Log.getInstance();
 
+    @Attachment(value = "Page screenshot", type = "image/png")
     public static void takeScreenshot(WebDriver driver) {
         String filePath = "screenshots_from_tests/" + DateUtil.getCurrentDate();
         try {

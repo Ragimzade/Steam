@@ -12,17 +12,17 @@ import java.util.concurrent.TimeUnit;
 import static org.awaitility.Awaitility.await;
 
 public class DownloadUtils {
-
+    private static ConfigFileReader config = ConfigFileReader.getInstance();
     private static final Log log = Log.getInstance();
+    private final static String fileName = "Steam.exe";
 
-    public static boolean isFileDownloaded() throws IOException {
-        Path filePath = Paths.get(System.getProperty("user.dir") + "\\downloads\\SteamSetup.exe");
+    public static boolean isFileDownloaded(String filename) throws IOException {
+        Path filePath = Paths.get(System.getProperty("user.dir"), config.getBrowserDownloadPath(), filename);
         Files.deleteIfExists(filePath);
         try {
             getDelay()
                     .until(() -> filePath.toFile().exists());
             log.info("File " + filePath.toFile().getName() + " is downloaded");
-            Files.deleteIfExists(filePath);
             return true;
         } catch (TimeoutException ex) {
             log.error("File is not downloaded");

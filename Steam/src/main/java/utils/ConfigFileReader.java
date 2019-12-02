@@ -37,6 +37,13 @@ public class ConfigFileReader {
         else throw new RuntimeException("url is null");
     }
 
+    public String getKasperskyBaseUrl() {
+        String url = prop.getProperty("KasperskyBaseUrl");
+        if (url != null)
+            return url;
+        else throw new RuntimeException("url is null");
+    }
+
     public int getFluentWaitInSec() {
         String waitInSec = prop.getProperty("FluentWaitInSec");
         if (waitInSec != null)

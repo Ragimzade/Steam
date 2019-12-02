@@ -1,6 +1,7 @@
 package elements;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Log;
 
 public class TextField extends BaseWebElement {
@@ -13,6 +14,7 @@ public class TextField extends BaseWebElement {
 
     public void typeValue(String value) {
         log.info(String.format("Setting text '%s' to '%s' TextField", value, name));
+        waitForCondition(ExpectedConditions.elementToBeClickable(locator));
         getElement(locator).clear();
         getElement(locator).sendKeys(value);
     }

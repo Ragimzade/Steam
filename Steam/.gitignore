@@ -10,3 +10,6 @@ target/
 
 # screenshots
 screenshots_from_tests
+
+# reports folder
+.allure

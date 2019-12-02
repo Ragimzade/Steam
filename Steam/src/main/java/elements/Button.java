@@ -13,10 +13,6 @@ public class Button extends BaseWebElement {
 
     private static final Log log = Log.getInstance();
 
-    void waitForElementClickable() {
-        waitForCondition(ExpectedConditions.elementToBeClickable(locator));
-        log.info(String.format("Button '%s' is clickable", name));
-    }
 
     public void click() {
         log.info(String.format("Clicking button '%s'", name));
@@ -42,4 +38,12 @@ public class Button extends BaseWebElement {
     public void hoverButton() {
         hoverElement();
     }
+
+    public String getText() {
+        waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
+        log.info(String.format("TextArea '%s' is visible", name));
+        log.info(String.format("Getting text from '%s' TextArea", name));
+        return getElement(locator).getText();
+    }
+
 }

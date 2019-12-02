@@ -12,41 +12,44 @@ import utils.Log;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Function;
 
 public abstract class BaseWebElement {
     private FluentWait wait;
     private static ConfigFileReader config;
     static final Log log = Log.getInstance();
-    WebDriver driver;
+    protected WebDriver driver;
     String name;
     By locator;
 
-    BaseWebElement(By locator, String name) {
+    protected BaseWebElement(By locator, String name) {
         this.name = name;
         this.locator = locator;
         config = ConfigFileReader.getInstance();
         driver = Browser.getInstance();
         wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(config.getFluentWaitInSec()))
                 .pollingEvery(Duration.ofMillis(config.getFluentWaitInMill()))
-                .ignoring(NoSuchElementException.class);
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
     }
 
 
-
-
-    void waitForConditions(ExpectedCondition<List<WebElement>> conditions) {
+    protected void waitForConditions(ExpectedCondition<List<WebElement>> conditions) {
         wait.until(conditions);
     }
 
-    void waitForCondition(ExpectedCondition<WebElement> conditions) {
-        wait.until(conditions);
+    <T extends Function> void waitForCondition(T condition) {
+        wait.until(condition);
     }
 
     WebElement getElement(By locator) {
+
+        waitForPresent();
         return driver.findElement(locator);
     }
 
-    protected boolean isElementPresent() {
+
+    public boolean isElementPresent() {
         try {
             log.info(String.format("Waiting for presence of '%s' element", name));
             waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));
@@ -60,7 +63,7 @@ public abstract class BaseWebElement {
 
     boolean waitForAbsent() {
         try {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+            waitForCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
             log.info(String.format("Element '%s' absent ", name));
             return true;
         } catch (NoSuchElementException e) {
@@ -69,18 +72,24 @@ public abstract class BaseWebElement {
         }
     }
 
+
     void hoverElement() {
         log.info(String.format("Hovering element '%s' ", name));
         Actions builder = new Actions(driver);
         builder.moveToElement(getElement(locator)).perform();
     }
 
-    protected void scrollToMiddle() {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0,600)");
+    void waitForElementClickable() {
+        waitForCondition(ExpectedConditions.elementToBeClickable(locator));
+        log.info(String.format("Button '%s' is clickable", name));
     }
 
-    void scrollToElement(WebElement webElement) {
+    protected void scrollToMiddle() {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.scrollBy(0," + Browser.getWindowSize() + ")");
+    }
+
+    protected void scrollToElement(WebElement webElement) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].scrollIntoView(true)", webElement);
     }
@@ -89,6 +98,18 @@ public abstract class BaseWebElement {
     void waitForPageLoaded() {
         new WebDriverWait(driver, config.getPageLoadTimeout()).until(
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    }
+
+    void waitForPresent() {
+        log.info(String.format("Waiting for presence of element '%s' ", name));
+        waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
+        log.info(String.format("Element '%s' is present ", name));
+    }
+
+    public String getText() {
+        String text = getElement(locator).getAttribute("value");
+        log.info(String.format("Getting text '%s' from '%s' element", text, name));
+        return text;
     }
 }
 
