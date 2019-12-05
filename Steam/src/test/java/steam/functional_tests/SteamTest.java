@@ -52,7 +52,7 @@ public class SteamTest extends BaseTest {
 
         for (int i = 0; i < 3; i++) {
             //goToGame
-            GamePage gamePage = gcPage.goToGamePage(i);
+            GamePage gamePage = gcPage.goToGamePage(i,i);
             String firstGamePage = Browser.getCurrentUrl();
             softAssert.assertEquals(gamePage.getGameName(), games.get(i).getName());
             softAssert.assertEquals(gamePage.getGameDiscount(), games.get(i).getDiscount());

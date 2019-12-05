@@ -33,7 +33,6 @@ public class KasperskyTest extends BaseTest {
         downloadPage = loggedInMainPage.goToDownloadPage();
     }
 
-
     @DataProvider()
     public Iterator<Object[]> testDataFromJSON() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(new File("src/main/resources/product.json")));
@@ -49,12 +48,13 @@ public class KasperskyTest extends BaseTest {
         return data.stream().map((o) -> new Object[]{o}).collect(Collectors.toList()).iterator();
     }
 
-
     @Test(priority = 1, dataProvider = "testDataFromJSON")
     public void sendEmailTest(ProductData product) throws Exception {
         SoftAssert softAssert = new SoftAssert();
         downloadPage.sendAppToMySelf(product.getOsName(), product.getProduct(), product.getDescription());
-        softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject()));
-        softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()));
+        softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject()),
+                "Email subject is not correct");
+        softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()),
+                "Email don't contain correct URL");
     }
 }

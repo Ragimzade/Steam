@@ -1,11 +1,8 @@
 package browser;
 
 import base_entity.BaseEntity;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import utils.ConfigFileReader;
 
 import static browser.BrowserFactory.initDriver;
 

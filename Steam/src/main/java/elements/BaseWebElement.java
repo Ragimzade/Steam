@@ -1,6 +1,5 @@
 package elements;
 
-import base_entity.BaseEntity;
 import browser.Browser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -22,7 +21,7 @@ public abstract class BaseWebElement {
     private static ConfigFileReader config;
     protected static Log log = Log.getInstance();
     protected By locator;
-    WebDriver driver;
+    protected WebDriver driver;
 
     protected BaseWebElement(By locator, String name) {
         this.name = name;
@@ -64,6 +63,7 @@ public abstract class BaseWebElement {
     }
 
     public boolean isElementPresent() {
+        waitForPresent();
         try {
             log.info(String.format("Waiting for presence of '%s' element", name));
             waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));

@@ -4,6 +4,7 @@ import elements.Button;
 import elements.TextArea;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -27,7 +28,9 @@ public class DownloadPage extends BasePage {
         isProductHasCorrectDescription(product, description);
         sendProductToMySelf(product);
         sendButton.click();
-        okButton.click();
+        if (isOkButtonPresent()) {
+            okButton.click();
+        }
     }
 
 
@@ -56,5 +59,17 @@ public class DownloadPage extends BasePage {
     public boolean isProductHasCorrectDescription(String productName, String correctDescription) {
         String description = getProductDescription(productName);
         return description.equals(correctDescription);
+    }
+
+    public void clickOkButton() {
+        okButton.click();
+    }
+
+    public boolean isOkButtonPresent() {
+        try {
+            return okButton.isButtonOnPage();
+        } catch (TimeoutException ex) {
+            return false;
+        }
     }
 }

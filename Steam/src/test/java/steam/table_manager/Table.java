@@ -22,16 +22,16 @@ public class Table extends BaseWebElement {
         return driver.findElements(locator);
     }//перенести в бейс элемент. выбор по имени не по индексу, поменять циклы, модфикаторры, загрузка файла, платформы
 
-    public List<WebElement> getRows() {
+    public List<WebElement> getRows(int number) {
         scrollToElement(driver.findElement(By.id("tab_select_ComingSoon")));
-        waitForConditions(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(TABLE_ROWS), 3));
+        waitForConditions(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(TABLE_ROWS), number));
 
         List<WebElement> rows = driver.findElements(By.xpath(TABLE_ROWS));
         return rows;
     }
 
     public List<WebElement> getSelectedRows(int numberOfRows) {
-        List<WebElement> rows = getRows();
+        List<WebElement> rows = getRows(numberOfRows);
         List<WebElement> selectedRows = new ArrayList<>();
 
         //заменить

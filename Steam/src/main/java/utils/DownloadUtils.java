@@ -8,8 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.awaitility.Awaitility.await;
-
 public class DownloadUtils extends BaseEntity {
 
     private final static String FILE_NAME = "Steam.exe";

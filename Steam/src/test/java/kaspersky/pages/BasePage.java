@@ -4,7 +4,6 @@ import base_entity.BaseEntity;
 import browser.Browser;
 import elements.BaseWebElement;
 import org.openqa.selenium.WebDriver;
-import utils.Log;
 
 public class BasePage extends BaseEntity {
     WebDriver driver = Browser.getInstance();

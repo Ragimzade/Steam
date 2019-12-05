@@ -18,8 +18,8 @@ public class GameCategoryPage extends PageBase {
     private final Table table = new Table(By.xpath("//div[@id='tab_content_NewReleases']"), "gameTable");
     private final Button newReleasesButton = new Button(By.id("tab_select_NewReleases"), "newReleasesButton");
 
-    public GamePage goToGamePage(int numberOfGame) {
-        table.getSelectedRows(3).get(numberOfGame).click();
+    public GamePage goToGamePage(int numberOfGame,int numberOfRows) {
+        table.getSelectedRows(numberOfRows).get(numberOfGame).click();
         return new GamePage();
     }
 
@@ -55,7 +55,7 @@ public class GameCategoryPage extends PageBase {
 
     public String getDiscount(int numberOfGame) {
         try {
-            return table.getSelectedRows(3).get(numberOfGame)
+            return table.getSelectedRows(numberOfGame).get(numberOfGame)
                     .findElement(By.xpath(".//div[@class='discount_pct']")).getText();
         } catch (Exception e) {
             return null;
