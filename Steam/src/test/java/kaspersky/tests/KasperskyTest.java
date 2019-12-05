@@ -55,6 +55,6 @@ public class KasperskyTest extends BaseTest {
         softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject()),
                 "Email subject is not correct");
         softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()),
-                "Email don't contain correct URL");
+                "Email doesn't contain correct URL");
     }
 }
