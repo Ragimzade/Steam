@@ -1,5 +1,6 @@
 package utils;
 
+import javax.mail.Session;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -58,7 +59,6 @@ public class ConfigFileReader {
         else throw new RuntimeException("FluentWaitInMill is null");
     }
 
-
     public String getBrowserDownloadPath() {
         String BrowserDownloadPath = prop.getProperty("BrowserDownloadPath");
         if (BrowserDownloadPath != null)
@@ -71,6 +71,12 @@ public class ConfigFileReader {
         if (pageLoadTimeout != null) {
             return Integer.parseInt(pageLoadTimeout);
         } else throw new RuntimeException("PageLoadTimeout is null");
+    }
+
+    public Session createMailSession() throws IOException {
+        prop = new Properties();
+        prop.load(ConfigFileReader.class.getClassLoader().getResourceAsStream("smtp.properties"));
+        return Session.getDefaultInstance(prop, null);
     }
 
 }

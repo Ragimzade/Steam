@@ -46,4 +46,10 @@ public class Button extends BaseWebElement {
         return getElement(locator).getText();
     }
 
+
+
+    public void clickByVisibleText(String text) {
+        findElementByText(text).click();
+    }
+
 }

@@ -38,4 +38,7 @@ public class GameData {
         return this;
     }
 
+//    public void  compare() {
+//        softAssert.assertEquals(gamePage.getGameName(), games.get(1).getName());
+//    }
 }

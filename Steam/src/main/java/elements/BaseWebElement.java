@@ -1,5 +1,6 @@
 package elements;
 
+import base_entity.BaseEntity;
 import browser.Browser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -12,15 +13,16 @@ import utils.Log;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class BaseWebElement {
     private FluentWait wait;
+    protected String name;
     private static ConfigFileReader config;
-    static final Log log = Log.getInstance();
-    protected WebDriver driver;
-    String name;
-    By locator;
+    protected static Log log = Log.getInstance();
+    protected By locator;
+    WebDriver driver;
 
     protected BaseWebElement(By locator, String name) {
         this.name = name;
@@ -42,12 +44,24 @@ public abstract class BaseWebElement {
         wait.until(condition);
     }
 
-    WebElement getElement(By locator) {
-
+    protected WebElement getElement(By locator) {
         waitForPresent();
         return driver.findElement(locator);
     }
 
+    protected List<WebElement> getElements(By locator) {
+        waitForPresent();
+        return driver.findElements(locator);
+    }
+
+    protected WebElement findElementByText(String text) {
+        List<WebElement> webElements = getElements(locator);
+        return webElements
+                .stream()
+                .filter(webElement -> Objects.equals(webElement.getText(), text))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No WebElement found containing " + text));
+    }
 
     public boolean isElementPresent() {
         try {
@@ -61,7 +75,7 @@ public abstract class BaseWebElement {
         }
     }
 
-    boolean waitForAbsent() {
+    protected boolean waitForAbsent() {
         try {
             waitForCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
             log.info(String.format("Element '%s' absent ", name));
@@ -73,13 +87,13 @@ public abstract class BaseWebElement {
     }
 
 
-    void hoverElement() {
+    protected void hoverElement() {
         log.info(String.format("Hovering element '%s' ", name));
         Actions builder = new Actions(driver);
         builder.moveToElement(getElement(locator)).perform();
     }
 
-    void waitForElementClickable() {
+    protected void waitForElementClickable() {
         waitForCondition(ExpectedConditions.elementToBeClickable(locator));
         log.info(String.format("Button '%s' is clickable", name));
     }
@@ -95,18 +109,18 @@ public abstract class BaseWebElement {
     }
 
 
-    void waitForPageLoaded() {
+    protected void waitForPageLoaded() {
         new WebDriverWait(driver, config.getPageLoadTimeout()).until(
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 
-    void waitForPresent() {
+    protected void waitForPresent() {
         log.info(String.format("Waiting for presence of element '%s' ", name));
         waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
         log.info(String.format("Element '%s' is present ", name));
     }
 
-    public String getText() {
+    protected String getText() {
         String text = getElement(locator).getAttribute("value");
         log.info(String.format("Getting text '%s' from '%s' element", text, name));
         return text;

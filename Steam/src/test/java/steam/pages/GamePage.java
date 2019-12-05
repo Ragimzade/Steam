@@ -39,18 +39,21 @@ public class GamePage extends PageBase {
         List<WebElement> platforms = platformsBlock.getElements(
                 By.xpath("(//div[@class='block responsive_apppage_details_left'])//a[@class='name' and contains(@href,'support')]"));
         List<String> platformsToString = new ArrayList<>();
-        for (int i = 0; i < platforms.size(); i++) {
-            if (platforms.get(i).getText().equals("HTC Vive")) {
-                platformsToString.add(platforms.get(i).getText());
+//        platforms.stream().forEach(platforms -> );
+
+
+        for (WebElement platform : platforms) {
+            if (platform.getText().equals("HTC Vive")) {
+                platformsToString.add(platform.getText());
             }
-            if (platforms.get(i).getText().equals("Valve Index")) {
-                platformsToString.add(platforms.get(i).getText());
+            if (platform.getText().equals("Valve Index")) {
+                platformsToString.add(platform.getText());
             }
-            if (platforms.get(i).getText().equals("Oculus Rift")) {
-                platformsToString.add(platforms.get(i).getText());
+            if (platform.getText().equals("Oculus Rift")) {
+                platformsToString.add(platform.getText());
             }
-            if (platforms.get(i).getText().equals("Windows Mixed Reality")) {
-                platformsToString.add(platforms.get(i).getText());
+            if (platform.getText().equals("Windows Mixed Reality")) {
+                platformsToString.add(platform.getText());
             }
             log.info(String.format("Platforms: '%s'", platformsToString));
         }

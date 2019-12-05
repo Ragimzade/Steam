@@ -10,7 +10,7 @@ import org.testng.asserts.SoftAssert;
 import steam.model.GameData;
 import steam.pages.*;
 import utils.DownloadUtils;
-import utils.JsonParser;
+import utils.JsonParse;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +33,7 @@ public class SteamTest extends BaseTest {
     @Test
     public void loginTest() throws IOException, ParseException {
         LoginPage loginPage = mainPage.goToLoginPage();
-        loginPage.signIn(JsonParser.getLogin(), JsonParser.getPassword());
+        loginPage.signIn(JsonParse.getLogin(), JsonParse.getPassword());
         Assert.assertTrue(loginPage.isMessageButtonPresent());
     }
 
@@ -50,23 +50,25 @@ public class SteamTest extends BaseTest {
         GameCategoryPage gcPage = mainPage.goToCategoryByVisibleText(data);
         List<GameData> games = gcPage.getSeveralGameData(3);
 
-        GamePage gamePage = gcPage.goToGamePage(0);
-        String firstGamePage = Browser.getCurrentUrl();
-        softAssert.assertEquals(gamePage.getGameName(), games.get(0).getName());
-        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(0).getDiscount());
-        softAssert.assertEquals(gamePage.getGamePrice(), games.get(0).getPrice());
-        softAssert.assertEquals(gamePage.getPlatforms(), games.get(0).getPlatforms());
-        mainPage.findGame(games.get(0).getName());
-        softAssert.assertEquals(gamePage.getGameName(), games.get(0).getName());
-        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(0).getDiscount());
-        softAssert.assertEquals(gamePage.getGamePrice(), games.get(0).getPrice());
-        softAssert.assertEquals(gamePage.getPlatforms(), (games.get(0).getPlatforms()));
-        String firstGameBySearchPage = Browser.getCurrentUrl();
-        softAssert.assertEquals(firstGamePage, firstGameBySearchPage);
-
+        for (int i = 0; i < 3; i++) {
+            //goToGame
+            GamePage gamePage = gcPage.goToGamePage(i);
+            String firstGamePage = Browser.getCurrentUrl();
+            softAssert.assertEquals(gamePage.getGameName(), games.get(i).getName());
+            softAssert.assertEquals(gamePage.getGameDiscount(), games.get(i).getDiscount());
+            softAssert.assertEquals(gamePage.getGamePrice(), games.get(i).getPrice());
+            softAssert.assertEquals(gamePage.getPlatforms(), games.get(i).getPlatforms());
+            mainPage.findGame(games.get(i).getName());
+            softAssert.assertEquals(gamePage.getGameName(), games.get(i).getName());
+            softAssert.assertEquals(gamePage.getGameDiscount(), games.get(i).getDiscount());
+            softAssert.assertEquals(gamePage.getGamePrice(), games.get(i).getPrice());
+            softAssert.assertEquals(gamePage.getPlatforms(), (games.get(i).getPlatforms()));
+            String firstGameBySearchPage = Browser.getCurrentUrl();
+            softAssert.assertEquals(firstGamePage, firstGameBySearchPage);
+        }
         mainPage.openGamesTab();
         mainPage.goToCategoryByVisibleText(data);
-        gcPage.goToGamePage(1);
+        GamePage gamePage = gcPage.goToGamePage(1);
         String secondGamePage = Browser.getCurrentUrl();
         softAssert.assertEquals(gamePage.getGameName(), games.get(1).getName());
         softAssert.assertEquals(gamePage.getGameName(), games.get(1).getName());
@@ -89,7 +91,7 @@ public class SteamTest extends BaseTest {
         softAssert.assertEquals(gamePage.getGameDiscount(), games.get(2).getDiscount());
         softAssert.assertEquals(gamePage.getGamePrice(), games.get(2).getPrice());
         softAssert.assertEquals(gamePage.getPlatforms(), (games.get(2).getPlatforms()));
-        mainPage.findGame(games.get(2).getName());
+        gamePage = mainPage.findGame(games.get(2).getName());
         softAssert.assertEquals(gamePage.getGameName(), games.get(2).getName());
         softAssert.assertEquals(gamePage.getGameDiscount(), games.get(2).getDiscount());
         softAssert.assertEquals(gamePage.getGamePrice(), games.get(2).getPrice());

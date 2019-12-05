@@ -1,32 +1,36 @@
-package steam.functional_tests;
+package kaspersky.tests;
 
 import base_entity.BaseEntity;
 import browser.Browser;
 import browser.Screenshot;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import utils.ConfigFileReader;
+import utils.Log;
 
 import java.lang.reflect.Method;
 
-
 public class BaseTest extends BaseEntity {
+
 
 
     @BeforeSuite(alwaysRun = true)
     public void setUp() {
         config = ConfigFileReader.getInstance();
         driver = Browser.getInstance();
-        Browser.openBaseUrl();
+        Browser.openKasperskyBaseUrl();
     }
 
     @AfterSuite
     public void tearDown() {
         Browser.quit();
     }
+
+
 
     @BeforeMethod(alwaysRun = true)
     public void logTestStart(Method m) {
@@ -38,10 +42,8 @@ public class BaseTest extends BaseEntity {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             System.out.println(testResult.getStatus());
             Screenshot.takeScreenshot(driver);
-            Screenshot.saveScreenshotPNG(driver);
         }
     }
-
 
     @AfterMethod(alwaysRun = true)
     public void logTestStop(ITestResult result, Method m) {
