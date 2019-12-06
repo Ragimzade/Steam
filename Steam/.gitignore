@@ -13,3 +13,6 @@ screenshots_from_tests
 
 # reports folder
 .allure
+
+# downloads folder
+downloads

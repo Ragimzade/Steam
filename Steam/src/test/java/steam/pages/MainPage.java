@@ -77,7 +77,6 @@ public class MainPage extends PageBase {
         }
     }
 
-
     protected WebElement findElementByText(String text) {
         List<WebElement> webElements = driver.findElements(By.xpath("//div[@id='genre_flyout']//a[@class='popup_menu_item']"));
         return webElements

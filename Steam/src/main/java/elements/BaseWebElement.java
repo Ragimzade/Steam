@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.ConfigFileReader;
-import utils.Log;
 
 import java.time.Duration;
 import java.util.List;
@@ -18,8 +17,8 @@ import java.util.function.Function;
 
 public abstract class BaseWebElement extends BaseEntity {
     private FluentWait wait;
-    String name;
-    By locator;
+    protected String name;
+    protected By locator;
 
     protected BaseWebElement(By locator, String name) {
         this.name = name;
@@ -37,7 +36,7 @@ public abstract class BaseWebElement extends BaseEntity {
         wait.until(conditions);
     }
 
-    <T extends Function> void waitForCondition(T condition) {
+    protected <T extends Function> void waitForCondition(T condition) {
         wait.until(condition);
     }
 
@@ -47,6 +46,7 @@ public abstract class BaseWebElement extends BaseEntity {
     }
 
     public List<WebElement> getElements(By locator) {
+        waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
         return driver.findElements(locator);
     }
 
@@ -105,19 +105,18 @@ public abstract class BaseWebElement extends BaseEntity {
         jse.executeScript("arguments[0].scrollIntoView(true)", webElement);
     }
 
-
-    void waitForPageLoaded() {
+    protected void waitForPageLoaded() {
         new WebDriverWait(driver, config.getPageLoadTimeout()).until(
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 
-    void waitForPresent() {
+    protected void waitForPresent() {
         log.info(String.format("Waiting for presence of element '%s' ", name));
         waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
         log.info(String.format("Element '%s' is present ", name));
     }
 
-    public String getText() {
+    protected String getText() {
         String text = getElement(locator).getAttribute("value");
         log.info(String.format("Getting text '%s' from '%s' element", text, name));
         return text;

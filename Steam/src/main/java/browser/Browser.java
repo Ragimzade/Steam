@@ -26,10 +26,6 @@ public class Browser extends BaseEntity {
         }
     }
 
-    public static void openKasperskyBaseUrl() {
-        driver.get(config.getKasperskyBaseUrl());
-    }
-
     public static int getWindowSize() {
         return (driver.manage().window().getSize().getHeight()) / 2;
     }
