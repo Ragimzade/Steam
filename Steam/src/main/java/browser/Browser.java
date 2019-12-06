@@ -8,8 +8,7 @@ import static browser.BrowserFactory.initDriver;
 
 public class Browser extends BaseEntity {
     private static WebDriver driver;
-
-
+    
     private Browser() {
     }
 

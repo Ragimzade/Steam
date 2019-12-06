@@ -1,12 +1,9 @@
 package kaspersky.pages;
 
 import base_entity.BaseEntity;
-import browser.Browser;
 import elements.BaseWebElement;
-import org.openqa.selenium.WebDriver;
 
 public class BasePage extends BaseEntity {
-    WebDriver driver = Browser.getInstance();
 
     public BasePage() {
     }

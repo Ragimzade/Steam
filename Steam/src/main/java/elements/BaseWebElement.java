@@ -1,5 +1,6 @@
 package elements;
 
+import base_entity.BaseEntity;
 import browser.Browser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -8,20 +9,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.ConfigFileReader;
-import utils.Log;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-public abstract class BaseWebElement {
+public abstract class BaseWebElement extends BaseEntity {
     private FluentWait wait;
     protected String name;
-    private static ConfigFileReader config;
-    protected static Log log = Log.getInstance();
     protected By locator;
-    protected WebDriver driver;
 
     protected BaseWebElement(By locator, String name) {
         this.name = name;
