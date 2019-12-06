@@ -18,11 +18,13 @@ import java.util.List;
 public class SteamTest extends BaseTest {
     private MainPage mainPage;
 
+    private static final int NUMBER_OF_GAMES = 3;
+
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {
-        return new Object[][]{{"Steam Controller Friendly"}, {"Virtual Reality"}};
+        return new Object[][]{ {"Virtual Reality"}};
     }
-
+//{"Steam Controller Friendly"},
     @BeforeMethod(alwaysRun = true)
     public void goToMainPage() {
         mainPage = new MainPage();

@@ -22,7 +22,7 @@ public class MainPage extends PageBase {
     private final Button gamesTabButton = new Button(By.id("genre_tab"), "gamesTabButton");
     private final TextField searchField = new TextField(By.name("term"), "searchField");
     private final Button searchButton = new Button(By.xpath("//a[@id='store_search_link']//img"), "searchButton");
-    private final Button searchSuggest = new Button(By.xpath("//div[@id='searchterm_options'] //div//div//a"), "searchSuggest");
+    private final Button searchSuggest = new Button(By.xpath("//div[@id='search_suggestion_contents']//div[@class='match_name']"), "searchSuggest");
     private final Button languagesPopUp = new Button(By.xpath("//span[@id='language_pulldown']"), "languagesPopUp");
     private final Button englishButton = new Button(By.xpath("//a[@class='popup_menu_item tight' and contains(.,'English')]"), "englishButton");
     private final TextArea featuredTextArea = new TextArea(By.xpath("//div[@class='home_title' and contains(.,'Featured')]"), "featuredTextArea");
@@ -58,7 +58,7 @@ public class MainPage extends PageBase {
 
     public GamePage findGame(String value) {
         searchField.typeValue(value);
-        searchSuggest.click();
+        searchSuggest.clickByVisibleText(value);
         return new GamePage();
     }
 

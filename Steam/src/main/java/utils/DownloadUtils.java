@@ -1,5 +1,6 @@
 package utils;
 
+import base_entity.BaseEntity;
 import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.TimeoutException;
 
@@ -11,10 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
 
-public class DownloadUtils {
-    private static ConfigFileReader config = ConfigFileReader.getInstance();
-    private static final Log log = Log.getInstance();
-    private final static String fileName = "Steam.exe";
+public class DownloadUtils extends BaseEntity {
 
     public static boolean isFileDownloaded(String filename) throws IOException {
         Path filePath = Paths.get(System.getProperty("user.dir"), config.getBrowserDownloadPath(), filename);

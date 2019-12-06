@@ -1,5 +1,6 @@
 package browser;
 
+import base_entity.BaseEntity;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -8,9 +9,7 @@ import utils.ConfigFileReader;
 
 import java.util.HashMap;
 
-public class BrowserOptions {
-
-    private static ConfigFileReader config = ConfigFileReader.getInstance();
+public class BrowserOptions extends BaseEntity {
 
     static ChromeOptions getChromeOptions() {
         WebDriverManager.chromedriver().setup();

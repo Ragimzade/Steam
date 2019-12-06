@@ -55,7 +55,7 @@ public class GamePage extends PageBase {
             log.info(String.format("Platforms: '%s'", platformsToString));
         }
         return platformsToString;
-
+//        platforms.stream().forEach(platforms -> );
     }
 
     public String getGamePrice() {

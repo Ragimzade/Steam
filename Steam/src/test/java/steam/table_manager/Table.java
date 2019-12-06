@@ -16,9 +16,8 @@ public class Table extends BaseWebElement {
         super(locator, name);
     }
 
-    public List<WebElement> getElements(By locator) {
-        return driver.findElements(locator);
-    }
+
+//перенести в бейс элемент. выбор по имени не по индексу, поменять циклы, модфикаторры, загрузка файла, платформы
 
     public List<WebElement> getRows() {
         scrollToElement(driver.findElement(By.id("tab_select_ComingSoon")));

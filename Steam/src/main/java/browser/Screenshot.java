@@ -1,17 +1,17 @@
 package browser;
 
+import base_entity.BaseEntity;
 import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import utils.DateUtil;
-import utils.Log;
 
 import java.io.File;
 
-public class Screenshot {
-    protected static Log log = Log.getInstance();
+public class Screenshot extends BaseEntity {
+
 
     @Attachment(value = "Page screenshot", type = "image/png")
     public static byte[] saveScreenshotPNG(WebDriver driver) {

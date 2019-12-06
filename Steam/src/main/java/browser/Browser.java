@@ -1,16 +1,13 @@
 package browser;
 
-import org.openqa.selenium.JavascriptExecutor;
+import base_entity.BaseEntity;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import utils.ConfigFileReader;
 
 import static browser.BrowserFactory.initDriver;
 
-public class Browser {
+public class Browser extends BaseEntity {
     private static WebDriver driver;
-    private static ConfigFileReader config = ConfigFileReader.getInstance();
 
     private Browser() {
     }

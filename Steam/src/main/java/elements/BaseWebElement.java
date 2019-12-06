@@ -1,5 +1,6 @@
 package elements;
 
+import base_entity.BaseEntity;
 import browser.Browser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -12,13 +13,11 @@ import utils.Log;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
-public abstract class BaseWebElement {
+public abstract class BaseWebElement extends BaseEntity {
     private FluentWait wait;
-    private static ConfigFileReader config;
-    static final Log log = Log.getInstance();
-    protected WebDriver driver;
     String name;
     By locator;
 
@@ -42,10 +41,22 @@ public abstract class BaseWebElement {
         wait.until(condition);
     }
 
-    WebElement getElement(By locator) {
-
+    protected WebElement getElement(By locator) {
         waitForPresent();
         return driver.findElement(locator);
+    }
+
+    public List<WebElement> getElements(By locator) {
+        return driver.findElements(locator);
+    }
+
+    protected WebElement findElementByText(String text, By locator) {
+        List<WebElement> webElements = getElements(locator);
+        return webElements
+                .stream()
+                .filter(webElement -> Objects.equals(webElement.getText(), text))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No WebElement found containing " + text));
     }
 
 

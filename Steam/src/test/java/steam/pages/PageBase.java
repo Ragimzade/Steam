@@ -1,10 +1,10 @@
 package steam.pages;
 
+import base_entity.BaseEntity;
 import elements.BaseWebElement;
 import utils.Log;
 
-public class PageBase {
-    static final Log log = Log.getInstance();
+public class PageBase extends BaseEntity {
 
     public PageBase() {
     }
