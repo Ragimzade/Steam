@@ -17,7 +17,7 @@ public class DownloadUtils extends BaseEntity {
         Path filePath = getPath(filename);
         try {
             getDelay(TIMEOUT, DELAY)
-                    .until(() -> filePath.toFile().exists() && filename.endsWith(filename.substring(0, 4)));
+                    .until(() -> filePath.toFile().exists() && filename.endsWith(filename.substring(10)));
             log.info("File " + filePath.toFile().getName() + " is downloaded");
             return true;
         } catch (TimeoutException ex) {
