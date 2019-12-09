@@ -2,7 +2,6 @@ package steam.pages;
 
 import base_entity.BaseEntity;
 import elements.BaseWebElement;
-import utils.Log;
 
 public class PageBase extends BaseEntity {
 

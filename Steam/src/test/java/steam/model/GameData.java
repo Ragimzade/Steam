@@ -6,7 +6,6 @@ import org.testng.asserts.SoftAssert;
 import steam.pages.GamePage;
 
 import java.util.List;
-import java.util.Objects;
 
 @Data
 public class GameData {
@@ -33,7 +32,6 @@ public class GameData {
         this.discount = discount;
         return this;
     }
-
 
     public GameData setName(String name) {
         this.name = name;

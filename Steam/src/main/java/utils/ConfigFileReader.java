@@ -38,13 +38,6 @@ public class ConfigFileReader {
         else throw new RuntimeException("url is null");
     }
 
-    public String getKasperskyBaseUrl() {
-        String url = prop.getProperty("KasperskyBaseUrl");
-        if (url != null)
-            return url;
-        else throw new RuntimeException("url is null");
-    }
-
     public int getFluentWaitInSec() {
         String waitInSec = prop.getProperty("FluentWaitInSec");
         if (waitInSec != null)
@@ -60,10 +53,17 @@ public class ConfigFileReader {
     }
 
     public String getBrowserDownloadPath() {
-        String BrowserDownloadPath = prop.getProperty("BrowserDownloadPath");
-        if (BrowserDownloadPath != null)
-            return BrowserDownloadPath;
+        String browserDownloadPath = prop.getProperty("BrowserDownloadPath");
+        if (browserDownloadPath != null)
+            return browserDownloadPath;
         else throw new RuntimeException("BrowserDownloadPath is null");
+    }
+
+    public String getSteamFileName() {
+        String steamFileName = prop.getProperty("SteamFileName");
+        if (steamFileName != null)
+            return steamFileName;
+        else throw new RuntimeException("steamFileName is null");
     }
 
     public int getPageLoadTimeout() {
@@ -78,4 +78,5 @@ public class ConfigFileReader {
         prop.load(ConfigFileReader.class.getClassLoader().getResourceAsStream("smtp.properties"));
         return Session.getDefaultInstance(prop, null);
     }
+
 }

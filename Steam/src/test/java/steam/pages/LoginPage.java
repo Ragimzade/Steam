@@ -17,7 +17,6 @@ public class LoginPage extends PageBase {
     private final Button messages = new Button(By.id("header_notification_link"), "messages");
     private final TextArea loginTextArea = new TextArea(By.xpath("//div[@class='loginbox_content' and contains(.,'Sign')]"), "loginTextArea");
 
-
     public void signIn(String login, String password) {
         loginField.typeValue(login);
         passwordField.typeValue(password);

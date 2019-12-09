@@ -9,14 +9,15 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import utils.ConfigFileReader;
+import utils.DownloadUtils;
 
 import java.lang.reflect.Method;
-
 
 public class BaseTest extends BaseEntity {
 
     @BeforeSuite(alwaysRun = true)
     public void setUp() {
+        DownloadUtils.deleteDirectory(config.getSteamFileName());
         config = ConfigFileReader.getInstance();
         driver = Browser.getInstance();
         Browser.openBaseUrl();

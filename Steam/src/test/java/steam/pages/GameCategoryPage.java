@@ -8,6 +8,7 @@ import steam.table_manager.Table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameCategoryPage extends PageBase {
 
@@ -66,13 +67,12 @@ public class GameCategoryPage extends PageBase {
 
     public List<String> getPlatforms(int numberOfGame) {
         log.info(String.format("'%s'Getting list of platforms", getClass()));
-        List<WebElement> list = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
+        List<WebElement> platforms = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
                 .findElements(By.xpath(".//div[@class='tab_item_details']//span[@title]"));
-        List<String> platforms = new ArrayList<>();
-        for (WebElement element : list) {
-            platforms.add(element.getAttribute("title"));
-        }
-        log.info(String.format("Platforms: '%s'", platforms));
-        return platforms;
+        return platforms.stream()
+                .map(p -> p.getAttribute("title"))
+                .collect(Collectors.toList());
     }
+
 }
+

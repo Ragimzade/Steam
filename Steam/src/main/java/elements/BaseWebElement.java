@@ -31,7 +31,6 @@ public abstract class BaseWebElement extends BaseEntity {
                 .ignoring(StaleElementReferenceException.class);
     }
 
-
     protected void waitForConditions(ExpectedCondition<List<WebElement>> conditions) {
         wait.until(conditions);
     }
@@ -59,7 +58,6 @@ public abstract class BaseWebElement extends BaseEntity {
                 .orElseThrow(() -> new NoSuchElementException("No WebElement found containing " + text));
     }
 
-
     public boolean isElementPresent() {
         try {
             log.info(String.format("Waiting for presence of '%s' element", name));
@@ -82,7 +80,6 @@ public abstract class BaseWebElement extends BaseEntity {
             return false;
         }
     }
-
 
     void hoverElement() {
         log.info(String.format("Hovering element '%s' ", name));

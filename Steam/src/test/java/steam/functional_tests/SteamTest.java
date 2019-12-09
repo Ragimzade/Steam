@@ -20,7 +20,7 @@ public class SteamTest extends BaseTest {
 
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {
-        return new Object[][]{{"Steam Controller Friendly"}, {"Virtual Reality"}, {"Action"}};
+        return new Object[][]{{"Steam Controller Friendly"}, {"Virtual Reality"}};
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -38,10 +38,10 @@ public class SteamTest extends BaseTest {
     }
 
     @Test
-    public void downloadSteamTest() throws IOException {
+    public void downloadSteamTest() {
         SteamDownloadPage steamDownloadPage = mainPage.goToSteamDownloadPage();
         steamDownloadPage.downloadSteam();
-        Assert.assertTrue(DownloadUtils.isFileDownloaded("SteamSetup.exe"));
+        Assert.assertTrue(DownloadUtils.isFileDownloaded(config.getSteamFileName()));
     }
 
     @Test(priority = 1, dataProvider = "data-provider")
@@ -52,12 +52,12 @@ public class SteamTest extends BaseTest {
         for (int i = 0; i < 3; i++) {
             mainPage.goToCategoryByVisibleText(data);
             GamePage gamePage = gcPage.goToGamePage(i);
-            String firstGamePage = Browser.getCurrentUrl();
+            String gamePageUrl = Browser.getCurrentUrl();
             games.get(i).compare(softAssert, games, i, gamePage);
-            mainPage.findGame(games.get(i).getName());
+            gamePage = mainPage.findGame(games.get(i).getName());
             games.get(i).compare(softAssert, games, i, gamePage);
-            String firstGameBySearchPage = Browser.getCurrentUrl();
-            softAssert.assertEquals(firstGamePage, firstGameBySearchPage);
+            String gameBySearchPageUrl = Browser.getCurrentUrl();
+            softAssert.assertEquals(gamePageUrl, gameBySearchPageUrl);
         }
     }
 

@@ -3,11 +3,11 @@ package steam.pages;
 import elements.Button;
 import elements.TextArea;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import steam.table_manager.Table;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class GamePage extends PageBase {
@@ -44,11 +44,10 @@ public class GamePage extends PageBase {
             return platforms.stream()
                     .map(WebElement::getText)
                     .collect(Collectors.toList());
-        } catch (NoSuchElementException ex) {
+        } catch (TimeoutException ex) {
             return null;
         }
     }
-
 
     public String getGamePrice() {
         try {
