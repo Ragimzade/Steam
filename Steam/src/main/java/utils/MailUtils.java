@@ -6,15 +6,15 @@ import org.jsoup.Jsoup;
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.SearchTerm;
+import java.io.IOException;
 
 public class MailUtils extends BaseEntity {
-    private static final String SMTP_HOST = "smtp.gmail.com";
-    public static final String SMTP_USER_LOGIN = "nurlan.rahimzada@gmail.com";
-    public static final String SMTP_PASSWORD = "9802357s";
-    public static final String PROTOCOL = "imaps";
+    private static final String SMTP_HOST = config.getSmtpHost();
+    public static final String SMTP_USER_LOGIN = JsonParse.getKasperskyLogin();
+    public static final String SMTP_PASSWORD = JsonParse.getPassword();
+    public static final String PROTOCOL = config.getSmtpProtocol();
     public static final int TIMEOUT = 90;
     public static final int DELAY = 20;
-
 
     public static Message getMessage(String subject) {
         Message mail = null;
@@ -47,14 +47,13 @@ public class MailUtils extends BaseEntity {
                 mail = message;
             }
             return mail;
-        } catch (Exception e) {
+        } catch (MessagingException | IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-
-    public static String getTextFromMessage(String subject) throws Exception {
+    public static String getTextFromMessage(String subject) throws MessagingException, IOException {
         Message message = getMessage(subject);
         if (message.isMimeType("text/plain")) {
             return message.getContent().toString();

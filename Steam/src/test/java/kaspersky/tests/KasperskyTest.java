@@ -2,6 +2,7 @@ package kaspersky.tests;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.testng.Assert;
 import utils.MailUtils;
 import kaspersky.model.ProductData;
 import kaspersky.pages.DownloadPage;
@@ -14,6 +15,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utils.JsonParse;
 
+import javax.mail.MessagingException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -29,7 +31,7 @@ public class KasperskyTest extends BaseTest {
     @BeforeSuite
     public void beforeSuite() throws IOException, ParseException {
         MainPage mainPage = new MainPage();
-        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin2(), JsonParse.getKasperskyLPassword());
+        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin(), JsonParse.getKasperskyLPassword());
         downloadPage = loggedInMainPage.goToDownloadPage();
     }
 
@@ -48,13 +50,17 @@ public class KasperskyTest extends BaseTest {
         return data.stream().map((o) -> new Object[]{o}).collect(Collectors.toList()).iterator();
     }
 
-    @Test(priority = 1, dataProvider = "testDataFromJSON")
-    public void sendEmailTest(ProductData product) throws Exception {
+    @Test(dataProvider = "testDataFromJSON")
+    public void sendEmailTest(ProductData product) throws IOException, MessagingException {
         SoftAssert softAssert = new SoftAssert();
-        downloadPage.sendAppToMySelf(product.getOsName(), product.getProduct(), product.getDescription());
+        downloadPage.goToSelectedOsTab(product.getOs());
+        softAssert.assertTrue(downloadPage.isProductHasCorrectDescription(product.getProduct(), product.getDescription()),
+                "Product description is not correct");
+        downloadPage.sendAppToMySelf(product.getProduct());
         softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject()),
                 "Email subject is not correct");
         softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()),
                 "Email doesn't contain correct URL");
+        softAssert.assertAll();
     }
 }

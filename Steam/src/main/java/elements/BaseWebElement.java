@@ -4,11 +4,9 @@ import base_entity.BaseEntity;
 import browser.Browser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.ConfigFileReader;
 
 import java.time.Duration;
 import java.util.List;
@@ -20,20 +18,14 @@ public abstract class BaseWebElement extends BaseEntity {
     protected String name;
     protected By locator;
 
+
     protected BaseWebElement(By locator, String name) {
         this.name = name;
         this.locator = locator;
-        config = ConfigFileReader.getInstance();
-        driver = Browser.getInstance();
         wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(config.getFluentWaitInSec()))
                 .pollingEvery(Duration.ofMillis(config.getFluentWaitInMill()))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
-    }
-
-
-    protected void waitForConditions(ExpectedCondition<List<WebElement>> conditions) {
-        wait.until(conditions);
     }
 
     <T extends Function> void waitForCondition(T condition) {
@@ -83,7 +75,6 @@ public abstract class BaseWebElement extends BaseEntity {
         }
     }
 
-
     protected void hoverElement() {
         log.info(String.format("Hovering element '%s' ", name));
         Actions builder = new Actions(driver);
@@ -92,7 +83,7 @@ public abstract class BaseWebElement extends BaseEntity {
 
     protected void waitForElementClickable() {
         waitForCondition(ExpectedConditions.elementToBeClickable(locator));
-        log.info(String.format("Button '%s' is clickable", name));
+        log.info(String.format("Element '%s' is clickable", name));
     }
 
     protected void scrollToMiddle() {

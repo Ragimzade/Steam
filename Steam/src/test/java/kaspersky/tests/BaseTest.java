@@ -18,15 +18,13 @@ public class BaseTest extends BaseEntity {
     public void setUp() {
         config = ConfigFileReader.getInstance();
         driver = Browser.getInstance();
-        Browser.openKasperskyBaseUrl();
+        Browser.openBaseUrl();
     }
 
-    @AfterSuite
-    public void tearDown() {
-        Browser.quit();
-    }
-
-
+//    @AfterSuite
+//    public void tearDown() {
+//        Browser.quit();
+//    }
 
     @BeforeMethod(alwaysRun = true)
     public void logTestStart(Method m) {

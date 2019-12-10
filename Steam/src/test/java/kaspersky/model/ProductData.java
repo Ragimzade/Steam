@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ProductData {
     @Expose
-    private String osName;
+    private String os;
     @Expose
     private String product;
     @Expose

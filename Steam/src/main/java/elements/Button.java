@@ -2,6 +2,7 @@ package elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Log;
 
@@ -23,10 +24,11 @@ public class Button extends BaseWebElement {
 
     public boolean isButtonOnPage() {
         try {
-            log.info(String.format("Waiting for presence of '%s' button", name));
-            return isElementPresent();
-        } catch (NoSuchElementException ex) {
-            log.info(String.format("Button '%s' is not found on the page", name));
+            isElementPresent();
+            log.info(String.format("Button '%s' is on page", name));
+            return true;
+        } catch (NoSuchElementException | TimeoutException ex) {
+            log.info(String.format("Button '%s' is absent", name));
             return false;
         }
     }
@@ -48,9 +50,8 @@ public class Button extends BaseWebElement {
 
     public void clickByVisibleText(String text) {
         log.info(String.format("Clicking button '%s' by text '%s'", name, text));
-
-        findElementByText(text).click();
         waitForElementClickable();
+        findElementByText(text).click();
         log.info(String.format("Clicking button '%s'  by text '%s': success", name, text));
     }
 

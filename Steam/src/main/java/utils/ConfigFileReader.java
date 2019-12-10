@@ -38,13 +38,6 @@ public class ConfigFileReader {
         else throw new RuntimeException("url is null");
     }
 
-    public String getKasperskyBaseUrl() {
-        String url = prop.getProperty("KasperskyBaseUrl");
-        if (url != null)
-            return url;
-        else throw new RuntimeException("url is null");
-    }
-
     public int getFluentWaitInSec() {
         String waitInSec = prop.getProperty("FluentWaitInSec");
         if (waitInSec != null)
@@ -78,5 +71,21 @@ public class ConfigFileReader {
         prop.load(ConfigFileReader.class.getClassLoader().getResourceAsStream("smtp.properties"));
         return Session.getDefaultInstance(prop, null);
     }
+
+
+    public String getSmtpHost() {
+        String smtpHost = prop.getProperty("SmtpHost");
+        if (smtpHost != null)
+            return smtpHost;
+        else throw new RuntimeException("SmtpHost is null");
+    }
+
+    public String getSmtpProtocol() {
+        String SmtpProtocol = prop.getProperty("SmtpProtocol");
+        if (SmtpProtocol != null)
+            return SmtpProtocol;
+        else throw new RuntimeException("SmtpProtocol is null");
+    }
+
 
 }

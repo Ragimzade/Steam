@@ -1,14 +1,19 @@
 package browser;
 
 import base_entity.BaseEntity;
+import elements.BaseWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.function.Function;
 
 import static browser.BrowserFactory.initDriver;
 
 public class Browser extends BaseEntity {
     private static WebDriver driver;
-    
+
     private Browser() {
     }
 
@@ -26,16 +31,20 @@ public class Browser extends BaseEntity {
         }
     }
 
-    public static void openKasperskyBaseUrl() {
-        driver.get(config.getKasperskyBaseUrl());
-    }
-
     public static int getWindowSize() {
         return (driver.manage().window().getSize().getHeight()) / 2;
     }
 
     public static void openBaseUrl() {
         driver.get(config.getBaseUrl());
+    }
+
+    public static <T extends WebElement> void switchToFrame(T element) {
+        driver.switchTo().frame(element);
+    }
+
+    public static void switchToDefaultContent() {
+        driver.switchTo().defaultContent();
     }
 
     public static void navigateTo(String url) {
