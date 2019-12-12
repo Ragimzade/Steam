@@ -1,0 +1,16 @@
+[
+  {
+    "os": "Mac",
+    "product": "Password Manager",
+    "description": "Remembers your passwords for you and stores them securely.",
+    "emailSubject": "Download links for Kaspersky Password Manager",
+    "emailLink": "https://my.kaspersky.com/MyLicenses?startDownload=https"
+  },
+  {
+    "os": "Windows",
+    "product": "Internet Security",
+    "description": "Protects you when you surf, socialize & shop online.",
+    "emailSubject": "Download link for Kaspersky Internet Security",
+    "emailLink": "https://my.kaspersky.com/MyLicenses?startDownload="
+  }
+]
