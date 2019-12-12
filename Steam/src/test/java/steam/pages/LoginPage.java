@@ -1,11 +1,12 @@
 package steam.pages;
 
+import base.BasePage;
 import elements.Button;
 import elements.TextArea;
 import elements.TextField;
 import org.openqa.selenium.By;
 
-public class LoginPage extends PageBase {
+public class LoginPage extends BasePage {
 
     public LoginPage() {
         assertPageIsOpened(loginTextArea);

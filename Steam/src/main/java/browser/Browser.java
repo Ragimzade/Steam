@@ -1,8 +1,10 @@
 package browser;
 
-import base_entity.BaseEntity;
+import base.BaseEntity;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static browser.BrowserFactory.initDriver;
 
@@ -24,6 +26,12 @@ public class Browser extends BaseEntity {
             driver.quit();
             driver = null;
         }
+    }
+
+
+    protected void waitForPageLoaded() {
+        new WebDriverWait(driver, config.getPageLoadTimeout()).until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 
     public static int getWindowSize() {

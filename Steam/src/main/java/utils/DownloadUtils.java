@@ -1,6 +1,6 @@
 package utils;
 
-import base_entity.BaseEntity;
+import base.BaseEntity;
 import org.openqa.selenium.TimeoutException;
 
 import java.io.IOException;

@@ -1,16 +1,18 @@
 package steam.pages;
 
+import base.BasePage;
 import elements.Button;
 import elements.TextArea;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import steam.model.GameData;
 import steam.table_manager.Table;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GamePage extends PageBase {
+public class GamePage extends BasePage {
 
     public GamePage() {
         assertPageIsOpened(communityHub);
@@ -23,6 +25,14 @@ public class GamePage extends PageBase {
             .xpath("//div[@class='game_purchase_action_bg']//div[contains(@class,'final') or contains(@class,'purchase_price')]"), "priceArea");
     private final Table platformsBlock = new Table(By.xpath("/div[@class='block responsive_apppage_details_left']"), "platforms");
     private final Button communityHub = new Button(By.className("apphub_OtherSiteInfo"), "communityHub");
+
+    public GameData getGameData() {
+        return new GameData()
+                .setName(getGameName())
+                .setPlatforms(getPlatforms())
+                .setDiscount(getGameDiscount())
+                .setPrice(getGamePrice());
+    }
 
     public String getGameName() {
         return gameTitle.getText();

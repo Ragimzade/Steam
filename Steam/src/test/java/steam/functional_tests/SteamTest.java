@@ -12,7 +12,9 @@ import steam.pages.*;
 import utils.DownloadUtils;
 import utils.JsonParser;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class SteamTest extends BaseTest {
@@ -44,7 +46,7 @@ public class SteamTest extends BaseTest {
         Assert.assertTrue(DownloadUtils.isFileDownloaded(config.getSteamFileName()));
     }
 
-    @Test(priority = 1, dataProvider = "data-provider")
+    @Test(dataProvider = "data-provider", dependsOnMethods = "loginTest")
     public void gameSearchTest(String data) {
         SoftAssert softAssert = new SoftAssert();
         GameCategoryPage gcPage = mainPage.goToCategoryByVisibleText(data);
@@ -52,13 +54,25 @@ public class SteamTest extends BaseTest {
         for (int i = 0; i < 3; i++) {
             mainPage.goToCategoryByVisibleText(data);
             GamePage gamePage = gcPage.goToGamePage(i);
+            GameData game = gamePage.getGameData();
             String gamePageUrl = Browser.getCurrentUrl();
-            games.get(i).compare(softAssert, games, i, gamePage);
+            games.get(i).compare(game);
             gamePage = mainPage.findGame(games.get(i).getName());
-            games.get(i).compare(softAssert, games, i, gamePage);
+            games.get(i).compare(game);
             String gameBySearchPageUrl = Browser.getCurrentUrl();
-            softAssert.assertEquals(gamePageUrl, gameBySearchPageUrl);
+            softAssert.assertEquals(gamePageUrl, gameBySearchPageUrl,
+                    "Urls of game page and game page by search are not equal");
         }
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void testCurrentDir() {
+        File currentDir = new File("downloads");
+        System.out.println(currentDir.getAbsolutePath());
+        System.out.println(System.getProperty("user.dir") + config.getBrowserDownloadPath());
+        System.out.println(Paths.get("downloads")
+        );
     }
 
 }

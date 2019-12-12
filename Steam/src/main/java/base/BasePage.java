@@ -1,11 +1,10 @@
-package steam.pages;
+package base;
 
-import base_entity.BaseEntity;
 import elements.BaseWebElement;
 
-public class PageBase extends BaseEntity {
+public class BasePage extends BaseEntity {
 
-    public PageBase() {
+    public BasePage() {
     }
 
     protected void assertPageIsOpened(BaseWebElement element) {

@@ -2,6 +2,7 @@ package utils;
 
 import javax.mail.Session;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 
 public class ConfigFileReader {
@@ -26,51 +27,44 @@ public class ConfigFileReader {
 
     public String getBrowser() {
         String browser = prop.getProperty("Browser");
-        if (browser != null)
-            return browser;
-        else throw new RuntimeException("browser is null");
+        Objects.requireNonNull(browser, "browser is null");
+        return browser;
     }
 
     public String getBaseUrl() {
         String url = prop.getProperty("BaseUrl");
-        if (url != null)
-            return url;
-        else throw new RuntimeException("url is null");
+        Objects.requireNonNull(url, "url is null");
+        return url;
     }
 
     public int getFluentWaitInSec() {
         String waitInSec = prop.getProperty("FluentWaitInSec");
-        if (waitInSec != null)
-            return Integer.parseInt(waitInSec);
-        else throw new RuntimeException("FluentWaitInSec is null");
+        Objects.requireNonNull(waitInSec, "FluentWaitInSec is null");
+        return Integer.parseInt(waitInSec);
     }
 
     public int getFluentWaitInMill() {
         String waitInMill = prop.getProperty("FluentWaitInMill");
-        if (waitInMill != null)
-            return Integer.parseInt(waitInMill);
-        else throw new RuntimeException("FluentWaitInMill is null");
+        Objects.requireNonNull(waitInMill, "FluentWaitInMill is null");
+        return Integer.parseInt(waitInMill);
     }
 
     public String getBrowserDownloadPath() {
         String browserDownloadPath = prop.getProperty("BrowserDownloadPath");
-        if (browserDownloadPath != null)
-            return browserDownloadPath;
-        else throw new RuntimeException("BrowserDownloadPath is null");
+        Objects.requireNonNull(browserDownloadPath, "BrowserDownloadPath is null");
+        return browserDownloadPath;
     }
 
     public String getSteamFileName() {
         String steamFileName = prop.getProperty("SteamFileName");
-        if (steamFileName != null)
-            return steamFileName;
-        else throw new RuntimeException("steamFileName is null");
+        Objects.requireNonNull(steamFileName, "steamFileName is null");
+        return steamFileName;
     }
 
     public int getPageLoadTimeout() {
         String pageLoadTimeout = prop.getProperty("PageLoadTimeout");
-        if (pageLoadTimeout != null) {
-            return Integer.parseInt(pageLoadTimeout);
-        } else throw new RuntimeException("PageLoadTimeout is null");
+        Objects.requireNonNull(pageLoadTimeout, "pageLoadTimeout is null");
+        return Integer.parseInt(pageLoadTimeout);
     }
 
     public Session createMailSession() throws IOException {

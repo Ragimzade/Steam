@@ -1,6 +1,6 @@
 package browser;
 
-import base_entity.BaseEntity;
+import base.BaseEntity;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;

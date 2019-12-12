@@ -1,12 +1,13 @@
 package steam.pages;
 
+import base.BasePage;
 import elements.Button;
 import elements.TextArea;
 import elements.TextField;
 import org.openqa.selenium.By;
 
 
-public class MainPage extends PageBase {
+public class MainPage extends BasePage {
 
     private final Button loginButton = new Button(By.className("global_action_link"), "LoginButton");
     private final Button steamButton = new Button(By.className("logo"), "steamButton");

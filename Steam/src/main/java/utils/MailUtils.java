@@ -1,6 +1,6 @@
 package utils;
 
-import base_entity.BaseEntity;
+import base.BaseEntity;
 import org.jsoup.Jsoup;
 
 import javax.mail.*;
@@ -24,7 +24,7 @@ public class MailUtils extends BaseEntity {
             Folder inbox = store.getFolder("inbox");
             inbox.open(Folder.READ_WRITE);
             int messageCount = inbox.getMessageCount();
-            System.out.println("Total Messages:- " + messageCount);
+            log.info("Total Messages:- " + messageCount);
 
             SearchTerm term = new SearchTerm() {
                 @Override

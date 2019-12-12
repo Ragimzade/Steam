@@ -1,13 +1,16 @@
 package steam.model;
 
 
-import lombok.Data;
+import lombok.*;
 import org.testng.asserts.SoftAssert;
-import steam.pages.GamePage;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+
 public class GameData {
     private String name;
     private String price;
@@ -38,11 +41,14 @@ public class GameData {
         return this;
     }
 
-    public void compare(SoftAssert softAssert, List<GameData> games, int gameNumber, GamePage gamePage) {
-        softAssert.assertEquals(gamePage.getGameName(), games.get(gameNumber).getName());
-        softAssert.assertEquals(gamePage.getGameDiscount(), games.get(gameNumber).getDiscount());
-        softAssert.assertEquals(gamePage.getGamePrice(), games.get(gameNumber).getPrice());
-        softAssert.assertEquals(gamePage.getPlatforms(), games.get(gameNumber).getPlatforms());
+    public void compare(GameData game) {
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(game.getName(), this.name);
+        softAssert.assertEquals(game.getPrice(), this.price, "Prices are not equal" + game.getPrice());
+        softAssert.assertEquals(game.getDiscount(), this.discount, "Names of games are not equal");
+        softAssert.assertEquals(game.getPlatforms(), this.platforms, "Platforms of games are not equal");
+
     }
+
 
 }

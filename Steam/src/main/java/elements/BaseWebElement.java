@@ -1,13 +1,12 @@
 package elements;
 
-import base_entity.BaseEntity;
+import base.BaseEntity;
 import browser.Browser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.ConfigFileReader;
 
 import java.time.Duration;
@@ -62,6 +61,7 @@ public abstract class BaseWebElement extends BaseEntity {
         try {
             log.info(String.format("Waiting for presence of '%s' element", name));
             waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));
+            waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
             log.info(String.format("Element '%s' present ", name));
             return true;
         } catch (TimeoutException e) {
@@ -102,14 +102,10 @@ public abstract class BaseWebElement extends BaseEntity {
         jse.executeScript("arguments[0].scrollIntoView(true)", webElement);
     }
 
-    protected void waitForPageLoaded() {
-        new WebDriverWait(driver, config.getPageLoadTimeout()).until(
-                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-    }
 
     protected void waitForPresent() {
         log.info(String.format("Waiting for presence of element '%s' ", name));
-        waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
+        waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));
         log.info(String.format("Element '%s' is present ", name));
     }
 

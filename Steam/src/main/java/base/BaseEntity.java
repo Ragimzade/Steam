@@ -1,4 +1,4 @@
-package base_entity;
+package base;
 
 import browser.Browser;
 import org.awaitility.core.ConditionFactory;

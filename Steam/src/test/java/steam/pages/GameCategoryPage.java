@@ -1,5 +1,6 @@
 package steam.pages;
 
+import base.BasePage;
 import elements.Button;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GameCategoryPage extends PageBase {
+public class GameCategoryPage extends BasePage {
 
     private static final int QUANTITY_OF_ROWS = 3;
 

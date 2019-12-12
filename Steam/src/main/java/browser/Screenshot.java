@@ -1,6 +1,6 @@
 package browser;
 
-import base_entity.BaseEntity;
+import base.BaseEntity;
 import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -18,19 +18,12 @@ public class Screenshot extends BaseEntity {
     }
 
     public static void takeScreenshot(WebDriver driver) {
-        String filePath = "screenshots_from_tests/" + DateUtil.getCurrentDate();
+        String screenShot = "screenshots_from_tests/" + DateUtil.getTimeStamp();
         try {
-            int serialNumber = 1;
             File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            File file = new File(filePath + ".png");
-            for (int i = 0; i < serialNumber; i++) {
-                if (file.exists()) {
-                    file = new File(filePath + "(" + serialNumber + ")" + ".png");
-                    serialNumber++;
-                }
-            }
+            File file = new File(screenShot + ".png");
             FileUtils.copyFile(scrFile, file);
-            log.info(String.format("Saving screenshot '%s' to directory :: %s", file.getName(), filePath));
+            log.info(String.format("Saving screenshot '%s' to directory :: %s", file.getName(), screenShot));
         } catch (Exception ex) {
             log.error("There was a problem when trying to make screenshot. Exception:: " + ex.getMessage());
         }
