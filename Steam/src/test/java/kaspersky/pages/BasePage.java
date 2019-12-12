@@ -1,6 +1,7 @@
 package kaspersky.pages;
 
-import base_entity.BaseEntity;
+
+import base.BaseEntity;
 import elements.BaseWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

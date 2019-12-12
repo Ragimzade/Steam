@@ -1,6 +1,6 @@
 package kaspersky.tests;
 
-import base_entity.BaseEntity;
+import base.BaseEntity;
 import browser.Browser;
 import browser.Screenshot;
 import org.testng.ITestResult;
@@ -21,10 +21,10 @@ public class BaseTest extends BaseEntity {
         Browser.openBaseUrl();
     }
 
-//    @AfterSuite
-//    public void tearDown() {
-//        Browser.quit();
-//    }
+    @AfterSuite
+    public void tearDown() {
+        Browser.quit();
+    }
 
     @BeforeMethod(alwaysRun = true)
     public void logTestStart(Method m) {

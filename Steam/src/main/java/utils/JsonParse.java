@@ -12,7 +12,7 @@ import java.io.Reader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class JsonParser {
+public class JsonParse {
     static JSONParser parser = new JSONParser();
 
     public static String getLogin() throws IOException, ParseException {

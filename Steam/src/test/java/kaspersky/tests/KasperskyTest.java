@@ -31,7 +31,7 @@ public class KasperskyTest extends BaseTest {
     @BeforeSuite
     public void beforeSuite() throws IOException, ParseException {
         MainPage mainPage = new MainPage();
-        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin(), JsonParse.getKasperskyLPassword());
+        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin(), JsonParse.getKasperskyPassword());
         downloadPage = loggedInMainPage.goToDownloadPage();
     }
 
@@ -51,7 +51,7 @@ public class KasperskyTest extends BaseTest {
     }
 
     @Test(dataProvider = "testDataFromJSON")
-    public void sendEmailTest(ProductData product) throws IOException, MessagingException {
+    public void sendEmailTest(ProductData product) throws Exception {
         SoftAssert softAssert = new SoftAssert();
         downloadPage.goToSelectedOsTab(product.getOs());
         softAssert.assertTrue(downloadPage.isProductHasCorrectDescription(product.getProduct(), product.getDescription()),
