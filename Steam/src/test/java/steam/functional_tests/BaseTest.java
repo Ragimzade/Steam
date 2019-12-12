@@ -1,4 +1,5 @@
-package kaspersky.tests;
+
+package steam.functional_tests;
 
 import base.BaseEntity;
 import browser.Browser;
@@ -9,9 +10,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import utils.ConfigFileReader;
-
 import utils.DownloadUtils;
-
 
 import java.lang.reflect.Method;
 
@@ -25,10 +24,10 @@ public class BaseTest extends BaseEntity {
         Browser.openBaseUrl();
     }
 
-    @AfterSuite
-    public void tearDown() {
-        Browser.quit();
-    }
+//    @AfterSuite
+//    public void tearDown() {
+//        Browser.quit();
+//    }
 
     @BeforeMethod(alwaysRun = true)
     public void logTestStart(Method m) {
@@ -40,6 +39,7 @@ public class BaseTest extends BaseEntity {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             System.out.println(testResult.getStatus());
             Screenshot.takeScreenshot(driver);
+            Screenshot.saveScreenshotPNG(driver);
         }
     }
 
