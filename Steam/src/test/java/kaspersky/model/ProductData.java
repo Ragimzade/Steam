@@ -1,9 +1,12 @@
 package kaspersky.model;
 
 import com.google.gson.annotations.Expose;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class ProductData {
     @Expose
     private String os;

@@ -1,5 +1,6 @@
 package kaspersky.pages;
 
+import base.BasePage;
 import elements.Button;
 import elements.TextField;
 import org.json.simple.parser.ParseException;

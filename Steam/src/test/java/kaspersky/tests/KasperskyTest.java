@@ -2,8 +2,6 @@ package kaspersky.tests;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.testng.Assert;
-import utils.MailUtils;
 import kaspersky.model.ProductData;
 import kaspersky.pages.DownloadPage;
 import kaspersky.pages.LoggedInMainPage;
@@ -14,8 +12,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utils.JsonParse;
+import utils.MailUtils;
 
-import javax.mail.MessagingException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -25,13 +23,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class KasperskyTest extends BaseTest {
-    LoggedInMainPage loggedInMainPage;
-    DownloadPage downloadPage;
+    private LoggedInMainPage loggedInMainPage;
+    private DownloadPage downloadPage;
 
     @BeforeSuite
     public void beforeSuite() throws IOException, ParseException {
         MainPage mainPage = new MainPage();
-        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin(), JsonParse.getKasperskyPassword());
+        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin2(), JsonParse.getKasperskyPassword());
         downloadPage = loggedInMainPage.goToDownloadPage();
     }
 

@@ -24,10 +24,10 @@ public class BaseTest extends BaseEntity {
         Browser.openBaseUrl();
     }
 
-//    @AfterSuite
-//    public void tearDown() {
-//        Browser.quit();
-//    }
+    @AfterSuite
+    public void tearDown() {
+        Browser.quit();
+    }
 
     @BeforeMethod(alwaysRun = true)
     public void logTestStart(Method m) {

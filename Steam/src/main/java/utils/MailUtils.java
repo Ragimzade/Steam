@@ -8,12 +8,12 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.search.SearchTerm;
 
 public class MailUtils extends BaseEntity {
-    private static final String SMTP_HOST = "smtp.gmail.com";
-    public static final String SMTP_USER_LOGIN = "nurlan.rahimzada@gmail.com";
-    public static final String SMTP_PASSWORD = "9802357s";
-    public static final String PROTOCOL = "imaps";
-    public static final int TIMEOUT = 90;
-    public static final int DELAY = 20;
+    private static final String SMTP_HOST = config.getSmtpHost();
+    private static final String SMTP_USER_LOGIN = "nurlan.rahimzada@gmail.com";
+    private static final String SMTP_PASSWORD = "9802357s";
+    private static final String PROTOCOL = config.getSmtpProtocol();
+    private static final int TIMEOUT = 90;
+    private static final int DELAY = 20;
 
     public static Message getMessage(String subject) {
         Message mail = null;

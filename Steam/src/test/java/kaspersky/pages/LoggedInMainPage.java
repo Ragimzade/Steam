@@ -1,5 +1,6 @@
 package kaspersky.pages;
 
+import base.BasePage;
 import elements.Button;
 import elements.TextArea;
 import org.json.simple.parser.ParseException;
@@ -11,7 +12,7 @@ import java.io.IOException;
 public class LoggedInMainPage extends BasePage {
 
     private final TextArea accountName = new TextArea(
-            By.xpath("//span[@class='menu-item__text' and contains(.,'" + JsonParse.getKasperskyLogin() + "')]"), "accountName");
+            By.xpath("//span[@class='menu-item__text' and contains(.,'" + JsonParse.getKasperskyLogin2() + "')]"), "accountName");
     private final Button downloadTab = new Button(By.xpath("//a[@title='Downloads']"), "downloadTab");
 
     public LoggedInMainPage() throws IOException, ParseException {

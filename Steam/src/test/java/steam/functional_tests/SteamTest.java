@@ -12,9 +12,7 @@ import steam.pages.*;
 import utils.DownloadUtils;
 import utils.JsonParse;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class SteamTest extends BaseTest {
@@ -57,7 +55,7 @@ public class SteamTest extends BaseTest {
             GameData game = gamePage.getGameData();
             String gamePageUrl = Browser.getCurrentUrl();
             games.get(i).compare(game);
-            gamePage = mainPage.findGame(games.get(i).getName());
+            mainPage.findGame(games.get(i).getName());
             games.get(i).compare(game);
             String gameBySearchPageUrl = Browser.getCurrentUrl();
             softAssert.assertEquals(gamePageUrl, gameBySearchPageUrl,
@@ -65,14 +63,4 @@ public class SteamTest extends BaseTest {
         }
         softAssert.assertAll();
     }
-
-    @Test
-    public void testCurrentDir() {
-        File currentDir = new File("downloads");
-        System.out.println(currentDir.getAbsolutePath());
-        System.out.println(System.getProperty("user.dir") + config.getBrowserDownloadPath());
-        System.out.println(Paths.get("downloads")
-        );
-    }
-
 }

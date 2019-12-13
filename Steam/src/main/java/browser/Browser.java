@@ -28,8 +28,8 @@ public class Browser extends BaseEntity {
         }
     }
 
-
-    protected void waitForPageLoaded() {
+    public static void waitForPageLoaded() {
+        log.info("Waiting for page load");
         new WebDriverWait(driver, config.getPageLoadTimeout()).until(
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }

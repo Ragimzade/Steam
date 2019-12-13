@@ -1,5 +1,6 @@
 package kaspersky.pages;
 
+import base.BasePage;
 import elements.Button;
 import elements.TextArea;
 import org.openqa.selenium.By;

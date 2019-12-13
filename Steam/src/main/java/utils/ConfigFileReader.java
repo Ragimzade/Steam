@@ -73,4 +73,16 @@ public class ConfigFileReader {
         return Session.getDefaultInstance(prop, null);
     }
 
+    public String getSmtpHost() {
+        String smtpHost = prop.getProperty("SmtpHost");
+        Objects.requireNonNull(smtpHost, "smtpHost is null");
+        return smtpHost;
+    }
+
+    public String getSmtpProtocol() {
+        String smtpProtocol = prop.getProperty("SmtpProtocol");
+        Objects.requireNonNull(smtpProtocol, "SmtpProtocol is null");
+        return smtpProtocol;
+    }
+
 }

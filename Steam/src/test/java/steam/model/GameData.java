@@ -44,7 +44,7 @@ public class GameData {
     public void compare(GameData game) {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(game.getName(), this.name);
-        softAssert.assertEquals(game.getPrice(), this.price, "Prices are not equal" + game.getPrice());
+        softAssert.assertEquals(game.getPrice(), this.price, "Prices are not equal");
         softAssert.assertEquals(game.getDiscount(), this.discount, "Names of games are not equal");
         softAssert.assertEquals(game.getPlatforms(), this.platforms, "Platforms of games are not equal");
 
