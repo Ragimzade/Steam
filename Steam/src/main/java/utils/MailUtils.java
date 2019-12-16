@@ -1,31 +1,45 @@
 package utils;
 
 import base.BaseEntity;
+import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.SearchTerm;
+import java.util.Objects;
 
 public class MailUtils extends BaseEntity {
     private static final String SMTP_HOST = config.getSmtpHost();
     private static final String SMTP_USER_LOGIN = "nurlan.rahimzada@gmail.com";
     private static final String SMTP_PASSWORD = "9802357s";
     private static final String PROTOCOL = config.getSmtpProtocol();
-    private static final int TIMEOUT = 90;
-    private static final int DELAY = 20;
+    private static final int TIMEOUT_IN_SECONDS = 90;
+    private static final int DELAY_IN_MILLIS = 5000;
+    private static Store connection;
 
-    public static Message getMessage(String subject) {
-        Message mail = null;
+    private static synchronized Store getConnection() {
+        if (connection == null) {
+            connection = getStore();
+        }
+        return connection;
+    }
+
+    @SneakyThrows
+    private static Store getStore() {
+        Session session = config.createMailSession();
+        Store store = session.getStore(PROTOCOL);
+        store.connect(SMTP_HOST, SMTP_USER_LOGIN, SMTP_PASSWORD);
+        return store;
+    }
+
+    public static Message getMessage(String subject, String folderName) {
         try {
-            Session session = config.createMailSession();
-            Store store = session.getStore(PROTOCOL);
-            store.connect(SMTP_HOST, SMTP_USER_LOGIN, SMTP_PASSWORD);
-            Folder inbox = store.getFolder("inbox");
-            inbox.open(Folder.READ_WRITE);
-            int messageCount = inbox.getMessageCount();
+            Store store = getConnection();
+            Folder folder = store.getFolder(folderName);
+            folder.open(Folder.READ_WRITE);
+            int messageCount = folder.getMessageCount();
             log.info("Total Messages:- " + messageCount);
-
             SearchTerm term = new SearchTerm() {
                 @Override
                 public boolean match(Message message) {
@@ -39,13 +53,9 @@ public class MailUtils extends BaseEntity {
                     return false;
                 }
             };
-
-            getDelay(TIMEOUT, DELAY).until(() -> inbox.search(term).length > 0);
-            Message[] messages = inbox.search(term);
-            for (Message message : messages) {
-                mail = message;
-            }
-            return mail;
+            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(() -> folder.search(term).length > 0);
+            Message[] messages = folder.search(term);
+            return messages[0];
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -53,8 +63,8 @@ public class MailUtils extends BaseEntity {
     }
 
     public static String getTextFromMessage(String subject) throws Exception {
-        Message message = getMessage(subject);
-        if (message.isMimeType("text/plain")) {
+        Message message = getMessage(subject, "inbox");
+        if (Objects.requireNonNull(message).isMimeType("text/plain")) {
             return message.getContent().toString();
         } else if (message.isMimeType("multipart/*")) {
             StringBuilder result = new StringBuilder();
@@ -76,12 +86,29 @@ public class MailUtils extends BaseEntity {
         return "";
     }
 
-    public static boolean isMailHasCorrectSubject(String subject) {
+    public static boolean isMailHasCorrectSubject(String subject, String folder) {
         try {
-            return getMessage(subject).getSubject().contains(subject);
+            return Objects.requireNonNull(getMessage(subject, folder)).getSubject().equals(subject);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
         return false;
     }
+
+    public static void deleteAllMessages(String folderName) {
+        try {
+            Folder inbox = getStore().getFolder(folderName);
+            inbox.open(Folder.READ_WRITE);
+            Message[] messages = inbox.getMessages();
+            for (Message message : messages) {
+                message.setFlag(Flags.Flag.DELETED, true);
+            }
+            inbox.close(true);
+            log.info("Messages are deleted");
+        } catch (MessagingException e) {
+            log.error(String.format("Somethong gone wrong, exception:: %s", e));
+
+        }
+    }
+
 }

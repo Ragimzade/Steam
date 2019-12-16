@@ -27,11 +27,7 @@ public class GamePage extends BasePage {
     private final Button communityHub = new Button(By.className("apphub_OtherSiteInfo"), "communityHub");
 
     public GameData getGameData() {
-        return new GameData()
-                .setName(getGameName())
-                .setPlatforms(getPlatforms())
-                .setDiscount(getGameDiscount())
-                .setPrice(getGamePrice());
+        return new GameData(getGameName(), getGamePrice(), getGameDiscount(), getPlatforms());
     }
 
     public String getGameName() {

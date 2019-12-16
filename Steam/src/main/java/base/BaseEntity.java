@@ -16,8 +16,15 @@ public class BaseEntity {
     protected static ConfigFileReader config = ConfigFileReader.getInstance();
 
     protected static ConditionFactory getDelay(int timeout, int delay) {
-        return await().atMost(timeout, TimeUnit.SECONDS)
-                .ignoreExceptions()
-                .pollDelay(delay, TimeUnit.MILLISECONDS);
+        try {
+            return await().atMost(timeout, TimeUnit.SECONDS)
+                    .ignoreExceptions()
+                    .pollDelay(delay, TimeUnit.MILLISECONDS);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return null;
+        }
     }
+
+
 }

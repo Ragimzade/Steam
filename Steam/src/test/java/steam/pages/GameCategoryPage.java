@@ -28,11 +28,8 @@ public class GameCategoryPage extends BasePage {
     }
 
     public GameData getGameData(int numberOfGame) {
-        return new GameData()
-                .setName(getName(numberOfGame))
-                .setPlatforms(getPlatforms(numberOfGame))
-                .setDiscount(getDiscount(numberOfGame))
-                .setPrice(getPrice(numberOfGame));
+        return new GameData(getName(numberOfGame), getPrice(numberOfGame),
+                   getDiscount(numberOfGame), getPlatforms(numberOfGame));
     }
 
     public List<GameData> getSeveralGameData(int quantityOfGames) {

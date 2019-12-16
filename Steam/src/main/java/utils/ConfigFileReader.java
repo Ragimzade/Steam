@@ -26,13 +26,13 @@ public class ConfigFileReader {
     }
 
     public String getBrowser() {
-        String browser = prop.getProperty("Browser");
+        String browser = prop.getProperty("Browser", "CHROME" );
         Objects.requireNonNull(browser, "browser is null");
         return browser;
     }
 
     public String getBaseUrl() {
-        String url = prop.getProperty("BaseUrl");
+        String url = prop.getProperty("BaseUrl","https://my.kaspersky.com/");
         Objects.requireNonNull(url, "url is null");
         return url;
     }
@@ -75,7 +75,7 @@ public class ConfigFileReader {
 
     public String getSmtpHost() {
         String smtpHost = prop.getProperty("SmtpHost");
-        Objects.requireNonNull(smtpHost, "smtpHost is null");
+        Objects.requireNonNull(smtpHost, "smtpHost in config");
         return smtpHost;
     }
 

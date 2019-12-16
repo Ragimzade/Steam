@@ -9,6 +9,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import utils.ConfigFileReader;
+import utils.MailUtils;
 
 import java.lang.reflect.Method;
 

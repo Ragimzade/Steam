@@ -28,6 +28,7 @@ public class KasperskyTest extends BaseTest {
 
     @BeforeSuite
     public void beforeSuite() throws IOException, ParseException {
+
         MainPage mainPage = new MainPage();
         loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin2(), JsonParse.getKasperskyPassword());
         downloadPage = loggedInMainPage.goToDownloadPage();
@@ -36,14 +37,14 @@ public class KasperskyTest extends BaseTest {
     @DataProvider()
     public Iterator<Object[]> testDataFromJSON() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(new File("src/main/resources/product.json")));
-        String JSON = "";
+        StringBuilder JSON = new StringBuilder();
         String line = reader.readLine();
         while (line != null) {
-            JSON += line;
+            JSON.append(line);
             line = reader.readLine();
         }
         Gson gson = new Gson();
-        List<ProductData> data = gson.fromJson(JSON, new TypeToken<List<ProductData>>() {
+        List<ProductData> data = gson.fromJson(JSON.toString(), new TypeToken<List<ProductData>>() {
         }.getType());
         return data.stream().map((o) -> new Object[]{o}).collect(Collectors.toList()).iterator();
     }
@@ -55,10 +56,11 @@ public class KasperskyTest extends BaseTest {
         softAssert.assertTrue(downloadPage.isProductHasCorrectDescription(product.getProduct(), product.getDescription()),
                 "Product description is not correct");
         downloadPage.sendAppToMySelf(product.getProduct());
-        softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject()),
+        softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject(), "inbox"),
                 "Email subject is not correct");
         softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()),
                 "Email doesn't contain correct URL");
         softAssert.assertAll();
+
     }
 }
