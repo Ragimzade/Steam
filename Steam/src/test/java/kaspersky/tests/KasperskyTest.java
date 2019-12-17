@@ -8,7 +8,7 @@ import kaspersky.pages.DownloadPage;
 import kaspersky.pages.LoggedInMainPage;
 import kaspersky.pages.MainPage;
 import org.json.simple.parser.ParseException;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -63,10 +63,9 @@ public class KasperskyTest extends BaseTest {
         softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()),
                 "Email doesn't contain correct link");
         softAssert.assertAll();
-
     }
 
-    @AfterClass
+    @BeforeClass()
     public void deleteMessages() {
         MailUtils.deleteAllMessages();
     }

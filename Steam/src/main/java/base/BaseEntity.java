@@ -7,18 +7,18 @@ import org.openqa.selenium.WebDriver;
 import utils.ConfigFileReader;
 import utils.Log;
 
-import static org.hamcrest.Matchers.*;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
 
 public class BaseEntity {
-    protected static Log log = Log.getInstance();
+    protected static final Log log = Log.getInstance();
     protected WebDriver driver = Browser.getInstance();
-    protected static ConfigFileReader config = ConfigFileReader.getInstance();
+    protected static final ConfigFileReader config = ConfigFileReader.getInstance();
 
     protected static ConditionFactory getDelay(int timeout, int delay) {
         return await().atMost(timeout, TimeUnit.SECONDS)

@@ -32,7 +32,7 @@ public class ConfigFileReader {
     }
 
     public String getBaseUrl() {
-        String url = prop.getProperty("BaseUrl","https://my.kaspersky.com/");
+        String url = prop.getProperty("BaseUrl","https://steampowered.com/");
         Objects.requireNonNull(url, "url is null");
         return url;
     }

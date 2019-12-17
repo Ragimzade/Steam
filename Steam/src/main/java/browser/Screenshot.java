@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import utils.DateUtil;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Screenshot extends BaseEntity {
 
@@ -24,8 +25,8 @@ public class Screenshot extends BaseEntity {
             File screenshotPng = new File(screenShot + ".png");
             FileUtils.copyFile(screenshotFile, screenshotPng);
             log.info(String.format("Saving screenshot '%s' to directory :: %s", screenshotPng.getName(), screenShot));
-        } catch (Exception ex) {
-            log.error("There was a problem when trying to make screenshot. Exception:: " + ex.getMessage());
+        } catch (IOException ex) {
+            log.error(String.format("There was a problem when trying to make screenshot. Exception:: %s", ex.getMessage()));
         }
     }
 

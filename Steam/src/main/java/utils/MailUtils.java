@@ -16,7 +16,7 @@ public class MailUtils extends BaseEntity {
     private static final String SMTP_PASSWORD = "9802357s";
     private static final String PROTOCOL = config.getSmtpProtocol();
     private static final int TIMEOUT_IN_SECONDS = 50;
-    private static final int DELAY_IN_MILLIS = 5000;
+    private static final int DELAY_IN_MILLIS = 500;
     private static Store connection;
 
     private static synchronized Store getConnection() {
@@ -102,7 +102,7 @@ public class MailUtils extends BaseEntity {
                 message.setFlag(Flags.Flag.DELETED, true);
             }
             folder.close(true);
-            log.info("All incoming messages are deleted");
+            log.info(String.format("All  messages from %s folder are deleted", folderName));
         } catch (MessagingException ex) {
             log.error(String.format("Something gone wrong, exception:: %s", ex.getMessage()));
         }

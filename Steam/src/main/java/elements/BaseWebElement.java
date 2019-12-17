@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import utils.ConfigFileReader;
 
 import java.time.Duration;
 import java.util.List;
@@ -22,8 +21,6 @@ public abstract class BaseWebElement extends BaseEntity {
     protected BaseWebElement(By locator, String name) {
         this.name = name;
         this.locator = locator;
-        config = ConfigFileReader.getInstance();
-        driver = Browser.getInstance();
         wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(config.getFluentWaitInSec()))
                 .pollingEvery(Duration.ofMillis(config.getFluentWaitInMill()))
                 .ignoring(NoSuchElementException.class)
@@ -94,7 +91,7 @@ public abstract class BaseWebElement extends BaseEntity {
 
     protected void scrollToMiddle() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0," + Browser.getWindowSize() / 2 + ")");
+        jse.executeScript(String.format("window.scrollBy(0, %s)", Browser.getWindowSize() / 2));;
     }
 
     protected void scrollToElement(WebElement webElement) {
