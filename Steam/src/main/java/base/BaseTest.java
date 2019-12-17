@@ -4,6 +4,7 @@ import browser.Browser;
 import browser.Screenshot;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
@@ -15,11 +16,11 @@ public class BaseTest extends BaseEntity {
         driver = Browser.getInstance();
         Browser.openBaseUrl();
     }
-//
-//    @AfterSuite(alwaysRun = true)
-//    public void tearDown() {
-//        Browser.quit();
-//    }
+
+    @AfterSuite(alwaysRun = true)
+    public void tearDown() {
+        Browser.quit();
+    }
 
     @BeforeMethod(alwaysRun = true)
     public void logTestStart(Method m) {
