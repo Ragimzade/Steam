@@ -30,7 +30,7 @@ public class KasperskyTest extends BaseTest {
 
     @BeforeSuite
     public void beforeSuite() throws IOException, ParseException {
-
+        MailUtils.deleteAllMessages();
         MainPage mainPage = new MainPage();
         loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin2(), JsonParse.getKasperskyPassword());
         downloadPage = loggedInMainPage.goToDownloadPage();
@@ -64,6 +64,7 @@ public class KasperskyTest extends BaseTest {
                 "Email doesn't contain correct link");
         softAssert.assertAll();
     }
+
 
     @BeforeClass()
     public void deleteMessages() {

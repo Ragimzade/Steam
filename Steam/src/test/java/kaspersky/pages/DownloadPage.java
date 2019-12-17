@@ -16,10 +16,10 @@ public class DownloadPage extends BasePage {
     private final Button sendButton = new Button(By.xpath("//button[@data-at-selector='installerSendSelfBtn']"), "sendButton");
     private final Button OSTabButtons = new Button(By.className("u-osTile__title"), "OSTabButtons");
     private final Button okButton = new Button(By.xpath("//button[contains(text(),'OK')]"), "okButton");
-    private final Button captchaBlockButton = new Button(By.xpath("//div[contains(@class,'kl-captcha')]//iframe"), "captchaBlockButton");
     private final By productDescription = By.xpath("./ancestor::div[@class='w-downloadProgramCard a-padding-x-sm']//div[@data-at-selector='serviceShortDescription']");
-    private final By iframe = By.xpath("(//iframe[@title='recaptcha challenge'])[2]");
-    private final Button iframeVerifyButton = new Button(By.xpath("//div[@id='rc-imageselect']//*[@id='recaptcha-verify-button']"), "iframeVerifyButton");
+    private final TextArea iframe = new TextArea(By.xpath("(//iframe[@title='recaptcha challenge'])[2]"), "iframe");
+    private static final int TIMEOUT_IN_SECONDS = 70;
+    private static final int DELAY_IN_MILLIS = 500;
 
     public DownloadPage() {
         assertPageIsOpened(downloadHeader);
@@ -28,6 +28,12 @@ public class DownloadPage extends BasePage {
     public void sendAppToMySelf(String product) {
         sendProductToMySelf(product);
         sendButton.click();
+        clickOkButtonIfPresent();
+        waitForCaptchaValidation();
+        clickOkButtonIfPresent();
+    }
+
+    private void clickOkButtonIfPresent() {
         if (okButton.isButtonOnPage()) {
             okButton.click();
         }
@@ -35,6 +41,15 @@ public class DownloadPage extends BasePage {
 
     public void goToSelectedOsTab(String os) {
         OSTabButtons.clickByVisibleText(os);
+    }
+
+    private void waitForCaptchaValidation() {
+        if (iframe.isElementPresent()) {
+            log.info("waiting for absent of iframe");
+            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(() -> !iframe.isElementPresent());
+            sendButton.click();
+        }
+
     }
 
     private WebElement getProductBlockByName(String text) {
