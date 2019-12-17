@@ -15,7 +15,7 @@ import utils.JsonParse;
 import java.io.IOException;
 import java.util.List;
 
-public class SteamTest extends BaseTest {
+public class SteamTest extends BaseTestKaspersky {
     private MainPage mainPage;
 
     @DataProvider(name = "data-provider")

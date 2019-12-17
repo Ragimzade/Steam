@@ -94,7 +94,7 @@ public abstract class BaseWebElement extends BaseEntity {
 
     protected void scrollToMiddle() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0," + Browser.getWindowSize() + ")");
+        jse.executeScript("window.scrollBy(0," + Browser.getWindowSize() / 2 + ")");
     }
 
     protected void scrollToElement(WebElement webElement) {

@@ -1,5 +1,6 @@
 package kaspersky.tests;
 
+import base.BaseTest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import kaspersky.model.ProductData;
@@ -7,6 +8,7 @@ import kaspersky.pages.DownloadPage;
 import kaspersky.pages.LoggedInMainPage;
 import kaspersky.pages.MainPage;
 import org.json.simple.parser.ParseException;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -50,17 +52,22 @@ public class KasperskyTest extends BaseTest {
     }
 
     @Test(dataProvider = "testDataFromJSON")
-    public void sendEmailTest(ProductData product) throws Exception {
+    public void sendEmailTest(ProductData product) {
         SoftAssert softAssert = new SoftAssert();
         downloadPage.goToSelectedOsTab(product.getOs());
         softAssert.assertTrue(downloadPage.isProductHasCorrectDescription(product.getProduct(), product.getDescription()),
                 "Product description is not correct");
         downloadPage.sendAppToMySelf(product.getProduct());
-        softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject(), "inbox"),
+        softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject()),
                 "Email subject is not correct");
         softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()),
-                "Email doesn't contain correct URL");
+                "Email doesn't contain correct link");
         softAssert.assertAll();
 
+    }
+
+    @AfterClass
+    public void deleteMessages() {
+        MailUtils.deleteAllMessages();
     }
 }

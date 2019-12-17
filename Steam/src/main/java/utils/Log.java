@@ -20,11 +20,9 @@ public final class Log {
         return logger;
     }
 
-
     public void info(String message) {
         logger.info(String.format("--------==[ %1$s ]==--------", message));
     }
-
 
     public void error(String message) {
         logger.error(message);

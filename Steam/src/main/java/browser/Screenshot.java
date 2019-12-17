@@ -13,17 +13,17 @@ import java.io.File;
 public class Screenshot extends BaseEntity {
 
     @Attachment(value = "Page screenshot", type = "image/png")
-    public static byte[] saveScreenshotPNG(WebDriver driver) {
+    public static byte[] attachScreenshotToReport(WebDriver driver) {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
     public static void takeScreenshot(WebDriver driver) {
         String screenShot = "screenshots_from_tests/" + DateUtil.getTimeStamp();
         try {
-            File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            File file = new File(screenShot + ".png");
-            FileUtils.copyFile(scrFile, file);
-            log.info(String.format("Saving screenshot '%s' to directory :: %s", file.getName(), screenShot));
+            File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File screenshotPng = new File(screenShot + ".png");
+            FileUtils.copyFile(screenshotFile, screenshotPng);
+            log.info(String.format("Saving screenshot '%s' to directory :: %s", screenshotPng.getName(), screenShot));
         } catch (Exception ex) {
             log.error("There was a problem when trying to make screenshot. Exception:: " + ex.getMessage());
         }

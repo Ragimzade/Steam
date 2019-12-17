@@ -1,7 +1,5 @@
+package base;
 
-package steam.functional_tests;
-
-import base.BaseEntity;
 import browser.Browser;
 import browser.Screenshot;
 import org.testng.ITestResult;
@@ -10,21 +8,18 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import utils.ConfigFileReader;
-import utils.DownloadUtils;
 
 import java.lang.reflect.Method;
 
 public class BaseTest extends BaseEntity {
-
-    @BeforeSuite(alwaysRun = true)
+    @BeforeSuite
     public void setUp() {
-        DownloadUtils.deleteDirectory(config.getSteamFileName());
         config = ConfigFileReader.getInstance();
         driver = Browser.getInstance();
         Browser.openBaseUrl();
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void tearDown() {
         Browser.quit();
     }
@@ -39,7 +34,7 @@ public class BaseTest extends BaseEntity {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             System.out.println(testResult.getStatus());
             Screenshot.takeScreenshot(driver);
-            Screenshot.saveScreenshotPNG(driver);
+            Screenshot.attachScreenshotToReport(driver);
         }
     }
 
