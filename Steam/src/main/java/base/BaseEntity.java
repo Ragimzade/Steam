@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.not;
 public class BaseEntity {
     protected static final Log log = Log.getInstance();
     protected WebDriver driver = Browser.getInstance();
-    protected static final ConfigFileReader config = ConfigFileReader.getInstance();
+    protected static ConfigFileReader config = ConfigFileReader.getInstance();
 
     protected static ConditionFactory getDelay(int timeout, int delay) {
         return await().atMost(timeout, TimeUnit.SECONDS)

@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import utils.ConfigFileReader;
 
 import java.time.Duration;
 import java.util.List;
@@ -19,6 +20,7 @@ public abstract class BaseWebElement extends BaseEntity {
     protected By locator;
 
     protected BaseWebElement(By locator, String name) {
+        config = ConfigFileReader.getInstance();
         this.name = name;
         this.locator = locator;
         wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(config.getFluentWaitInSec()))
@@ -58,7 +60,7 @@ public abstract class BaseWebElement extends BaseEntity {
         try {
             log.info(String.format("Waiting for presence of '%s' element", name));
             waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));
-            waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
+//            waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
             log.info(String.format("Element '%s' present ", name));
             return true;
         } catch (TimeoutException e) {
@@ -91,7 +93,8 @@ public abstract class BaseWebElement extends BaseEntity {
 
     protected void scrollToMiddle() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript(String.format("window.scrollBy(0, %s)", Browser.getWindowSize() / 2));;
+        jse.executeScript(String.format("window.scrollBy(0, %s)", Browser.getWindowSize() / 2));
+        ;
     }
 
     protected void scrollToElement(WebElement webElement) {

@@ -6,7 +6,7 @@ import browser.Browser;
 import org.testng.annotations.BeforeSuite;
 import utils.DownloadUtils;
 
-public class BaseTestKaspersky extends BaseTest {
+public class BaseTestSteam extends BaseTest {
 
     @Override
     @BeforeSuite(alwaysRun = true)

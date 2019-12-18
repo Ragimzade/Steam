@@ -26,25 +26,25 @@ public class ConfigFileReader {
     }
 
     public String getBrowser() {
-        String browser = prop.getProperty("Browser", "CHROME" );
+        String browser = prop.getProperty("Browser", "CHROME");
         Objects.requireNonNull(browser, "browser is null");
         return browser;
     }
 
     public String getBaseUrl() {
-        String url = prop.getProperty("BaseUrl","https://steampowered.com/");
+        String url = prop.getProperty("BaseUrl", "https://steampowered.com/");
         Objects.requireNonNull(url, "url is null");
         return url;
     }
 
     public int getFluentWaitInSec() {
-        String waitInSec = prop.getProperty("FluentWaitInSec","10");
+        String waitInSec = prop.getProperty("FluentWaitInSec","4");
         Objects.requireNonNull(waitInSec, "FluentWaitInSec is null");
         return Integer.parseInt(waitInSec);
     }
 
     public int getFluentWaitInMill() {
-        String waitInMill = prop.getProperty("FluentWaitInMill","500");
+        String waitInMill = prop.getProperty("FluentWaitInMill","1000");
         Objects.requireNonNull(waitInMill, "FluentWaitInMill is null");
         return Integer.parseInt(waitInMill);
     }

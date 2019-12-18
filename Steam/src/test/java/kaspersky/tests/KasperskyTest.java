@@ -9,7 +9,6 @@ import kaspersky.pages.LoggedInMainPage;
 import kaspersky.pages.MainPage;
 import org.json.simple.parser.ParseException;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -28,11 +27,10 @@ public class KasperskyTest extends BaseTest {
     private LoggedInMainPage loggedInMainPage;
     private DownloadPage downloadPage;
 
-    @BeforeSuite
+    @BeforeClass
     public void beforeSuite() throws IOException, ParseException {
-        MailUtils.deleteAllMessages();
         MainPage mainPage = new MainPage();
-        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin2(), JsonParse.getKasperskyPassword());
+        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin(), JsonParse.getKasperskyPassword());
         downloadPage = loggedInMainPage.goToDownloadPage();
     }
 

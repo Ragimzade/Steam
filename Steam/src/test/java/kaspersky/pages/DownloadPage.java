@@ -18,8 +18,8 @@ public class DownloadPage extends BasePage {
     private final Button okButton = new Button(By.xpath("//button[contains(text(),'OK')]"), "okButton");
     private final By productDescription = By.xpath("./ancestor::div[@class='w-downloadProgramCard a-padding-x-sm']//div[@data-at-selector='serviceShortDescription']");
     private final TextArea iframe = new TextArea(By.xpath("(//iframe[@title='recaptcha challenge'])[2]"), "iframe");
-    private static final int TIMEOUT_IN_SECONDS = 70;
-    private static final int DELAY_IN_MILLIS = 500;
+    private static final int TIMEOUT_IN_SECONDS = 120;
+    private static final int DELAY_IN_MILLIS = 1000;
 
     public DownloadPage() {
         assertPageIsOpened(downloadHeader);
@@ -30,7 +30,6 @@ public class DownloadPage extends BasePage {
         sendButton.click();
         clickOkButtonIfPresent();
         waitForCaptchaValidation();
-        clickOkButtonIfPresent();
     }
 
     private void clickOkButtonIfPresent() {
@@ -46,10 +45,10 @@ public class DownloadPage extends BasePage {
     private void waitForCaptchaValidation() {
         if (iframe.isElementPresent()) {
             log.info("waiting for absent of iframe");
-            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(() -> !iframe.isElementPresent());
+            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(iframe::waitForAbsentTextArea);
             sendButton.click();
+            clickOkButtonIfPresent();
         }
-
     }
 
     private WebElement getProductBlockByName(String text) {
