@@ -32,19 +32,19 @@ public class ConfigFileReader {
     }
 
     public String getBaseUrl() {
-        String url = prop.getProperty("BaseUrl","https://my.kaspersky.com/");
+        String url = prop.getProperty("BaseUrl","https://steampowered.com/");
         Objects.requireNonNull(url, "url is null");
         return url;
     }
 
     public int getFluentWaitInSec() {
-        String waitInSec = prop.getProperty("FluentWaitInSec");
+        String waitInSec = prop.getProperty("FluentWaitInSec","10");
         Objects.requireNonNull(waitInSec, "FluentWaitInSec is null");
         return Integer.parseInt(waitInSec);
     }
 
     public int getFluentWaitInMill() {
-        String waitInMill = prop.getProperty("FluentWaitInMill");
+        String waitInMill = prop.getProperty("FluentWaitInMill","500");
         Objects.requireNonNull(waitInMill, "FluentWaitInMill is null");
         return Integer.parseInt(waitInMill);
     }
@@ -62,7 +62,7 @@ public class ConfigFileReader {
     }
 
     public int getPageLoadTimeout() {
-        String pageLoadTimeout = prop.getProperty("PageLoadTimeout");
+        String pageLoadTimeout = prop.getProperty("PageLoadTimeout", "30");
         Objects.requireNonNull(pageLoadTimeout, "pageLoadTimeout is null");
         return Integer.parseInt(pageLoadTimeout);
     }

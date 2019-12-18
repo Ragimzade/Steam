@@ -16,15 +16,9 @@ public final class Log {
         return instance;
     }
 
-    public static Logger getLogger() {
-        return logger;
-    }
-
-
     public void info(String message) {
         logger.info(String.format("--------==[ %1$s ]==--------", message));
     }
-
 
     public void error(String message) {
         logger.error(message);

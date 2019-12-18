@@ -22,4 +22,7 @@ public class TextArea extends BaseWebElement {
         return driver.findElement(locator);
     }
 
+    public boolean waitForAbsentTextArea() {
+        return waitForAbsent();
+    }
 }

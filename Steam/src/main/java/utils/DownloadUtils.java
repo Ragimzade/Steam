@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 public class DownloadUtils extends BaseEntity {
     public static final int TIMEOUT = 20;
     public static final int DELAY = 70;

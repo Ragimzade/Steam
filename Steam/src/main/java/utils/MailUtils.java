@@ -2,11 +2,12 @@ package utils;
 
 import base.BaseEntity;
 import lombok.SneakyThrows;
-import org.jsoup.Jsoup;
 
 import javax.mail.*;
-import javax.mail.internet.MimeMultipart;
 import javax.mail.search.SearchTerm;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class MailUtils extends BaseEntity {
@@ -14,8 +15,8 @@ public class MailUtils extends BaseEntity {
     private static final String SMTP_USER_LOGIN = "nurlan.rahimzada@gmail.com";
     private static final String SMTP_PASSWORD = "9802357s";
     private static final String PROTOCOL = config.getSmtpProtocol();
-    private static final int TIMEOUT_IN_SECONDS = 90;
-    private static final int DELAY_IN_MILLIS = 5000;
+    private static final int TIMEOUT_IN_SECONDS = 50;
+    private static final int DELAY_IN_MILLIS = 500;
     private static Store connection;
 
     private static synchronized Store getConnection() {
@@ -53,37 +54,30 @@ public class MailUtils extends BaseEntity {
                     return false;
                 }
             };
-            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(() -> folder.search(term).length > 0);
-            Message[] messages = folder.search(term);
-            return messages[0];
+            List<Message> messages = waitForList(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS, () -> Arrays.asList(folder.search(term)));
+            return messages.get(0);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static String getTextFromMessage(String subject) throws Exception {
-        Message message = getMessage(subject, "inbox");
-        if (Objects.requireNonNull(message).isMimeType("text/plain")) {
-            return message.getContent().toString();
-        } else if (message.isMimeType("multipart/*")) {
-            StringBuilder result = new StringBuilder();
-            MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
-            int count = mimeMultipart.getCount();
-            for (int i = 0; i < count; i++) {
-                BodyPart bodyPart = mimeMultipart.getBodyPart(i);
-                if (bodyPart.isMimeType("text/plain")) {
-                    result.append("\n").append(bodyPart.getContent());
-                    break;
-                } else if (bodyPart.isMimeType("text/html")) {
-                    String html = (String) bodyPart.getContent();
-                    result.append("\n").append(Jsoup.parse(html).text());
-                }
-            }
-            message.setFlag(Flags.Flag.SEEN, true);
-            return result.toString();
+    public static Message getMessage(String subject) {
+        return getMessage(subject, "inbox");
+    }
+
+    public static String getTextFromMessage(String subject, String folder) {
+        try {
+            Multipart part = (Multipart) Objects.requireNonNull(getMessage(subject, folder)).getContent();
+            return (String) part.getBodyPart(0).getContent();
+        } catch (IOException | MessagingException ex) {
+            log.error(String.format("Impossible to get message content exception:: %s", ex.getMessage()));
         }
-        return "";
+        return null;
+    }
+
+    public static String getTextFromMessage(String subject) {
+        return getTextFromMessage(subject, "inbox");
     }
 
     public static boolean isMailHasCorrectSubject(String subject, String folder) {
@@ -95,20 +89,26 @@ public class MailUtils extends BaseEntity {
         return false;
     }
 
+    public static boolean isMailHasCorrectSubject(String subject) {
+        return isMailHasCorrectSubject(subject, "inbox");
+    }
+
     public static void deleteAllMessages(String folderName) {
         try {
-            Folder inbox = getStore().getFolder(folderName);
-            inbox.open(Folder.READ_WRITE);
-            Message[] messages = inbox.getMessages();
+            Folder folder = getStore().getFolder(folderName);
+            folder.open(Folder.READ_WRITE);
+            Message[] messages = folder.getMessages();
             for (Message message : messages) {
                 message.setFlag(Flags.Flag.DELETED, true);
             }
-            inbox.close(true);
-            log.info("Messages are deleted");
-        } catch (MessagingException e) {
-            log.error(String.format("Somethong gone wrong, exception:: %s", e));
-
+            folder.close(true);
+            log.info(String.format("All  messages from %s folder are deleted", folderName));
+        } catch (MessagingException ex) {
+            log.error(String.format("Something gone wrong, exception:: %s", ex.getMessage()));
         }
     }
 
+    public static void deleteAllMessages() {
+        deleteAllMessages("inbox");
+    }
 }
