@@ -21,6 +21,7 @@ import static io.restassured.RestAssured.given;
 public class ApiTests {
     private Log log = Log.getInstance();
     private static final String BASE_URL = "http://www.nbrb.by/API/ExRates";
+    public static final int EXPECTED_RECORDS_QUANTITY = 225;
 
     public static Response doGetRequest(String endpoint) {
         return
@@ -32,29 +33,28 @@ public class ApiTests {
     @Test
     public void apiTest() throws IOException {
         SoftAssert softAssert = new SoftAssert();
-        Response response = doGetRequest(EndPoints.ALL_CURRENCIES);
-        int recordsQuantity = response.path("Cur_ID.size()");
-        softAssert.assertEquals(recordsQuantity, 223, "Quantity of records is wrong");
+        Response listOfCurrenciesResponse = doGetRequest(EndPoints.ALL_CURRENCIES);
+        int recordsQuantity = listOfCurrenciesResponse.path("Cur_ID.size()");
+        softAssert.assertEquals(recordsQuantity, EXPECTED_RECORDS_QUANTITY, "Quantity of records is wrong");
 
-        Map<String, String> usdCur = response.path("find{it.Cur_Abbreviation == 'USD'}");
+        Map<String, String> usdCur = listOfCurrenciesResponse.path("find{it.Cur_Abbreviation == 'USD'}");
         Gson gson = new Gson();
         String json = gson.toJson(usdCur);
         ObjectMapper obj = new ObjectMapper();
         CurrencyDescription usdDescription = obj.readValue(json, CurrencyDescription.class);
 
-        Response response2 = doGetRequest(EndPoints.USD_CURRENCY);
-        CurrencyDescription currencyDescription = response2.getBody().as(CurrencyDescription.class);
-
+        Response usdDescriptionResponse = doGetRequest(EndPoints.USD_CURRENCY);
+        CurrencyDescription currencyDescription = usdDescriptionResponse.getBody().as(CurrencyDescription.class);
         softAssert.assertEquals(usdDescription, currencyDescription, "Descriptions are not equal");
 
-        Response response3 = doGetRequest(EndPoints.USD_CURRENCY_FOR_TODAY);
-        CurrencyRates usd = response3.getBody().as(CurrencyRates.class);
+        Response usdRateForTodayResponse = doGetRequest(EndPoints.USD_CURRENCY_FOR_TODAY);
+        CurrencyRates usd = usdRateForTodayResponse.getBody().as(CurrencyRates.class);
         System.out.println(usd);
 
-        Response response4 = doGetRequest(EndPoints.CURRENCIES_FOR_PERIOD);
-        String maxRate = response4.path("max{it.Cur_OfficialRate}.Date");
+        Response usdRateForPeriodResponse = doGetRequest(EndPoints.CURRENCIES_FOR_PERIOD);
+        String maxRate = usdRateForPeriodResponse.path("max{it.Cur_OfficialRate}.Date");
         log.info(String.format("Max rate was on date %s", maxRate));
-        String minRate = response4.path("min{it.Cur_OfficialRate}.Date");
+        String minRate = usdRateForPeriodResponse.path("min{it.Cur_OfficialRate}.Date");
         log.info(String.format("Min rate was on date %s", minRate));
         softAssert.assertAll();
     }
