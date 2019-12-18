@@ -26,11 +26,11 @@ public class BaseEntity {
                 .pollDelay(delay, TimeUnit.MILLISECONDS);
     }
 
-    public static <T> List<T> waitForList(int timeout, int delay, Callable<List<T>> supplier) {
+    public static <T> List<T> waitForList(int timeout, int delay, String errorMessage, Callable<List<T>> supplier) {
         try {
             return getDelay(timeout, delay).until(supplier, not(empty()));
         } catch (ConditionTimeoutException ex) {
-            throw new AssertionError(String.format("Message is not found in folder exception:: %s", ex.getMessage()));
+            throw new AssertionError(String.format("%s, exception:: %s", errorMessage, ex.getMessage()));
         }
     }
 

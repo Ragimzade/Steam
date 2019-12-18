@@ -54,7 +54,8 @@ public class MailUtils extends BaseEntity {
                     return false;
                 }
             };
-            List<Message> messages = waitForList(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS, () -> Arrays.asList(folder.search(term)));
+            List<Message> messages = waitForList(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS,
+                    String.format("Message is not found in %s folder", folderName), () -> Arrays.asList(folder.search(term)));
             return messages.get(0);
         } catch (Exception e) {
             e.printStackTrace();
