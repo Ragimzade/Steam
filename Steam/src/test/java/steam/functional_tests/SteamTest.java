@@ -20,7 +20,7 @@ public class SteamTest extends BaseTestSteam {
 
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {
-        return new Object[][]{{"Action"}, {"Virtual Reality"}};
+        return new Object[][]{{"Action"}, {"Adventure"}};
     }
 
     @BeforeMethod(alwaysRun = true)

@@ -12,16 +12,7 @@ public class Button extends BaseWebElement {
 
     public void click() {
         waitForElementClickable();
-        int attempts = 0;
-        while (attempts < 4) {
-            try {
-                getElement(locator).click();
-                return;
-            } catch (StaleElementReferenceException e) {
-                log.info("StaleException. Attempt: " + attempts);
-            }
-            attempts++;
-        }
+        clickWithAttempts();
     }
 
     public boolean isButtonOnPage() {
@@ -48,4 +39,16 @@ public class Button extends BaseWebElement {
         findElementByText(text, locator).click();
     }
 
+    private void clickWithAttempts() {
+        int attempts = 0;
+        while (attempts < 4) {
+            try {
+                getElement(locator).click();
+                return;
+            } catch (StaleElementReferenceException e) {
+                log.info("StaleException. Attempt: " + attempts);
+            }
+            attempts++;
+        }
+    }
 }

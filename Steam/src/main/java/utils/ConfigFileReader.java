@@ -27,7 +27,7 @@ public class ConfigFileReader {
 
     public String getBrowser() {
         String browser = prop.getProperty("Browser", "CHROME");
-        Objects.requireNonNull(browser, "browser is null in config");
+        Objects.requireNonNull(browser, "Set property browser in config");
         return browser;
     }
 
@@ -63,7 +63,7 @@ public class ConfigFileReader {
 
     public int getPageLoadTimeout() {
         String pageLoadTimeout = prop.getProperty("PageLoadTimeout", "30");
-        Objects.requireNonNull(pageLoadTimeout, "BrowserDownloadPath pageLoadTimeout in config");
+        Objects.requireNonNull(pageLoadTimeout, "Set property pageLoadTimeout in config");
         return Integer.parseInt(pageLoadTimeout);
     }
 
@@ -75,7 +75,7 @@ public class ConfigFileReader {
 
     public String getSmtpHost() {
         String smtpHost = prop.getProperty("SmtpHost");
-        Objects.requireNonNull(smtpHost, "Set property BrowserDownloadPath smtpHost in config");
+        Objects.requireNonNull(smtpHost, "Set property SmtpHost in config");
         return smtpHost;
     }
 

@@ -29,7 +29,7 @@ public class GameCategoryPage extends BasePage {
 
     public GameData getGameData(int numberOfGame) {
         return new GameData(getName(numberOfGame), getPrice(numberOfGame),
-                   getDiscount(numberOfGame), getPlatforms(numberOfGame));
+                getDiscount(numberOfGame), getAllPlatforms(numberOfGame));
     }
 
     public List<GameData> getSeveralGameData(int quantityOfGames) {
@@ -64,12 +64,20 @@ public class GameCategoryPage extends BasePage {
     }
 
     public List<String> getPlatforms(int numberOfGame) {
-        log.info(String.format("'%s'Getting list of platforms", getClass()));
+        log.info(String.format("'%s'Getting list of platforms", getClass().getName()));
         List<WebElement> platforms = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
                 .findElements(By.xpath(".//div[@class='tab_item_details']//span[@title]"));
         return platforms.stream()
                 .map(p -> p.getAttribute("title"))
                 .collect(Collectors.toList());
+    }
+
+    public List<String> getAllPlatforms(int numberOfGame) {
+        List<String> allPlatform = getPlatforms(numberOfGame);
+        String winPlatform = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
+                .findElement(By.xpath(".//span[@class='platform_img win']")).getAttribute("class");
+        allPlatform.add(winPlatform);
+        return allPlatform;
     }
 
 }
