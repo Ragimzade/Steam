@@ -21,7 +21,7 @@ public class Screenshot extends BaseEntity {
     }
 
     public static void takeScreenshot(WebDriver driver) {
-        Path screenPath = Paths.get("screenshots_from_tests", DateUtil.getTimeStamp().concat(".png"));
+        Path screenPath = Paths.get("screenshots_from_tests", DateUtil.getTimeStamp());
         try {
             File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             File screenshotPng = new File(screenPath + ".png");

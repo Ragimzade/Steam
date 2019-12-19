@@ -12,7 +12,6 @@ public final class Log {
     public static synchronized Log getInstance() {
         if (instance == null)
             instance = new Log();
-
         return instance;
     }
 

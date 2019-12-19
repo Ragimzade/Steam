@@ -94,7 +94,6 @@ public abstract class BaseWebElement extends BaseEntity {
         jse.executeScript("arguments[0].scrollIntoView(true)", webElement);
     }
 
-
     protected void waitForPresent() {
         log.info(String.format("Waiting for presence of element '%s' ", name));
         waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));

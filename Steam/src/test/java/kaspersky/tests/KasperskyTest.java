@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,17 +57,12 @@ public class KasperskyTest extends BaseTest {
         downloadPage.goToSelectedOsTab(product.getOs());
         softAssert.assertTrue(downloadPage.isProductHasCorrectDescription(product.getProduct(), product.getDescription()),
                 "Product description is not correct");
+        Date sendTime = new Date();
         downloadPage.sendAppToMySelf(product.getProduct());
-        softAssert.assertEquals(MailUtils.getMessageSubject(product.getEmailSubject()), product.getEmailSubject(),
+        softAssert.assertEquals(MailUtils.getMessageSubject(product.getEmailSubject(), sendTime), product.getEmailSubject(),
                 "Email subject is not correct");
-        softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()),
+        softAssert.assertTrue(MailUtils.getMessageContent(product.getEmailSubject(), sendTime).contains(product.getEmailLink()),
                 "Email doesn't contain correct link");
         softAssert.assertAll();
-    }
-
-
-    @BeforeClass()
-    public void deleteMessages() {
-        MailUtils.deleteAllInboxMessages();
     }
 }
