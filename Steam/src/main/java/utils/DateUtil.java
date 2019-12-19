@@ -15,7 +15,7 @@ public class DateUtil {
 
     public static String getTimeStamp() {
         return new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
-
     }
+
 
 }

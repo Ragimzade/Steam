@@ -12,9 +12,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import utils.JsonParse;
 import utils.MailUtils;
+import utils.TestData;
 
+import javax.mail.MessagingException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -28,9 +29,9 @@ public class KasperskyTest extends BaseTest {
     private DownloadPage downloadPage;
 
     @BeforeClass
-    public void beforeSuite() throws IOException, ParseException {
+    public void goToDownloadPage() throws IOException, ParseException {
         MainPage mainPage = new MainPage();
-        loggedInMainPage = mainPage.Login(JsonParse.getKasperskyLogin(), JsonParse.getKasperskyPassword());
+        loggedInMainPage = mainPage.Login(TestData.getValue("kasperskiLogin"), TestData.getValue("kasperskyPassword"));
         downloadPage = loggedInMainPage.goToDownloadPage();
     }
 
@@ -50,13 +51,13 @@ public class KasperskyTest extends BaseTest {
     }
 
     @Test(dataProvider = "testDataFromJSON")
-    public void sendEmailTest(ProductData product) {
+    public void sendEmailTest(ProductData product) throws MessagingException {
         SoftAssert softAssert = new SoftAssert();
         downloadPage.goToSelectedOsTab(product.getOs());
         softAssert.assertTrue(downloadPage.isProductHasCorrectDescription(product.getProduct(), product.getDescription()),
                 "Product description is not correct");
         downloadPage.sendAppToMySelf(product.getProduct());
-        softAssert.assertTrue(MailUtils.isMailHasCorrectSubject(product.getEmailSubject()),
+        softAssert.assertEquals(MailUtils.getMessageSubject(product.getEmailSubject()), product.getEmailSubject(),
                 "Email subject is not correct");
         softAssert.assertTrue(MailUtils.getTextFromMessage(product.getEmailSubject()).contains(product.getEmailLink()),
                 "Email doesn't contain correct link");
@@ -66,6 +67,6 @@ public class KasperskyTest extends BaseTest {
 
     @BeforeClass()
     public void deleteMessages() {
-        MailUtils.deleteAllMessages();
+        MailUtils.deleteAllInboxMessages();
     }
 }

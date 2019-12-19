@@ -32,13 +32,13 @@ public class ConfigFileReader {
     }
 
     public String getBaseUrl() {
-        String url = prop.getProperty("BaseUrl", "https://steampowered.com/");
+        String url = prop.getProperty("BaseUrl");
         Objects.requireNonNull(url, "Set property BaseUrl in config");
         return url;
     }
 
     public int getFluentWaitInSec() {
-        String waitInSec = prop.getProperty("FluentWaitInSec","4");
+        String waitInSec = prop.getProperty("FluentWaitInSec","5");
         Objects.requireNonNull(waitInSec, "Set property FluentWaitInSec in config");
         return Integer.parseInt(waitInSec);
     }
@@ -53,12 +53,6 @@ public class ConfigFileReader {
         String browserDownloadPath = prop.getProperty("BrowserDownloadPath");
         Objects.requireNonNull(browserDownloadPath, "Set property BrowserDownloadPath in config");
         return browserDownloadPath;
-    }
-
-    public String getSteamFileName() {
-        String steamFileName = prop.getProperty("SteamFileName");
-        Objects.requireNonNull(steamFileName, "Set property steamFileName in config");
-        return steamFileName;
     }
 
     public int getPageLoadTimeout() {
@@ -81,7 +75,7 @@ public class ConfigFileReader {
 
     public String getSmtpProtocol() {
         String smtpProtocol = prop.getProperty("SmtpProtocol");
-        Objects.requireNonNull(smtpProtocol, "Set property SmtpProtocol is null");
+        Objects.requireNonNull(smtpProtocol, "Set property SmtpProtocol is config");
         return smtpProtocol;
     }
 

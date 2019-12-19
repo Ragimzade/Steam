@@ -44,7 +44,7 @@ public class GamePage extends BasePage {
         }
     }
 
-    public List<String> getPlatforms() {
+    private List<String> getPlatforms() {
         try {
             log.info(String.format("'%s'Getting list of platforms", getClass()));
             List<WebElement> platforms = platformsBlock.getElements(
@@ -58,7 +58,7 @@ public class GamePage extends BasePage {
     }
 
     public List<String> getAllPlatforms() {
-        List<String> allPlatform = null;
+        List<String> allPlatform;
         if (getPlatforms() != null) {
             allPlatform = getPlatforms();
         } else {

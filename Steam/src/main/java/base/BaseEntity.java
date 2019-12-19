@@ -15,9 +15,9 @@ import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
-public class BaseEntity {
+public abstract class BaseEntity {
     protected static final Log log = Log.getInstance();
-    protected WebDriver driver = Browser.getInstance();
+    protected WebDriver driver = Browser.getDriver();
     protected static ConfigFileReader config = ConfigFileReader.getInstance();
 
     protected static ConditionFactory getDelay(int timeout, int delay) {
@@ -30,7 +30,7 @@ public class BaseEntity {
         try {
             return getDelay(timeout, delay).until(supplier, not(empty()));
         } catch (ConditionTimeoutException ex) {
-            throw new AssertionError(String.format("%s, exception:: %s", errorMessage, ex.getMessage()));
+            throw new AssertionError(errorMessage, ex);
         }
     }
 

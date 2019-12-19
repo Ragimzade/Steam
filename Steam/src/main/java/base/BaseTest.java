@@ -15,7 +15,7 @@ public class BaseTest extends BaseEntity {
     @BeforeSuite
     public void setUp() {
         config = ConfigFileReader.getInstance();
-        driver = Browser.getInstance();
+        driver = Browser.getDriver();
         Browser.openBaseUrl();
     }
 

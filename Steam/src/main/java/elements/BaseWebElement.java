@@ -1,13 +1,12 @@
 package elements;
 
 import base.BaseEntity;
-import browser.Browser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import utils.ConfigFileReader;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
@@ -15,15 +14,14 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class BaseWebElement extends BaseEntity {
-    private FluentWait wait;
+    private Wait<WebDriver> wait;
     protected String name;
     protected By locator;
 
     protected BaseWebElement(By locator, String name) {
-        config = ConfigFileReader.getInstance();
         this.name = name;
         this.locator = locator;
-        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(config.getFluentWaitInSec()))
+        wait = new WebDriverWait(driver, config.getFluentWaitInSec())
                 .pollingEvery(Duration.ofMillis(config.getFluentWaitInMill()))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
@@ -59,12 +57,12 @@ public abstract class BaseWebElement extends BaseEntity {
     public boolean isElementPresent() {
         try {
             log.info(String.format("Waiting for presence of '%s' element", name));
+            waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
             waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));
-//            waitForCondition(ExpectedConditions.visibilityOfElementLocated(locator));
             log.info(String.format("Element '%s' present ", name));
             return true;
         } catch (TimeoutException e) {
-            log.info(String.format("Waited for '%s' seconds '%s'", config.getFluentWaitInSec(), name));
+            log.info(e.getMessage());
             return false;
         }
     }
@@ -75,7 +73,7 @@ public abstract class BaseWebElement extends BaseEntity {
             log.info(String.format("Element '%s' absent ", name));
             return true;
         } catch (NoSuchElementException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
             return false;
         }
     }
@@ -89,12 +87,6 @@ public abstract class BaseWebElement extends BaseEntity {
     void waitForElementClickable() {
         waitForCondition(ExpectedConditions.elementToBeClickable(locator));
         log.info(String.format("Button '%s' is clickable", name));
-    }
-
-    protected void scrollToMiddle() {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript(String.format("window.scrollBy(0, %s)", Browser.getWindowSize() / 2));
-        ;
     }
 
     protected void scrollToElement(WebElement webElement) {

@@ -63,7 +63,7 @@ public class GameCategoryPage extends BasePage {
         }
     }
 
-    public List<String> getPlatforms(int numberOfGame) {
+    private List<String> getPlatforms(int numberOfGame) {
         log.info(String.format("'%s'Getting list of platforms", getClass().getName()));
         List<WebElement> platforms = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
                 .findElements(By.xpath(".//div[@class='tab_item_details']//span[@title]"));

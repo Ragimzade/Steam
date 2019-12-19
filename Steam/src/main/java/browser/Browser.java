@@ -9,16 +9,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static browser.BrowserFactory.initDriver;
 
 public class Browser extends BaseEntity {
-    private static WebDriver driver;
+    private static volatile WebDriver driver;
 
     private Browser() {
     }
 
-    public static synchronized WebDriver getInstance() {
-        if (driver == null) {
-            driver = initDriver(config.getBrowser());
+    public static WebDriver getDriver() {
+        WebDriver localInstance = driver;
+        if (localInstance == null) {
+            synchronized (WebDriver.class) {
+                localInstance = driver;
+                if (localInstance == null) {
+                    driver = localInstance = initDriver(config.getBrowser());
+                }
+            }
         }
-        return driver;
+        return localInstance;
     }
 
     public static void quit() {
@@ -32,6 +38,11 @@ public class Browser extends BaseEntity {
         log.info("Waiting for page load");
         new WebDriverWait(driver, config.getPageLoadTimeout()).until(
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    }
+
+    protected void scrollToMiddle() {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript(String.format("window.scrollBy(0, %s)", Browser.getWindowSize() / 2));
     }
 
     public static int getWindowSize() {

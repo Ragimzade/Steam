@@ -20,6 +20,10 @@ public final class Log {
         logger.info(String.format("--------==[ %1$s ]==--------", message));
     }
 
+    public void error(String message, Throwable ex) {
+        logger.error(message, ex);
+    }
+
     public void error(String message) {
         logger.error(message);
     }

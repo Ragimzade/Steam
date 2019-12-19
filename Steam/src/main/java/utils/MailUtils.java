@@ -34,7 +34,8 @@ public class MailUtils extends BaseEntity {
         return store;
     }
 
-    public static Message getMessage(String subject, String folderName) {
+
+    public static Message getMessage(String subject, String folderName) throws MessagingException {
         try {
             Store store = getConnection();
             Folder folder = store.getFolder(folderName);
@@ -63,7 +64,8 @@ public class MailUtils extends BaseEntity {
         }
     }
 
-    public static Message getMessage(String subject) {
+    public static Message getMessage(String subject) throws MessagingException {
+        log.info(String.valueOf(getMessage(subject, "inbox").getSentDate()));
         return getMessage(subject, "inbox");
     }
 
@@ -72,7 +74,7 @@ public class MailUtils extends BaseEntity {
             Multipart part = (Multipart) Objects.requireNonNull(getMessage(subject, folder)).getContent();
             return (String) part.getBodyPart(0).getContent();
         } catch (IOException | MessagingException ex) {
-            log.error(String.format("Impossible to get message content exception:: %s", ex.getMessage()));
+            log.error("Impossible to get message content", ex);
         }
         return null;
     }
@@ -81,17 +83,12 @@ public class MailUtils extends BaseEntity {
         return getTextFromMessage(subject, "inbox");
     }
 
-    public static boolean isMailHasCorrectSubject(String subject, String folder) {
-        try {
-            return Objects.requireNonNull(getMessage(subject, folder)).getSubject().equals(subject);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public static String getMessageSubject(String folder, String subject) throws MessagingException {
+        return Objects.requireNonNull(getMessage(subject, folder)).getSubject();
     }
 
-    public static boolean isMailHasCorrectSubject(String subject) {
-        return isMailHasCorrectSubject(subject, "inbox");
+    public static String getMessageSubject(String subject) throws MessagingException {
+        return getMessageSubject("inbox", subject);
     }
 
     public static void deleteAllMessages(String folderName) {
@@ -105,11 +102,13 @@ public class MailUtils extends BaseEntity {
             folder.close(true);
             log.info(String.format("All  messages from %s folder are deleted", folderName));
         } catch (MessagingException ex) {
-            log.error(String.format("Something gone wrong, exception:: %s", ex.getMessage()));
+            log.error("Message deleting error", ex);
         }
     }
 
-    public static void deleteAllMessages() {
+    public static void deleteAllInboxMessages() {
         deleteAllMessages("inbox");
     }
+
+
 }

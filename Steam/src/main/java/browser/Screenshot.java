@@ -10,6 +10,8 @@ import utils.DateUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Screenshot extends BaseEntity {
 
@@ -19,14 +21,14 @@ public class Screenshot extends BaseEntity {
     }
 
     public static void takeScreenshot(WebDriver driver) {
-        String screenShot = "screenshots_from_tests/" + DateUtil.getTimeStamp();
+        Path screenPath = Paths.get("screenshots_from_tests", DateUtil.getTimeStamp().concat(".png"));
         try {
             File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            File screenshotPng = new File(screenShot + ".png");
+            File screenshotPng = new File(screenPath + ".png");
             FileUtils.copyFile(screenshotFile, screenshotPng);
-            log.info(String.format("Saving screenshot '%s' to directory :: %s", screenshotPng.getName(), screenShot));
+            log.info(String.format("Saving screenshot '%s' ", screenshotPng.getName()));
         } catch (IOException ex) {
-            log.error(String.format("There was a problem when trying to make screenshot. Exception:: %s", ex.getMessage()));
+            log.error("There was a problem when trying to make screenshot ", ex);
         }
     }
 
