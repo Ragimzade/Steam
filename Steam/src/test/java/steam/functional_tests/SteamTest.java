@@ -1,7 +1,7 @@
 package steam.functional_tests;
 
+import base.BaseTest;
 import browser.Browser;
-import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -12,11 +12,11 @@ import steam.pages.*;
 import utils.DownloadUtils;
 import utils.TestData;
 
-import java.io.IOException;
 import java.util.List;
 
-public class SteamTest extends BaseTestSteam {
+public class SteamTest extends BaseTest {
     private MainPage mainPage;
+    protected static final String STEAM_FILE_NAME = "SteamSetup.exe";
 
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {
@@ -30,7 +30,7 @@ public class SteamTest extends BaseTestSteam {
     }
 
     @Test
-    public void loginTest() throws IOException, ParseException {
+    public void loginTest() {
         mainPage.selectEnglishLanguage();
         LoginPage loginPage = mainPage.goToLoginPage();
         loginPage.signIn(TestData.getValue("login"), TestData.getValue("password"));

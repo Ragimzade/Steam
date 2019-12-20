@@ -12,11 +12,10 @@ import java.util.Objects;
 
 public class DownloadPage extends BasePage {
 
-    private final TextArea downloadHeader = new TextArea(By.xpath("//h2[contains(@class, 'u-title') and contains(.,'Trial')]"), "downloadHeader");
+    private final TextArea downloadHeader = new TextArea(By.xpath("//h2[@data-at-selector='downloadBlockTrialAppsTitle']"), "downloadHeader");
     private final Button sendButton = new Button(By.xpath("//button[@data-at-selector='installerSendSelfBtn']"), "sendButton");
     private final Button OSTabButtons = new Button(By.className("u-osTile__title"), "OSTabButtons");
     private final Button okButton = new Button(By.xpath("//button[contains(text(),'OK')]"), "okButton");
-    private final By productDescription = By.xpath("./ancestor::div[@class='w-downloadProgramCard a-padding-x-sm']//div[@data-at-selector='serviceShortDescription']");
     private final TextArea iframe = new TextArea(By.xpath("(//iframe[@title='recaptcha challenge'])[2]"), "iframe");
     private static final int TIMEOUT_IN_SECONDS = 120;
     private static final int DELAY_IN_MILLIS = 1000;
@@ -62,7 +61,8 @@ public class DownloadPage extends BasePage {
     }
 
     private String getProductDescription(String productName) {
-        WebElement product = getProductBlockByName(productName).findElement((productDescription));
+        WebElement product = getProductBlockByName(productName)
+                .findElement((By.xpath("./ancestor::div[@class='w-downloadProgramCard a-padding-x-sm']//div[@data-at-selector='serviceShortDescription']")));
         return product.getText();
     }
 

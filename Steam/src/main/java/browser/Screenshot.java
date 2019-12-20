@@ -21,10 +21,10 @@ public class Screenshot extends BaseEntity {
     }
 
     public static void takeScreenshot(WebDriver driver) {
-        Path screenPath = Paths.get("screenshots_from_tests", DateUtil.getTimeStamp());
+        Path screenPath = Paths.get("screenshots_from_tests", DateUtil.getTimeStamp().concat(".png"));
         try {
             File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            File screenshotPng = new File(screenPath + ".png");
+            File screenshotPng = new File(String.valueOf(screenPath));
             FileUtils.copyFile(screenshotFile, screenshotPng);
             log.info(String.format("Saving screenshot '%s' ", screenshotPng.getName()));
         } catch (IOException ex) {

@@ -15,7 +15,7 @@ public class BasePage extends BaseEntity {
     protected void assertPageIsOpened(BaseWebElement element) {
 
         if (element.isElementPresent()) {
-            log.info(String.format("Page '%s' is opened", getClass().getName()));
+            log.info(String.format("Page '%s' is opened", getClass().getName().substring(16)));
         } else {
             log.error(String.format("Page '%s' is not opened", getClass().getName()));
             throw new AssertionError(element + " not found");

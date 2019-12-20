@@ -12,6 +12,7 @@ import utils.ConfigFileReader;
 import java.lang.reflect.Method;
 
 public class BaseTest extends BaseEntity {
+
     @BeforeSuite
     public void setUp() {
         config = ConfigFileReader.getInstance();

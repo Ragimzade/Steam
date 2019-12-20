@@ -38,13 +38,13 @@ public class ConfigFileReader {
     }
 
     public int getFluentWaitInSec() {
-        String waitInSec = prop.getProperty("FluentWaitInSec","5");
+        String waitInSec = prop.getProperty("FluentWaitInSec", "5");
         Objects.requireNonNull(waitInSec, "Set property FluentWaitInSec in config");
         return Integer.parseInt(waitInSec);
     }
 
     public int getFluentWaitInMill() {
-        String waitInMill = prop.getProperty("FluentWaitInMill","1000");
+        String waitInMill = prop.getProperty("FluentWaitInMill", "1000");
         Objects.requireNonNull(waitInMill, "Set property FluentWaitInMill in config");
         return Integer.parseInt(waitInMill);
     }
