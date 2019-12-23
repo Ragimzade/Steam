@@ -1,5 +1,11 @@
 package kaspersky.enums;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum NavigationMenuTabs {
     Summary("Summary"),
     Devices("Devices"),
@@ -8,14 +14,6 @@ public enum NavigationMenuTabs {
     Store("Store");
 
     private String tab;
-
-    NavigationMenuTabs(String category) {
-        this.tab = category;
-    }
-
-    public String getTab() {
-        return tab;
-    }
 }
 
 

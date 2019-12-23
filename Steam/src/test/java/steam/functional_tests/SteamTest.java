@@ -1,6 +1,5 @@
 package steam.functional_tests;
 
-import base.BaseTest;
 import browser.Browser;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -14,9 +13,8 @@ import utils.TestData;
 
 import java.util.List;
 
-public class SteamTest extends BaseTest {
+public class SteamTest extends BaseTestSteam {
     private MainPage mainPage;
-    protected static final String STEAM_FILE_NAME = "SteamSetup.exe";
 
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {

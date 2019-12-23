@@ -21,7 +21,6 @@ public class MainPage extends BasePage {
     private final Button categoriesButton = new Button(By.xpath("//div[@id='genre_flyout']//a[@class='popup_menu_item']"), "categoriesButton");
 
     public MainPage() {
-        //  assertPageIsOpened(featuredTextArea);
     }
 
     public void goToMainPage() {

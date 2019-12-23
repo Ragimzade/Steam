@@ -37,4 +37,7 @@ public class LoggedInMainPage extends BasePage {
         return accountButton.isButtonOnPage();
     }
 
+    public boolean isOnLoggedInMainPage() {
+        return notificationButton.isButtonOnPage();
+    }
 }
