@@ -29,7 +29,7 @@ public class ApiTests extends Rest {
         Response listOfCurrenciesResponse = RestAssured.
                 given()
                 .baseUri(BASE_URL)
-                .headers(CONTENT_TYPE, ACCEPT, APPLICATION_JSON)
+                .headers(CONTENT_TYPE, APPLICATION_JSON)
                 .when()
                 .get(EndPoints.ALL_CURRENCIES)
                 .then()
@@ -46,7 +46,7 @@ public class ApiTests extends Rest {
         Response usdDescriptionResponse = RestAssured.
                 given()
                 .baseUri(BASE_URL)
-                .headers(CONTENT_TYPE, ACCEPT, APPLICATION_JSON)
+                .headers(CONTENT_TYPE, APPLICATION_JSON)
                 .when()
                 .get(EndPoints.USD_CURRENCY)
                 .then()
@@ -57,7 +57,7 @@ public class ApiTests extends Rest {
         Response usdRateForTodayResponse = RestAssured.
                 given()
                 .baseUri(BASE_URL)
-                .headers(CONTENT_TYPE, ACCEPT, APPLICATION_JSON)
+                .headers(CONTENT_TYPE, APPLICATION_JSON)
                 .when()
                 .get(EndPoints.USD_CURRENCY_FOR_TODAY)
                 .then()
@@ -68,7 +68,7 @@ public class ApiTests extends Rest {
         Response usdRateForPeriodResponse = RestAssured.
                 given()
                 .baseUri(BASE_URL)
-                .headers(CONTENT_TYPE, ACCEPT, APPLICATION_JSON)
+                .headers(CONTENT_TYPE, APPLICATION_JSON)
                 .when()
                 .get(EndPoints.CURRENCIES_FOR_PERIOD)
                 .then()
