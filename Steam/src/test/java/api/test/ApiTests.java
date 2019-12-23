@@ -1,7 +1,6 @@
 package api.test;
 
 
-import api.endpoint.EndPoints;
 import api.model.CurrencyDescription;
 import api.model.CurrencyRates;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,9 +16,8 @@ import java.io.IOException;
 import java.util.Map;
 
 
-public class ApiTests extends Rest {
+public class ApiTests extends EndPoint {
     private Log log = Log.getInstance();
-    private static final String BASE_URL = "http://www.nbrb.by/API/ExRates";
     public static final int EXPECTED_RECORDS_QUANTITY = 225;
 
     @Test
@@ -31,7 +29,7 @@ public class ApiTests extends Rest {
                 .baseUri(BASE_URL)
                 .headers(CONTENT_TYPE, APPLICATION_JSON)
                 .when()
-                .get(EndPoints.ALL_CURRENCIES)
+                .get(ALL_CURRENCIES)
                 .then()
                 .statusCode(200).contentType(ContentType.JSON).extract().response();
         int recordsQuantity = listOfCurrenciesResponse.path("Cur_ID.size()");
@@ -48,7 +46,7 @@ public class ApiTests extends Rest {
                 .baseUri(BASE_URL)
                 .headers(CONTENT_TYPE, APPLICATION_JSON)
                 .when()
-                .get(EndPoints.USD_CURRENCY)
+                .get(USD_CURRENCY)
                 .then()
                 .statusCode(STATUS_CODE_OK).contentType(APPLICATION_JSON).extract().response();
         CurrencyDescription currencyDescription = usdDescriptionResponse.getBody().as(CurrencyDescription.class);
@@ -59,7 +57,7 @@ public class ApiTests extends Rest {
                 .baseUri(BASE_URL)
                 .headers(CONTENT_TYPE, APPLICATION_JSON)
                 .when()
-                .get(EndPoints.USD_CURRENCY_FOR_TODAY)
+                .get(USD_CURRENCY_FOR_TODAY)
                 .then()
                 .statusCode(STATUS_CODE_OK).contentType(APPLICATION_JSON).extract().response();
         CurrencyRates usd = usdRateForTodayResponse.getBody().as(CurrencyRates.class);
@@ -70,7 +68,7 @@ public class ApiTests extends Rest {
                 .baseUri(BASE_URL)
                 .headers(CONTENT_TYPE, APPLICATION_JSON)
                 .when()
-                .get(EndPoints.CURRENCIES_FOR_PERIOD)
+                .get(CURRENCIES_FOR_PERIOD)
                 .then()
                 .statusCode(STATUS_CODE_OK).contentType(APPLICATION_JSON).extract().response();
         String maxRate = usdRateForPeriodResponse.path("max{it.Cur_OfficialRate}.Date");
