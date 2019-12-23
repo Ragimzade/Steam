@@ -20,7 +20,7 @@ public class MainPage extends BasePage {
         loginButton.click();
     }
 
-    public LoggedInMainPage Login(String email, String password) {
+    public LoggedInMainPage login(String email, String password) {
         openLoginPopUp();
         emailField.typeValue(email);
         passwordField.typeValue(password);
