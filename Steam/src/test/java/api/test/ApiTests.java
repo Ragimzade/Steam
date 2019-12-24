@@ -47,14 +47,24 @@ public class ApiTests extends ApiConfig {
         CurrencyDescription currencyDescription = usdDescriptionResponse.getBody().as(CurrencyDescription.class);
         softAssert.assertEquals(usdDescription, currencyDescription, "Descriptions are not equal");
 
+        Response usdRateForYesterdayResponse = RestAssured.
+                given().spec(requestSpec)
+                .when()
+                .get(USD_CURRENCY_FOR_YESTERDAY)
+                .then()
+                .spec(responseSpec).extract().response();
+        CurrencyRates yesterdayUsdRate = usdRateForYesterdayResponse.getBody().as(CurrencyRates.class);
+        log.info("Yesterday's rate: " + yesterdayUsdRate.getCurOfficialRate());
+
         Response usdRateForTodayResponse = RestAssured.
                 given().spec(requestSpec)
                 .when()
                 .get(USD_CURRENCY_FOR_TODAY)
                 .then()
                 .spec(responseSpec).extract().response();
-        CurrencyRates usd = usdRateForTodayResponse.getBody().as(CurrencyRates.class);
-        log.info(usd.toString());
+        CurrencyRates todayUsdRate = usdRateForTodayResponse.getBody().as(CurrencyRates.class);
+        log.info("Today's rate: " + todayUsdRate.getCurOfficialRate());
+        softAssert.assertNotEquals(yesterdayUsdRate.getCurOfficialRate(), todayUsdRate.getCurOfficialRate());
 
         Response usdRateForPeriodResponse = RestAssured.
                 given().spec(requestSpec)
