@@ -11,6 +11,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utils.MailUtils;
+import utils.TestData;
 
 import javax.mail.MessagingException;
 import java.io.BufferedReader;
@@ -43,7 +44,8 @@ public class KasperskyTest extends BaseTest {
     @Test(dataProvider = "testDataFromJSON")
     public void sendEmailTest(ProductData product) throws MessagingException {
         Date sendTime = new Date();
-        LoggedInMainPage loggedInMainPage = CommonSteps.login("kasperskyLogin", "kasperskyPassword");
+        LoggedInMainPage loggedInMainPage = CommonSteps.doLogin(
+                TestData.getValue("kasperskyLogin"), TestData.getValue("kasperskyPassword"));
         DownloadPage downloadPage = loggedInMainPage.goToDownloadPage();
         SoftAssert softAssert = new SoftAssert();
         downloadPage.goToSelectedOsTab(product.getOs());
