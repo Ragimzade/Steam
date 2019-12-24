@@ -18,8 +18,4 @@ public class TextArea extends BaseWebElement {
         return waitForAbsent();
     }
 
-    public String getAttribute(String attribute) {
-        log.info(String.format("Getting attribute '%s' from '%s' TextArea", attribute, name));
-        return getElement(locator).getAttribute(attribute);
-    }
 }

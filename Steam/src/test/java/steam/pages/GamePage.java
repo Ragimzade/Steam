@@ -11,6 +11,7 @@ import steam.table_manager.Table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class GamePage extends BasePage {
@@ -39,7 +40,7 @@ public class GamePage extends BasePage {
     public String getGameDiscount() {
         try {
             return discountArea.getText();
-        } catch (Exception ex) {
+        } catch (TimeoutException ex) {
             return null;
         }
     }
@@ -69,14 +70,10 @@ public class GamePage extends BasePage {
     }
 
     public String getGamePrice() {
-        try {
-            String price = priceArea.getText();
-            if (!price.equals("Free")) {
-                return price.substring(0, price.length() - 4);
-            } else return price;
-        } catch (Exception ex) {
-            return null;
-        }
+        String price = priceArea.getText();
+        if (!price.equals("Free To Play")) {
+            return price.replaceAll("[^0-9$.,]", "");
+        } else return price;
     }
 
 }

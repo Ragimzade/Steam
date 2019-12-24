@@ -26,6 +26,10 @@ public abstract class BaseEntity {
                 .pollDelay(delay, TimeUnit.MILLISECONDS);
     }
 
+    protected static ConditionFactory getDelay() {
+        return getDelay(5, 1000);
+    }
+
     public static <T> List<T> waitForList(int timeout, int delay, String errorMessage, Callable<List<T>> supplier) {
         try {
             return getDelay(timeout, delay).until(supplier, not(empty()));

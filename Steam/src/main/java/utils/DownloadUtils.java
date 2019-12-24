@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class DownloadUtils extends BaseEntity {
     public static final int TIMEOUT_IN_SECONDS = 20;
-    public static final int DELAY_IN_MILLIS = 70;
+    public static final int DELAY_IN_MILLIS = 1000;
 
     public static boolean isFileDownloaded(String filename) {
         Path filePath = getPath(filename);

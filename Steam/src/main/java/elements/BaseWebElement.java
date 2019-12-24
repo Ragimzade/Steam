@@ -105,6 +105,11 @@ public abstract class BaseWebElement extends BaseEntity {
         log.info(String.format("Getting text '%s' from '%s' element", text, name));
         return text;
     }
+
+    public String getAttribute(String attribute) {
+        log.info(String.format("Getting attribute '%s' from '%s' element", attribute, name));
+        return getElement(locator).getAttribute(attribute);
+    }
 }
 
 
