@@ -26,44 +26,38 @@ public class ConfigFileReader {
     }
 
     public String getBrowser() {
-        String browser = prop.getProperty("Browser");
-        Objects.requireNonNull(browser, "browser is null");
+        String browser = prop.getProperty("Browser", "CHROME");
+        Objects.requireNonNull(browser, "Set property browser in config");
         return browser;
     }
 
     public String getBaseUrl() {
         String url = prop.getProperty("BaseUrl");
-        Objects.requireNonNull(url, "url is null");
+        Objects.requireNonNull(url, "Set property BaseUrl in config");
         return url;
     }
 
     public int getFluentWaitInSec() {
-        String waitInSec = prop.getProperty("FluentWaitInSec");
-        Objects.requireNonNull(waitInSec, "FluentWaitInSec is null");
+        String waitInSec = prop.getProperty("FluentWaitInSec", "5");
+        Objects.requireNonNull(waitInSec, "Set property FluentWaitInSec in config");
         return Integer.parseInt(waitInSec);
     }
 
     public int getFluentWaitInMill() {
-        String waitInMill = prop.getProperty("FluentWaitInMill");
-        Objects.requireNonNull(waitInMill, "FluentWaitInMill is null");
+        String waitInMill = prop.getProperty("FluentWaitInMill", "1000");
+        Objects.requireNonNull(waitInMill, "Set property FluentWaitInMill in config");
         return Integer.parseInt(waitInMill);
     }
 
     public String getBrowserDownloadPath() {
         String browserDownloadPath = prop.getProperty("BrowserDownloadPath");
-        Objects.requireNonNull(browserDownloadPath, "BrowserDownloadPath is null");
+        Objects.requireNonNull(browserDownloadPath, "Set property BrowserDownloadPath in config");
         return browserDownloadPath;
     }
 
-    public String getSteamFileName() {
-        String steamFileName = prop.getProperty("SteamFileName");
-        Objects.requireNonNull(steamFileName, "steamFileName is null");
-        return steamFileName;
-    }
-
     public int getPageLoadTimeout() {
-        String pageLoadTimeout = prop.getProperty("PageLoadTimeout");
-        Objects.requireNonNull(pageLoadTimeout, "pageLoadTimeout is null");
+        String pageLoadTimeout = prop.getProperty("PageLoadTimeout", "30");
+        Objects.requireNonNull(pageLoadTimeout, "Set property pageLoadTimeout in config");
         return Integer.parseInt(pageLoadTimeout);
     }
 
@@ -75,13 +69,13 @@ public class ConfigFileReader {
 
     public String getSmtpHost() {
         String smtpHost = prop.getProperty("SmtpHost");
-        Objects.requireNonNull(smtpHost, "smtpHost is null");
+        Objects.requireNonNull(smtpHost, "Set property SmtpHost in config");
         return smtpHost;
     }
 
     public String getSmtpProtocol() {
         String smtpProtocol = prop.getProperty("SmtpProtocol");
-        Objects.requireNonNull(smtpProtocol, "SmtpProtocol is null");
+        Objects.requireNonNull(smtpProtocol, "Set property SmtpProtocol is config");
         return smtpProtocol;
     }
 

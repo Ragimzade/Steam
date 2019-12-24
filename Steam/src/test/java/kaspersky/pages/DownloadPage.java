@@ -12,22 +12,26 @@ import java.util.Objects;
 
 public class DownloadPage extends BasePage {
 
-    private final TextArea downloadHeader = new TextArea(By.xpath("//h2[contains(@class, 'u-title') and contains(.,'Trial')]"), "downloadHeader");
+    private final TextArea downloadHeaderTextArea = new TextArea(By.xpath("//h2[@data-at-selector='downloadBlockTrialAppsTitle']"), "downloadHeader");
     private final Button sendButton = new Button(By.xpath("//button[@data-at-selector='installerSendSelfBtn']"), "sendButton");
     private final Button OSTabButtons = new Button(By.className("u-osTile__title"), "OSTabButtons");
     private final Button okButton = new Button(By.xpath("//button[contains(text(),'OK')]"), "okButton");
-    private final Button captchaBlockButton = new Button(By.xpath("//div[contains(@class,'kl-captcha')]//iframe"), "captchaBlockButton");
-    private final By productDescription = By.xpath("./ancestor::div[@class='w-downloadProgramCard a-padding-x-sm']//div[@data-at-selector='serviceShortDescription']");
-    private final By iframe = By.xpath("(//iframe[@title='recaptcha challenge'])[2]");
-    private final Button iframeVerifyButton = new Button(By.xpath("//div[@id='rc-imageselect']//*[@id='recaptcha-verify-button']"), "iframeVerifyButton");
+    private final TextArea iframeTextArea = new TextArea(By.xpath("(//iframe[@title='recaptcha challenge'])[2]"), "iframe");
+    private static final int TIMEOUT_IN_SECONDS = 120;
+    private static final int DELAY_IN_MILLIS = 1000;
 
     public DownloadPage() {
-        assertPageIsOpened(downloadHeader);
+        assertPageIsOpened(downloadHeaderTextArea);
     }
 
     public void sendAppToMySelf(String product) {
         sendProductToMySelf(product);
         sendButton.click();
+        clickOkButtonIfPresent();
+        waitForCaptchaValidation();
+    }
+
+    private void clickOkButtonIfPresent() {
         if (okButton.isButtonOnPage()) {
             okButton.click();
         }
@@ -35,6 +39,15 @@ public class DownloadPage extends BasePage {
 
     public void goToSelectedOsTab(String os) {
         OSTabButtons.clickByVisibleText(os);
+    }
+
+    private void waitForCaptchaValidation() {
+        if (iframeTextArea.isElementPresent()) {
+            log.info("waiting for absent of iframe");
+            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(iframeTextArea::waitForAbsentTextArea);
+            sendButton.click();
+            clickOkButtonIfPresent();
+        }
     }
 
     private WebElement getProductBlockByName(String text) {
@@ -48,7 +61,8 @@ public class DownloadPage extends BasePage {
     }
 
     private String getProductDescription(String productName) {
-        WebElement product = getProductBlockByName(productName).findElement((productDescription));
+        WebElement product = getProductBlockByName(productName)
+                .findElement((By.xpath("./ancestor::div[@class='w-downloadProgramCard a-padding-x-sm']//div[@data-at-selector='serviceShortDescription']")));
         return product.getText();
     }
 

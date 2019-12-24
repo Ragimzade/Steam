@@ -9,7 +9,9 @@ import org.openqa.selenium.WebElement;
 import steam.model.GameData;
 import steam.table_manager.Table;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class GamePage extends BasePage {
@@ -25,13 +27,10 @@ public class GamePage extends BasePage {
             .xpath("//div[@class='game_purchase_action_bg']//div[contains(@class,'final') or contains(@class,'purchase_price')]"), "priceArea");
     private final Table platformsBlock = new Table(By.xpath("/div[@class='block responsive_apppage_details_left']"), "platforms");
     private final Button communityHub = new Button(By.className("apphub_OtherSiteInfo"), "communityHub");
+    private final TextArea winTextAres = new TextArea(By.xpath("//span[@class='platform_img win']"), "winTextArea");
 
     public GameData getGameData() {
-        return new GameData()
-                .setName(getGameName())
-                .setPlatforms(getPlatforms())
-                .setDiscount(getGameDiscount())
-                .setPrice(getGamePrice());
+        return new GameData(getGameName(), getGamePrice(), getGameDiscount(), getAllPlatforms());
     }
 
     public String getGameName() {
@@ -41,12 +40,12 @@ public class GamePage extends BasePage {
     public String getGameDiscount() {
         try {
             return discountArea.getText();
-        } catch (Exception ex) {
+        } catch (TimeoutException ex) {
             return null;
         }
     }
 
-    public List<String> getPlatforms() {
+    private List<String> getPlatforms() {
         try {
             log.info(String.format("'%s'Getting list of platforms", getClass()));
             List<WebElement> platforms = platformsBlock.getElements(
@@ -59,15 +58,22 @@ public class GamePage extends BasePage {
         }
     }
 
-    public String getGamePrice() {
-        try {
-            String price = priceArea.getText();
-            if (!price.equals("Free")) {
-                return price.substring(0, price.length() - 4);
-            } else return price;
-        } catch (Exception ex) {
-            return null;
+    public List<String> getAllPlatforms() {
+        List<String> allPlatform;
+        if (getPlatforms() != null) {
+            allPlatform = getPlatforms();
+        } else {
+            allPlatform = new ArrayList<>();
         }
+        allPlatform.add(winTextAres.getAttribute("class"));
+        return allPlatform;
+    }
+
+    public String getGamePrice() {
+        String price = priceArea.getText();
+        if (!price.equals("Free To Play")) {
+            return price.replaceAll("[^0-9$.,]", "");
+        } else return price;
     }
 
 }
