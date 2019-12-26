@@ -21,7 +21,7 @@ public class ApiConfig {
 
     protected RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri(BASE_URI)
-            .setAccept(APPLICATION_JSON)
+            .setAccept(ACCEPT)
             .setContentType(APPLICATION_JSON)
             .build();
 

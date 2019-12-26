@@ -64,7 +64,8 @@ public class ApiTests extends ApiConfig {
                 .spec(responseSpec).extract().response();
         CurrencyRates todayUsdRate = usdRateForTodayResponse.getBody().as(CurrencyRates.class);
         log.info("Today's rate: " + todayUsdRate.getCurOfficialRate());
-        softAssert.assertNotEquals(yesterdayUsdRate.getCurOfficialRate(), todayUsdRate.getCurOfficialRate());
+        softAssert.assertNotEquals(yesterdayUsdRate.getCurOfficialRate(), todayUsdRate.getCurOfficialRate(),
+                "Rates for today and yesterday are equals:");
 
         Response usdRateForPeriodResponse = RestAssured.
                 given().spec(requestSpec)
