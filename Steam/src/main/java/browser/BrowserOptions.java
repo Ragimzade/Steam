@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class BrowserOptions extends BaseEntity {
 
-    static ChromeOptions getChromeOptions() {
+    protected static ChromeOptions getChromeOptions() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         HashMap<String, Object> chromePreferences = new HashMap<>();
@@ -26,7 +26,7 @@ public class BrowserOptions extends BaseEntity {
         return chromeOptions;
     }
 
-    static FirefoxOptions getFirefoxOptions() {
+    protected static FirefoxOptions getFirefoxOptions() {
         WebDriverManager.firefoxdriver().setup();
         FirefoxProfile profile = new FirefoxProfile();
         profile.setPreference("intl.accept_languages", "eng");

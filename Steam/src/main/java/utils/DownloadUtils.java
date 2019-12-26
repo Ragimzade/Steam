@@ -8,20 +8,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 public class DownloadUtils extends BaseEntity {
-    public static final int TIMEOUT = 20;
-    public static final int DELAY = 70;
+    public static final int TIMEOUT_IN_SECONDS = 20;
+    public static final int DELAY_IN_MILLIS = 1000;
 
     public static boolean isFileDownloaded(String filename) {
         Path filePath = getPath(filename);
         try {
-            getDelay(TIMEOUT, DELAY)
+            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS)
                     .until(() -> filePath.toFile().exists() && filename.endsWith(filename.substring(10)));
             log.info("File " + filePath.toFile().getName() + " is downloaded");
             return true;
         } catch (TimeoutException ex) {
-            log.error("File is not downloaded");
+            log.error("File is not downloaded", ex);
             return false;
         }
     }
@@ -39,5 +38,4 @@ public class DownloadUtils extends BaseEntity {
             log.error("Something gone wrong, try again");
         }
     }
-
 }

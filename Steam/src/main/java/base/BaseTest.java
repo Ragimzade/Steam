@@ -1,6 +1,5 @@
-package kaspersky.tests;
+package base;
 
-import base.BaseEntity;
 import browser.Browser;
 import browser.Screenshot;
 import org.testng.ITestResult;
@@ -14,14 +13,14 @@ import java.lang.reflect.Method;
 
 public class BaseTest extends BaseEntity {
 
-    @BeforeSuite(alwaysRun = true)
+    @BeforeSuite
     public void setUp() {
         config = ConfigFileReader.getInstance();
-        driver = Browser.getInstance();
+        driver = Browser.getDriver();
         Browser.openBaseUrl();
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void tearDown() {
         Browser.quit();
     }
@@ -36,6 +35,7 @@ public class BaseTest extends BaseEntity {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             System.out.println(testResult.getStatus());
             Screenshot.takeScreenshot(driver);
+            Screenshot.attachScreenshotToReport(driver);
         }
     }
 

@@ -12,19 +12,16 @@ public final class Log {
     public static synchronized Log getInstance() {
         if (instance == null)
             instance = new Log();
-
         return instance;
     }
-
-    public static Logger getLogger() {
-        return logger;
-    }
-
 
     public void info(String message) {
         logger.info(String.format("--------==[ %1$s ]==--------", message));
     }
 
+    public void error(String message, Throwable ex) {
+        logger.error(message, ex);
+    }
 
     public void error(String message) {
         logger.error(message);
