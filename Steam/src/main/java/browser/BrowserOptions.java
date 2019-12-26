@@ -8,8 +8,15 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.util.HashMap;
 
+/**
+ * Class  for getting certain browser options
+ */
 public class BrowserOptions extends BaseEntity {
-
+    /**
+     * Returns options for Chrome browser
+     *
+     * @return Chrome options
+     */
     protected static ChromeOptions getChromeOptions() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -26,6 +33,11 @@ public class BrowserOptions extends BaseEntity {
         return chromeOptions;
     }
 
+    /**
+     * Returns options for FireFox browser
+     *
+     * @return FireFox options
+     */
     protected static FirefoxOptions getFirefoxOptions() {
         WebDriverManager.firefoxdriver().setup();
         FirefoxProfile profile = new FirefoxProfile();

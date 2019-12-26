@@ -14,12 +14,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Screenshot extends BaseEntity {
-
+    /**
+     * Takes screenshot and attachs it  to report
+     *
+     * @param driver WebDriver
+     * @return screenshot
+     */
     @Attachment(value = "Page screenshot", type = "image/png")
     public static byte[] attachScreenshotToReport(WebDriver driver) {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
+    /**
+     * Takes screenshot and saves it to folder
+     *
+     * @param driver WebDriver
+     */
     public static void takeScreenshot(WebDriver driver) {
         Path screenPath = Paths.get("screenshots_from_tests", DateUtil.getTimeStamp().concat(".png"));
         try {
