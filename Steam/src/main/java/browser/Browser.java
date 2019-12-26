@@ -27,6 +27,9 @@ public class Browser extends BaseEntity {
         return localInstance;
     }
 
+    /**
+     * Quit the browser
+     */
     public static void quit() {
         if (driver != null) {
             driver.quit();
@@ -35,7 +38,7 @@ public class Browser extends BaseEntity {
     }
 
     public static void waitForPageLoaded() {
-        log.info("Waiting for page load");
+        log.info("Waiting for page to load");
         new WebDriverWait(driver, config.getPageLoadTimeout()).until(
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }

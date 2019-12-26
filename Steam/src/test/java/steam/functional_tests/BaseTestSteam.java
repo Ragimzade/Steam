@@ -10,7 +10,6 @@ import utils.DownloadUtils;
 public class BaseTestSteam extends BaseTest {
     protected static final String STEAM_FILE_NAME = "SteamSetup.exe";
 
-
     @Override
     @BeforeSuite(alwaysRun = true)
     public void setUp() {
@@ -19,5 +18,4 @@ public class BaseTestSteam extends BaseTest {
         driver = Browser.getDriver();
         Browser.openBaseUrl();
     }
-
 }

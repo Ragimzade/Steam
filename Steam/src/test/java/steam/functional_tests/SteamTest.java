@@ -13,12 +13,15 @@ import utils.TestData;
 
 import java.util.List;
 
+import static steam.test_data.Categories.ACTION;
+import static steam.test_data.Categories.ADVENTURE;
+
 public class SteamTest extends BaseTestSteam {
     private MainPage mainPage;
 
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {
-        return new Object[][]{{"Virtual Reality"}, {"Action"}};
+        return new Object[][]{{ADVENTURE}, {ACTION}};
     }
 
     @BeforeMethod(alwaysRun = true)

@@ -11,7 +11,6 @@ import steam.table_manager.Table;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class GamePage extends BasePage {
@@ -28,6 +27,7 @@ public class GamePage extends BasePage {
     private final Table platformsBlock = new Table(By.xpath("/div[@class='block responsive_apppage_details_left']"), "platforms");
     private final Button communityHub = new Button(By.className("apphub_OtherSiteInfo"), "communityHub");
     private final TextArea winTextAres = new TextArea(By.xpath("//span[@class='platform_img win']"), "winTextArea");
+    private static final String FREE_GAME = "Free To Play";
 
     public GameData getGameData() {
         return new GameData(getGameName(), getGamePrice(), getGameDiscount(), getAllPlatforms());
@@ -39,6 +39,9 @@ public class GamePage extends BasePage {
 
     public String getGameDiscount() {
         try {
+            if (getGamePrice().equals(FREE_GAME)) {
+                return null;
+            }
             return discountArea.getText();
         } catch (TimeoutException ex) {
             return null;

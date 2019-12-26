@@ -29,7 +29,7 @@ public class MainPage extends BasePage {
     }
 
     public boolean isSignedIn() {
-        return notificationButton.isButtonOnPage();
+        return notificationButton.isElementPresent();
     }
 
 

@@ -1,9 +1,11 @@
 package utils;
 
+
 import javax.mail.Session;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
+
 
 public class ConfigFileReader {
     private static ConfigFileReader instance;
@@ -18,6 +20,11 @@ public class ConfigFileReader {
         }
     }
 
+    /**
+     * Gets ConfigFileReader instance
+     *
+     * @return ConfigFileReader instance
+     */
     public static synchronized ConfigFileReader getInstance() {
         if (instance == null) {
             instance = new ConfigFileReader();

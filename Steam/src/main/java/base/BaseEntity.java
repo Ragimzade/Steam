@@ -15,11 +15,21 @@ import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
+/**
+ * Abstract class from which most classes inherit.
+ * Describes the highest level methods
+ */
 public abstract class BaseEntity {
     protected static final Log log = Log.getInstance();
     protected WebDriver driver = Browser.getDriver();
     protected static ConfigFileReader config = ConfigFileReader.getInstance();
 
+    /**
+     *
+     * @param timeout
+     * @param delay
+     * @return
+     */
     protected static ConditionFactory getDelay(int timeout, int delay) {
         return await().atMost(timeout, TimeUnit.SECONDS)
                 .ignoreExceptions()

@@ -32,7 +32,7 @@ public class DownloadPage extends BasePage {
     }
 
     private void clickOkButtonIfPresent() {
-        if (okButton.isButtonOnPage()) {
+        if (okButton.isElementPresent()) {
             okButton.click();
         }
     }
@@ -44,7 +44,7 @@ public class DownloadPage extends BasePage {
     private void waitForCaptchaValidation() {
         if (iframeTextArea.isElementPresent()) {
             log.info("waiting for absent of iframe");
-            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(iframeTextArea::waitForAbsentTextArea);
+            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(iframeTextArea::waitForAbsent);
             sendButton.click();
             clickOkButtonIfPresent();
         }
@@ -82,5 +82,4 @@ public class DownloadPage extends BasePage {
             return false;
         }
     }
-
 }

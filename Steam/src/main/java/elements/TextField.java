@@ -1,17 +1,24 @@
 package elements;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import utils.Log;
 
+/**
+ * Class describes webElement text field
+ */
 public class TextField extends BaseWebElement {
-
-    private static final Log log = Log.getInstance();
 
     public TextField(By locator, String name) {
         super(locator, name);
     }
 
+    /**
+     * Types value into text field
+     *
+     * @param value value to type to
+     * @see BaseWebElement#waitForCondition(ExpectedCondition)
+     */
     public void typeValue(String value) {
         log.info(String.format("Setting text '%s' to '%s' TextField", value, name));
         waitForCondition(ExpectedConditions.elementToBeClickable(locator));
@@ -19,13 +26,4 @@ public class TextField extends BaseWebElement {
         getElement(locator).sendKeys(value);
     }
 
-    public String getText() {
-        String text = getElement(locator).getAttribute("value");
-        log.info(String.format("Getting text '%s' from '%s' TextField", text, name));
-        return text;
-    }
-
-    public boolean waitForAbsentTextField() {
-        return waitForAbsent();
-    }
 }

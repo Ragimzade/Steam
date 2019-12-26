@@ -18,7 +18,7 @@ public class Table extends BaseWebElement {
 
     public List<WebElement> getRows() {
         scrollToElement(driver.findElement(By.xpath("//div[@class='tab_content' and contains(.,'Top')]")));
-        waitForConditions(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(TABLE_ROWS), 3));
+        waitForCondition(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(TABLE_ROWS), 3));
 
         return driver.findElements(By.xpath(TABLE_ROWS));
     }

@@ -1,7 +1,10 @@
 package kaspersky.model;
 
 import com.google.gson.annotations.Expose;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -18,5 +21,4 @@ public class ProductData {
     private String emailSubject;
     @Expose
     private String emailLink;
-
 }

@@ -38,7 +38,7 @@ public class MainPage extends BasePage {
     }
 
     private void openGamesTab() {
-        gamesTabButton.hoverButton();
+        gamesTabButton.hoverElement();
     }
 
     public GameCategoryPage goToCategoryByVisibleText(String categoryName) {
@@ -67,5 +67,4 @@ public class MainPage extends BasePage {
             englishButton.click();
         }
     }
-
 }

@@ -7,6 +7,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+/**
+ * Class for
+ */
 public class BrowserFactory {
 
     private BrowserFactory() {

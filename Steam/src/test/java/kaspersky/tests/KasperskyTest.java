@@ -26,9 +26,11 @@ import java.util.stream.Collectors;
 
 public class KasperskyTest extends BaseTest {
 
+    public static final String PRODUCT_JSON_FILE_PATH = "src/main/resources/product.json";
+
     @DataProvider()
     public Iterator<Object[]> testDataFromJSON() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/main/resources/product.json")));
+        BufferedReader reader = new BufferedReader(new FileReader(new File(PRODUCT_JSON_FILE_PATH)));
         StringBuilder JSON = new StringBuilder();
         String line = reader.readLine();
         while (line != null) {

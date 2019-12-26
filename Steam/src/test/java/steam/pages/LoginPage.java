@@ -21,12 +21,12 @@ public class LoginPage extends BasePage {
     public void signIn(String login, String password) {
         loginField.typeValue(login);
         passwordField.typeValue(password);
-        signIn.isButtonOnPage();
+        signIn.isElementPresent();
         signIn.click();
     }
 
     public boolean isMessageButtonPresent() {
-        return messages.isButtonOnPage();
+        return messages.isElementPresent();
     }
 
 }

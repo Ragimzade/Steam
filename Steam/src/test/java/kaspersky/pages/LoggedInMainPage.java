@@ -34,10 +34,10 @@ public class LoggedInMainPage extends BasePage {
     }
 
     public boolean isAccountButtonPresent() {
-        return accountButton.isButtonOnPage();
+        return accountButton.isElementPresent();
     }
 
     public boolean isOnLoggedInMainPage() {
-        return notificationButton.isButtonOnPage();
+        return notificationButton.isElementPresent();
     }
 }
