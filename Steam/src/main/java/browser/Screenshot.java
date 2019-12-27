@@ -9,23 +9,39 @@ import org.openqa.selenium.WebDriver;
 import utils.DateUtil;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+/**
+ * Class for taking screenshots
+ */
 public class Screenshot extends BaseEntity {
-
+    /**
+     * Takes screenshot and attachs it to report
+     *
+     * @param driver WebDriver
+     * @return screenshot
+     */
     @Attachment(value = "Page screenshot", type = "image/png")
-    public static byte[] saveScreenshotPNG(WebDriver driver) {
+    public static byte[] attachScreenshotToReport(WebDriver driver) {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
+    /**
+     * Takes screenshot and saves it to screenshot folder
+     *
+     * @param driver WebDriver
+     */
     public static void takeScreenshot(WebDriver driver) {
-        String screenShot = "screenshots_from_tests/" + DateUtil.getTimeStamp();
+        Path screenPath = Paths.get("screenshots_from_tests", DateUtil.getTimeStamp().concat(".png"));
         try {
-            File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            File file = new File(screenShot + ".png");
-            FileUtils.copyFile(scrFile, file);
-            log.info(String.format("Saving screenshot '%s' to directory :: %s", file.getName(), screenShot));
-        } catch (Exception ex) {
-            log.error("There was a problem when trying to make screenshot. Exception:: " + ex.getMessage());
+            File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File screenshotPng = new File(screenPath.toString());
+            FileUtils.copyFile(screenshotFile, screenshotPng);
+            log.info(String.format("Saving screenshot '%s' ", screenshotPng.getName()));
+        } catch (IOException ex) {
+            log.error("There was a problem while trying to make screenshot ", ex);
         }
     }
 

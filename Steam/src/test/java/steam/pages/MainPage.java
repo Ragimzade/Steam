@@ -20,53 +20,93 @@ public class MainPage extends BasePage {
     private final TextArea featuredTextArea = new TextArea(By.xpath("//div[@class='home_title' and contains(.,'Featured')]"), "featuredTextArea");
     private final Button categoriesButton = new Button(By.xpath("//div[@id='genre_flyout']//a[@class='popup_menu_item']"), "categoriesButton");
 
+    /**
+     * Base constructor
+     */
     public MainPage() {
-      //  assertPageIsOpened(featuredTextArea);
     }
 
+    /**
+     * Navigates to main page
+     */
     public void goToMainPage() {
         steamButton.click();
     }
 
+    /**
+     * Navigates to Steam Download page
+     *
+     * @return instance of SteamDownloadPage class
+     */
     public SteamDownloadPage goToSteamDownloadPage() {
         installSteamButton.click();
         return new SteamDownloadPage();
     }
 
+    /**
+     * Navigates to Login page
+     *
+     * @return instance of LoginPage class
+     */
     public LoginPage goToLoginPage() {
         loginButton.click();
         return new LoginPage();
     }
 
+    /**
+     * Opens games tab
+     */
     private void openGamesTab() {
-        gamesTabButton.hoverButton();
+        gamesTabButton.hoverElement();
     }
 
+    /**
+     * Navigates to Game Category page by category name
+     *
+     * @param categoryName category name
+     * @return instance of GameCategoryPage class
+     */
     public GameCategoryPage goToCategoryByVisibleText(String categoryName) {
         openGamesTab();
         categoriesButton.clickByVisibleText(categoryName);
         return new GameCategoryPage();
     }
 
+    /**
+     * Find games using search filed by game's name
+     *
+     * @param value game's name
+     * @return instance of GamePage class
+     */
     public GamePage findGame(String value) {
         searchField.typeValue(value);
         searchSuggest.clickByVisibleText(value);
         return new GamePage();
     }
 
+    /**
+     * Verifies if english language is selected
+     *
+     * @return true if english lang is selected
+     */
     private boolean isEnglishLangSelected() {
         return languagesPopUp.getText().equals("language");
     }
 
+    /**
+     * Opens language pop-up
+     */
     private void openLanguagesPopUp() {
         languagesPopUp.click();
     }
 
+    /**
+     * Verifies if english lang is selected and selects it if not
+     */
     public void selectEnglishLanguage() {
         if (!isEnglishLangSelected()) {
             openLanguagesPopUp();
             englishButton.click();
         }
     }
-
 }

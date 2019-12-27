@@ -10,17 +10,20 @@ import org.testng.asserts.SoftAssert;
 import steam.model.GameData;
 import steam.pages.*;
 import utils.DownloadUtils;
-import utils.JsonParse;
+import utils.TestData;
 
 import java.io.IOException;
 import java.util.List;
 
-public class SteamTest extends BaseTest {
+import static steam.test_data.Categories.ACTION;
+import static steam.test_data.Categories.ADVENTURE;
+
+public class SteamTest extends BaseTestSteam {
     private MainPage mainPage;
 
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {
-        return new Object[][]{{"Steam Controller Friendly"}, {"Virtual Reality"}};
+        return new Object[][]{{ADVENTURE}, {ACTION}};
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -33,7 +36,7 @@ public class SteamTest extends BaseTest {
     public void loginTest() throws IOException, ParseException {
         mainPage.selectEnglishLanguage();
         LoginPage loginPage = mainPage.goToLoginPage();
-        loginPage.signIn(JsonParse.getLogin(), JsonParse.getPassword());
+        loginPage.signIn(TestData.getValue("login"), TestData.getValue("password"));
         Assert.assertTrue(loginPage.isMessageButtonPresent());
     }
 
@@ -41,7 +44,7 @@ public class SteamTest extends BaseTest {
     public void downloadSteamTest() {
         SteamDownloadPage steamDownloadPage = mainPage.goToSteamDownloadPage();
         steamDownloadPage.downloadSteam();
-        Assert.assertTrue(DownloadUtils.isFileDownloaded(config.getSteamFileName()));
+        Assert.assertTrue(DownloadUtils.isFileDownloaded(STEAM_FILE_NAME));
     }
 
     @Test(dataProvider = "data-provider", dependsOnMethods = "loginTest")
