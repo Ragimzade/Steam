@@ -17,6 +17,11 @@ public class GameData {
     public String discount;
     public List<String> platforms;
 
+    /**
+     * Compares two GameData instances with each other
+     *
+     * @param game instance of the  class GameData
+     */
     public void compare(GameData game) {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(game.getName(), this.name,

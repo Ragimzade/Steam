@@ -7,6 +7,7 @@ import kaspersky.model.ProductData;
 import kaspersky.pages.DownloadPage;
 import kaspersky.pages.LoggedInMainPage;
 import kaspersky.steps.CommonSteps;
+import org.json.simple.parser.ParseException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -44,7 +45,7 @@ public class KasperskyTest extends BaseTest {
     }
 
     @Test(dataProvider = "testDataFromJSON")
-    public void sendEmailTest(ProductData product) throws MessagingException {
+    public void sendEmailTest(ProductData product) throws MessagingException, IOException, ParseException {
         Date sendTime = new Date();
         LoggedInMainPage loggedInMainPage = CommonSteps.doLogin(
                 TestData.getValue("kasperskyLogin"), TestData.getValue("kasperskyPassword"));

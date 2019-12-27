@@ -11,8 +11,8 @@ public class DropDown extends BaseWebElement {
     /**
      * Constructor
      *
-     * @param locator Button locator
-     * @param name    Button name
+     * @param locator DropDown locator
+     * @param name    DropDown name
      */
     public DropDown(By locator, String name) {
         super(locator, name);

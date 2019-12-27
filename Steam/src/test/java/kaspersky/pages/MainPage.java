@@ -13,13 +13,25 @@ public class MainPage extends BasePage {
     private final Button signInButton = new Button(By.xpath("//button[@data-omniture-cta-name='Sign in']"), "signInButton");
     private final Button notificationButton = new Button(By.xpath("//button[@class='w-notifications__bell js-notifications']"), "notificationButton");
 
+    /**
+     * Base constructor
+     */
     public MainPage() {
     }
 
+    /**
+     * Opens login pop-up
+     */
     public void openLoginPopUp() {
         loginButton.click();
     }
 
+    /**
+     * Signs in with specified login and password
+     * @param email user login
+     * @param password user password
+     * @return instance of LoggedInMainPage class
+     */
     public LoggedInMainPage login(String email, String password) {
         openLoginPopUp();
         emailField.typeValue(email);
@@ -28,10 +40,13 @@ public class MainPage extends BasePage {
         return new LoggedInMainPage();
     }
 
+    /**
+     * Verifies if user is signed in
+     * @return true if signed in
+     */
     public boolean isSignedIn() {
         return notificationButton.isElementPresent();
     }
-
 
 
 }

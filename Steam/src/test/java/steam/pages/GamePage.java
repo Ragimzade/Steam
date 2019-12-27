@@ -1,6 +1,7 @@
 package steam.pages;
 
 import base.BasePage;
+import elements.BaseWebElement;
 import elements.Button;
 import elements.TextArea;
 import org.openqa.selenium.By;
@@ -14,7 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GamePage extends BasePage {
-
+    /**
+     * Base constructor
+     *
+     * @see BasePage#assertPageIsOpened(BaseWebElement)
+     */
     public GamePage() {
         assertPageIsOpened(communityHub);
     }
@@ -29,14 +34,29 @@ public class GamePage extends BasePage {
     private final TextArea winTextAres = new TextArea(By.xpath("//span[@class='platform_img win']"), "winTextArea");
     private static final String FREE_GAME = "Free To Play";
 
+    /**
+     * Navigates to GamePage using serial number of the game
+     *
+     * @return instance of GamePage class
+     */
     public GameData getGameData() {
         return new GameData(getGameName(), getGamePrice(), getGameDiscount(), getAllPlatforms());
     }
 
+    /**
+     * Gets name of the game
+     *
+     * @return name
+     */
     public String getGameName() {
         return gameTitle.getText();
     }
 
+    /**
+     * Gets game's discount
+     *
+     * @return discount if exists and null if doesn't
+     */
     public String getGameDiscount() {
         try {
             if (getGamePrice().equals(FREE_GAME)) {
@@ -48,6 +68,11 @@ public class GamePage extends BasePage {
         }
     }
 
+    /**
+     * Gets list game's of platforms
+     *
+     * @return list with platforms
+     */
     private List<String> getPlatforms() {
         try {
             log.info(String.format("'%s'Getting list of platforms", getClass()));
@@ -61,6 +86,11 @@ public class GamePage extends BasePage {
         }
     }
 
+    /**
+     * Gets list of game's platforms and adds to list windows platform if exists
+     *
+     * @return list of platforms including windows platform
+     */
     public List<String> getAllPlatforms() {
         List<String> allPlatform;
         if (getPlatforms() != null) {
@@ -72,6 +102,11 @@ public class GamePage extends BasePage {
         return allPlatform;
     }
 
+    /**
+     * Gets price of the game
+     *
+     * @return price
+     */
     public String getGamePrice() {
         String price = priceArea.getText();
         if (!price.equals("Free To Play")) {

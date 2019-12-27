@@ -8,7 +8,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  * Class describes webElement text field
  */
 public class TextField extends BaseWebElement {
-
+    /**
+     * Constructor
+     *
+     * @param locator TextField locator
+     * @param name TexField name
+     */
     public TextField(By locator, String name) {
         super(locator, name);
     }

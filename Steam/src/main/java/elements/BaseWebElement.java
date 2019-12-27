@@ -164,7 +164,7 @@ public abstract class BaseWebElement extends BaseEntity {
     }
 
     /**
-     * @return element text(attribute value)
+     * @return element's text(attribute value)
      */
     public String getAttributeText() {
         String text = getElement(locator).getAttribute("value");
@@ -173,7 +173,7 @@ public abstract class BaseWebElement extends BaseEntity {
     }
 
     /**
-     * @return element text (inner text)
+     * @return element's text (inner text)
      * @see #waitForCondition(ExpectedCondition)
      */
     public String getText() {

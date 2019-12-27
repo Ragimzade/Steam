@@ -1,6 +1,7 @@
 package steam.pages;
 
 import base.BasePage;
+import elements.BaseWebElement;
 import elements.Button;
 import elements.DropDown;
 import elements.TextArea;
@@ -19,6 +20,11 @@ public class GameCategoryPage extends BasePage {
     private static final String YEAR_OF_BIRTH = "1960";
     private static final int QUANTITY_OF_ROWS = 3;
 
+    /**
+     * Base constructor
+     *
+     * @see BasePage#assertPageIsOpened(BaseWebElement)
+     */
     public GameCategoryPage() {
         assertPageIsOpened(newReleasesButton);
     }
@@ -29,12 +35,24 @@ public class GameCategoryPage extends BasePage {
     private final DropDown ageDropDown = new DropDown(By.name("ageYear"), "ageDropDown");
     private final Button viewPageButton = new Button(By.xpath("//span[contains(.,'View Page')]"), "viewPageButton");
 
+    /**
+     * Navigates to GamePage using serial number of the game
+     *
+     * @param numberOfGame serial number
+     * @return instance of GamePage class
+     */
     public GamePage goToGamePage(int numberOfGame) {
         table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame).click();
         validateAgeIfRequire(YEAR_OF_BIRTH);
         return new GamePage();
     }
 
+    /**
+     * Verifies the presence of age validation form.
+     * Validates age if form present
+     *
+     * @param text age for validate
+     */
     public void validateAgeIfRequire(String text) {
         if (ageValidationArea.isElementPresent()) {
             ageDropDown.selectByText(text);
@@ -42,11 +60,23 @@ public class GameCategoryPage extends BasePage {
         }
     }
 
+    /**
+     * Creates instance of GameData class with defined fields
+     *
+     * @param numberOfGame serial number of the game
+     * @return GameData instance
+     */
     public GameData getGameData(int numberOfGame) {
         return new GameData(getName(numberOfGame), getPrice(numberOfGame),
                 getDiscount(numberOfGame), getAllPlatforms(numberOfGame));
     }
 
+    /**
+     * Returns a list with specified quantity of the games
+     *
+     * @param quantityOfGames required quantity of the games
+     * @return list with games
+     */
     public List<GameData> getSeveralGameData(int quantityOfGames) {
         List<GameData> games = new ArrayList<>();
         for (int i = 0; i < quantityOfGames; i++) {
@@ -55,11 +85,23 @@ public class GameCategoryPage extends BasePage {
         return games;
     }
 
+    /**
+     * Gets name of the game
+     *
+     * @param numberOfGame serial number of the game
+     * @return name
+     */
     public String getName(int numberOfGame) {
         return table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
                 .findElement(By.xpath(".//div[@class='tab_item_name']")).getText();
     }
 
+    /**
+     * Gets price of the game
+     *
+     * @param numberOfGame serial number of the game
+     * @return price
+     */
     public String getPrice(int numberOfGame) {
         try {
             return table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
@@ -69,6 +111,12 @@ public class GameCategoryPage extends BasePage {
         }
     }
 
+    /**
+     * Gets game's discount
+     *
+     * @param numberOfGame serial number of the game
+     * @return discount if exists and null if doesn't
+     */
     public String getDiscount(int numberOfGame) {
         try {
             return table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
@@ -78,6 +126,12 @@ public class GameCategoryPage extends BasePage {
         }
     }
 
+    /**
+     * Gets list of game's platforms
+     *
+     * @param numberOfGame serial number of the game
+     * @return list with platforms
+     */
     private List<String> getPlatforms(int numberOfGame) {
         log.info(String.format("'%s'Getting list of platforms", getClass().getName()));
         List<WebElement> platforms = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
@@ -87,6 +141,13 @@ public class GameCategoryPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gets list of platforms and adds to list windows platform if exists
+     *
+     * @param numberOfGame serial number of the game
+     * @return list of platforms
+     * @see #getPlatforms(int)
+     */
     public List<String> getAllPlatforms(int numberOfGame) {
         List<String> allPlatform = getPlatforms(numberOfGame);
         String winPlatform = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)

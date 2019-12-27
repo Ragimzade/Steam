@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 public class BaseTest extends BaseEntity {
 
     /**
-     * Set ups browser, config and opens base url before each test suite
+     * Sets up browser, config and opens base url before each test suite
      */
     @BeforeSuite
     public void setUp() {
@@ -45,7 +45,7 @@ public class BaseTest extends BaseEntity {
     /**
      * Takes screenshots if test method is failed
      *
-     * @param testResult
+     * @param testResult test result
      * @see Screenshot#attachScreenshotToReport(WebDriver)
      * @see Screenshot#takeScreenshot(WebDriver)
      */

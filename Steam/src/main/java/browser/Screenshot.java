@@ -13,9 +13,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Class for taking screenshots
+ */
 public class Screenshot extends BaseEntity {
     /**
-     * Takes screenshot and attachs it  to report
+     * Takes screenshot and attachs it to report
      *
      * @param driver WebDriver
      * @return screenshot
@@ -26,7 +29,7 @@ public class Screenshot extends BaseEntity {
     }
 
     /**
-     * Takes screenshot and saves it to folder
+     * Takes screenshot and saves it to screenshot folder
      *
      * @param driver WebDriver
      */

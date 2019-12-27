@@ -9,8 +9,8 @@ public class TextArea extends BaseWebElement {
     /**
      * Constructor
      *
-     * @param locator TextAres locator
-     * @param name    TextAres name
+     * @param locator TextAre locator
+     * @param name    TextAre name
      */
     public TextArea(By locator, String name) {
         super(locator, name);

@@ -1,6 +1,7 @@
 package steam.functional_tests;
 
 import browser.Browser;
+import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -11,6 +12,7 @@ import steam.pages.*;
 import utils.DownloadUtils;
 import utils.TestData;
 
+import java.io.IOException;
 import java.util.List;
 
 import static steam.test_data.Categories.ACTION;
@@ -31,7 +33,7 @@ public class SteamTest extends BaseTestSteam {
     }
 
     @Test
-    public void loginTest() {
+    public void loginTest() throws IOException, ParseException {
         mainPage.selectEnglishLanguage();
         LoginPage loginPage = mainPage.goToLoginPage();
         loginPage.signIn(TestData.getValue("login"), TestData.getValue("password"));

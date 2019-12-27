@@ -4,6 +4,9 @@ package kaspersky.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Enum that describes the tabs of Navigation Menu
+ */
 @AllArgsConstructor
 @Getter
 public enum NavigationMenuTabs {

@@ -6,11 +6,16 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 
-
+/**
+ * Class for working with configuration files
+ */
 public class ConfigFileReader {
     private static ConfigFileReader instance;
     private Properties prop;
 
+    /**
+     * Loads properties
+     */
     public ConfigFileReader() {
         prop = new Properties();
         try {
