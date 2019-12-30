@@ -147,9 +147,14 @@ public abstract class BaseWebElement extends BaseEntity {
      *
      * @param webElement element to scroll to
      */
-    protected void scrollToElement(WebElement webElement) {
+    public void scrollToElement(WebElement webElement) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].scrollIntoView(true)", webElement);
+    }
+
+    public void scrollToElement() {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].scrollIntoView(true)", getElement(locator));
     }
 
     /**
@@ -157,7 +162,7 @@ public abstract class BaseWebElement extends BaseEntity {
      *
      * @throws TimeoutException if element doesn't appear
      */
-    protected void waitForPresent() {
+    public void waitForPresent() {
         log.info(String.format("Waiting for presence of element '%s' ", name));
         waitForCondition(ExpectedConditions.presenceOfElementLocated(locator));
         log.info(String.format("Element '%s' is present ", name));

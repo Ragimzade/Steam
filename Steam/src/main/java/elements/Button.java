@@ -28,6 +28,12 @@ public class Button extends BaseWebElement {
         clickWithAttempts();
     }
 
+    public void scrollAndClick() {
+        scrollToElement();
+        waitForElementClickable();
+        clickWithAttempts();
+    }
+
     /**
      * Clicks the button by visible text
      *

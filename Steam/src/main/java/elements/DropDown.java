@@ -19,7 +19,7 @@ public class DropDown extends BaseWebElement {
     }
 
     /**
-     * Select the value of drop-down menu by matching text
+     * Selects the value of drop-down menu by matching text
      *
      * @param text text
      * @see BaseWebElement#waitForPresent()

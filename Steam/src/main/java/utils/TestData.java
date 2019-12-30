@@ -25,7 +25,6 @@ public class TestData {
      * @throws IOException    if file is not found
      * @throws ParseException when unexpected error occurs while parsing
      */
-
     public static String getValue(String key) throws IOException, ParseException {
         Path filepath = Paths.get(CREDS_JSON_FILE_PATH);
         Object obj = parser.parse(new FileReader(String.valueOf(filepath)));
