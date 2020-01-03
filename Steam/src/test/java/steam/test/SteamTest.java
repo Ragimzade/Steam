@@ -1,4 +1,4 @@
-package steam.functional_tests;
+package steam.test;
 
 import browser.Browser;
 import org.json.simple.parser.ParseException;

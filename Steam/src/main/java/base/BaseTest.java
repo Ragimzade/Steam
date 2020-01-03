@@ -56,6 +56,7 @@ public class BaseTest extends BaseEntity {
             Screenshot.attachScreenshotToReport(driver);
         }
     }
+
     /**
      * Logs test method name when test method is finished
      *

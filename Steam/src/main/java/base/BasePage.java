@@ -28,7 +28,7 @@ public class BasePage extends BaseEntity {
         if (element.isElementPresent()) {
             log.info(String.format("Page '%s' is opened", getClass().getName()));
         } else {
-            throw new AssertionError(element + " not found");
+            throw new AssertionError(element.getName() + " not found");
         }
     }
 

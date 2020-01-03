@@ -3,15 +3,12 @@ package tut.by.test;
 import base.BaseTest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import tut.by.model.JobsSearchData;
 import tut.by.model.VacancyData;
-import tut.by.pages.JobsPage;
-import tut.by.pages.MainPage;
-import tut.by.pages.SearchPage;
+import tut.by.steps.CommonSteps;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,15 +18,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JobsTest extends BaseTest {
-    private static final String JOBS_TEST_DATA_FILEPATH = "src/main/resources/JobsSearchData.json";
-    private JobsPage jobsPage;
+import static tut.by.steps.CommonSteps.vacancyDataHashMap;
 
-    @BeforeMethod
-    public void goToJobsPage() {
-        MainPage mainPage = new MainPage();
-        jobsPage = mainPage.goToJobsPage();
-    }
+public class JobsTest extends BaseTest {
+    private static final String JOBS_TEST_DATA_FILEPATH = "src/main/resources/jobs_search_data.json";
 
     @DataProvider()
     public Iterator<Object[]> testDataFromJSON() throws IOException {
@@ -47,13 +39,28 @@ public class JobsTest extends BaseTest {
     }
 
     @Test(dataProvider = "testDataFromJSON")
-    public void searchVacanciesTest(JobsSearchData searchData) {
+    public void searchVacanciesByHeadlineTest(JobsSearchData searchData) {
         SoftAssert softAssert = new SoftAssert();
-        SearchPage searchPage = jobsPage.searchForJobs("Qa automation");
-        List<VacancyData> automationVacancies = searchPage.getAllVacancies();
-        for (VacancyData data : automationVacancies) {
-            softAssert.assertTrue(searchData.getKeyWords().parallelStream().anyMatch(data.getHeadline()::contains),
-                    String.format("Headline: '%s' \r\n Description: '%s'", data.getHeadline(), data.getDescription()));
+        CommonSteps.goToSearchPageIfNotOpened();
+        CommonSteps.getVacanciesIfRequire(searchData.getSearch());
+        List<VacancyData> set = vacancyDataHashMap.get(searchData.getSearch());
+        for (VacancyData vacancyData : set) {
+            softAssert.assertTrue(searchData.getKeyWords().stream().anyMatch(vacancyData.getHeadline()::contains),
+                    String.format("Vacancy '%s' doesn't contain any of key words: ", vacancyData.getHeadline()));
+        }
+        softAssert.assertAll();
+    }
+
+    @Test(dataProvider = "testDataFromJSON")
+    public void searchVacanciesByHeadlineAndDescriptionTest(JobsSearchData searchData) {
+        SoftAssert softAssert = new SoftAssert();
+        CommonSteps.goToSearchPageIfNotOpened();
+        CommonSteps.getVacanciesIfRequire(searchData.getSearch());
+        List<VacancyData> set = vacancyDataHashMap.get(searchData.getSearch());
+        for (VacancyData vacancyData : set) {
+            String vacancyDescriptionAndHeadline = vacancyData.getDescription() + vacancyData.getHeadline();
+            softAssert.assertTrue(searchData.getKeyWords().stream().anyMatch(vacancyDescriptionAndHeadline::contains),
+                    String.format("Vacancy '%s' doesn't contain any of key words: ", vacancyData.getHeadline()));
         }
         softAssert.assertAll();
     }

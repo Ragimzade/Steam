@@ -14,6 +14,4 @@ public enum Sections {
     Poster("Афиша");
 
     private String section;
-
-
 }

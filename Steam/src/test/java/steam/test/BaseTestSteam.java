@@ -1,5 +1,5 @@
 
-package steam.functional_tests;
+package steam.test;
 
 import base.BaseTest;
 import browser.Browser;

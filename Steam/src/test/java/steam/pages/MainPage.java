@@ -87,7 +87,7 @@ public class MainPage extends BasePage {
     /**
      * Verifies if english language is selected
      *
-     * @return true if english lang is selected
+     * @return true if english language is selected
      */
     private boolean isEnglishLangSelected() {
         return languagesPopUp.getText().equals("language");
@@ -101,7 +101,7 @@ public class MainPage extends BasePage {
     }
 
     /**
-     * Verifies if english lang is selected and selects it if not
+     * Verifies if english language is selected and selects it if not
      */
     public void selectEnglishLanguage() {
         if (!isEnglishLangSelected()) {

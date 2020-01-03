@@ -136,7 +136,7 @@ public abstract class BaseWebElement extends BaseEntity {
      * @throws TimeoutException if the specified element is not clickable
      * @see #waitForCondition(ExpectedCondition)
      */
-    void waitForElementClickable() {
+    public void waitForElementClickable() {
         waitForCondition(ExpectedConditions.elementToBeClickable(locator));
         log.info(String.format("Button '%s' is clickable", name));
 
@@ -197,6 +197,13 @@ public abstract class BaseWebElement extends BaseEntity {
     public String getAttribute(String attribute) {
         log.info(String.format("Getting attribute '%s' from '%s' element", attribute, name));
         return getElement(locator).getAttribute(attribute);
+    }
+
+    /**
+     * @return element's name
+     */
+    public String getName() {
+        return name;
     }
 }
 
