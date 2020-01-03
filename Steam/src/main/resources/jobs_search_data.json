@@ -14,7 +14,7 @@
       "automated",
       "auto"
     ],
-    "search": "QA Automation"
+    "searchValue": "QA Automation"
   },
   {
     "keyWords": [
@@ -30,6 +30,6 @@
       "Selenoid",
       "automated"
     ],
-    "search": "Software developer in test"
+    "searchValue": "Software developer in test"
   }
 ]

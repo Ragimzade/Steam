@@ -12,7 +12,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class JobsSearchData {
     @Expose
-    private String search;
+    private String searchValue;
     @Expose
     private List<String> keyWords;
 }

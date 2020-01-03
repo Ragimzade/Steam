@@ -42,8 +42,8 @@ public class JobsTest extends BaseTest {
     public void searchVacanciesByHeadlineTest(JobsSearchData searchData) {
         SoftAssert softAssert = new SoftAssert();
         CommonSteps.goToSearchPageIfNotOpened();
-        CommonSteps.getVacanciesIfRequire(searchData.getSearch());
-        List<VacancyData> set = vacancyDataHashMap.get(searchData.getSearch());
+        CommonSteps.getVacanciesIfRequire(searchData.getSearchValue());
+        List<VacancyData> set = vacancyDataHashMap.get(searchData.getSearchValue());
         for (VacancyData vacancyData : set) {
             softAssert.assertTrue(searchData.getKeyWords().stream().anyMatch(vacancyData.getHeadline()::contains),
                     String.format("Vacancy '%s' doesn't contain any of key words: ", vacancyData.getHeadline()));
@@ -55,8 +55,8 @@ public class JobsTest extends BaseTest {
     public void searchVacanciesByHeadlineAndDescriptionTest(JobsSearchData searchData) {
         SoftAssert softAssert = new SoftAssert();
         CommonSteps.goToSearchPageIfNotOpened();
-        CommonSteps.getVacanciesIfRequire(searchData.getSearch());
-        List<VacancyData> set = vacancyDataHashMap.get(searchData.getSearch());
+        CommonSteps.getVacanciesIfRequire(searchData.getSearchValue());
+        List<VacancyData> set = vacancyDataHashMap.get(searchData.getSearchValue());
         for (VacancyData vacancyData : set) {
             String vacancyDescriptionAndHeadline = vacancyData.getDescription() + vacancyData.getHeadline();
             softAssert.assertTrue(searchData.getKeyWords().stream().anyMatch(vacancyDescriptionAndHeadline::contains),

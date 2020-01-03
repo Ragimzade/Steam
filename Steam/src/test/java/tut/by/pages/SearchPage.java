@@ -41,7 +41,7 @@ public class SearchPage extends BasePage {
      *
      * @return list of VacancyData class instances
      */
-    private List<VacancyData> getVacanciesOnnPage() {
+    private List<VacancyData> getVacanciesOnPage() {
         List<WebElement> vacancies = findElements(By.xpath("//div[@class='vacancy-serp ']/div[contains(@data-qa,'vacancy')]"));
 
         return vacancies.stream()
@@ -67,10 +67,10 @@ public class SearchPage extends BasePage {
      * @return list with vacancies
      */
     public List<VacancyData> getAllVacancies() {
-        List<VacancyData> allVacancies = getVacanciesOnnPage();
+        List<VacancyData> allVacancies = getVacanciesOnPage();
         while (nextButton.isElementPresent()) {
             nextButton.click();
-            List<VacancyData> vacanciesOnPage = getVacanciesOnnPage();
+            List<VacancyData> vacanciesOnPage = getVacanciesOnPage();
             vacanciesOnPage.stream().collect(Collectors.toCollection(() -> allVacancies));
         }
         return allVacancies;
