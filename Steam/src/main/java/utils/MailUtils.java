@@ -7,18 +7,29 @@ import javax.mail.*;
 import javax.mail.search.SearchTerm;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static javax.mail.Flags.Flag;
+
+/**
+ * Class for working with emails
+ */
 public class MailUtils extends BaseEntity {
     private static final String SMTP_HOST = config.getSmtpHost();
-    private static final String SMTP_USER_LOGIN = "nurlan.rahimzada@gmail.com";
+    private static final String SMTP_USER_LOGIN = "mmihalichenkoo@gmail.com";
     private static final String SMTP_PASSWORD = "9802357s";
     private static final String PROTOCOL = config.getSmtpProtocol();
     private static final int TIMEOUT_IN_SECONDS = 50;
     private static final int DELAY_IN_MILLIS = 500;
     private static Store connection;
 
+    /**
+     * Gets store connected
+     *
+     * @return store
+     */
     private static synchronized Store getConnection() {
         if (connection == null) {
             connection = getStore();
@@ -26,6 +37,13 @@ public class MailUtils extends BaseEntity {
         return connection;
     }
 
+    /**
+     * Connects to java mail
+     *
+     * @return store
+     * @throws IOException
+     * @throws MessagingException
+     */
     @SneakyThrows
     private static Store getStore() {
         Session session = config.createMailSession();
@@ -34,81 +52,122 @@ public class MailUtils extends BaseEntity {
         return store;
     }
 
-    public static Message getMessage(String subject, String folderName) {
-        try {
-            Store store = getConnection();
-            Folder folder = store.getFolder(folderName);
-            folder.open(Folder.READ_WRITE);
-            int messageCount = folder.getMessageCount();
-            log.info("Total Messages:- " + messageCount);
-            SearchTerm term = new SearchTerm() {
-                @Override
-                public boolean match(Message message) {
-                    try {
-                        if (message.getSubject().contains(subject) && !message.isSet(Flags.Flag.SEEN)) {
-                            return true;
-                        }
-                    } catch (MessagingException ex) {
-                        ex.printStackTrace();
+    /**
+     * Waits for certain message and finds it in specified folder with specified subject and send time
+     *
+     * @param subject    subject of the message
+     * @param folderName folder name
+     * @param sendTime   message send time
+     * @return message if found
+     * @throws MessagingException if message is not found
+     */
+    public static Message findMessage(String subject, String folderName, Date sendTime) throws MessagingException {
+        Store store = getConnection();
+        Folder folder = store.getFolder(folderName);
+        folder.open(Folder.READ_WRITE);
+        int messageCount = folder.getMessageCount();
+        log.info("Total Messages:- " + messageCount);
+        SearchTerm term = new SearchTerm() {
+            @Override
+            public boolean match(Message message) {
+                try {
+                    boolean isMatchSubject = message.getSubject().equals(subject);
+                    boolean isSeen = message.isSet(Flag.SEEN);
+                    boolean isMessageSentAfterDate = message.getSentDate().after(sendTime);
+                    if (isMatchSubject && !isSeen && isMessageSentAfterDate) {
+                        return true;
                     }
-                    return false;
+                } catch (MessagingException ex) {
+                    log.error("message not found", ex);
                 }
-            };
-            List<Message> messages = waitForList(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS, () -> Arrays.asList(folder.search(term)));
-            return messages.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+                return false;
+            }
+        };
+        List<Message> messages = waitForList(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS,
+                String.format("Message is not found in %s folder", folderName), () -> Arrays.asList(folder.search(term)));
+        return messages.get(0);
     }
 
-    public static Message getMessage(String subject) {
-        return getMessage(subject, "inbox");
+    /**
+     * Default method that finds message in inbox folder
+     *
+     * @see #findMessage(String, String, Date)
+     */
+    public static Message findMessage(String subject, Date sentTime) throws MessagingException {
+        return findMessage(subject, "inbox", sentTime);
     }
 
-    public static String getTextFromMessage(String subject, String folder) {
+    /**
+     * Find and gets message's content
+     *
+     * @see #findMessage(String, String, Date)
+     */
+    public static String getMessageContent(String subject, String folderName, Date sendTime) {
         try {
-            Multipart part = (Multipart) Objects.requireNonNull(getMessage(subject, folder)).getContent();
+            Multipart part = (Multipart) Objects.requireNonNull(findMessage(subject, folderName, sendTime)).getContent();
             return (String) part.getBodyPart(0).getContent();
         } catch (IOException | MessagingException ex) {
-            log.error(String.format("Impossible to get message content exception:: %s", ex.getMessage()));
+            log.error("Impossible to get message content", ex);
         }
         return null;
     }
 
-    public static String getTextFromMessage(String subject) {
-        return getTextFromMessage(subject, "inbox");
+    /**
+     * Default method that finds and gets message's content message in inbox folder
+     *
+     * @see #getMessageContent(String, String, Date)
+     */
+    public static String getMessageContent(String subject, Date sentTime) {
+        return getMessageContent(subject, "inbox", sentTime);
     }
 
-    public static boolean isMailHasCorrectSubject(String subject, String folder) {
-        try {
-            return Objects.requireNonNull(getMessage(subject, folder)).getSubject().equals(subject);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-        return false;
+    /**
+     * Gets subject from specified message
+     *
+     * @return message subject
+     * @throws MessagingException if message is not found
+     * @see #findMessage(String, String, Date)
+     */
+    public static String getMessageSubject(String subject, String folder, Date sentTime) throws MessagingException {
+        return findMessage(subject, folder, sentTime).getSubject();
     }
 
-    public static boolean isMailHasCorrectSubject(String subject) {
-        return isMailHasCorrectSubject(subject, "inbox");
+    /**
+     * Default method for getting message subject from inbox folder
+     *
+     * @see #getMessageSubject(String, String, Date)
+     */
+    public static String getMessageSubject(String subject, Date sentTime) throws MessagingException {
+        return getMessageSubject(subject, "inbox", sentTime);
     }
 
+    /**
+     * Deletes all messages from specified folder
+     *
+     * @param folderName folder name
+     */
     public static void deleteAllMessages(String folderName) {
         try {
             Folder folder = getStore().getFolder(folderName);
             folder.open(Folder.READ_WRITE);
             Message[] messages = folder.getMessages();
             for (Message message : messages) {
-                message.setFlag(Flags.Flag.DELETED, true);
+                message.setFlag(Flag.DELETED, true);
             }
             folder.close(true);
             log.info(String.format("All  messages from %s folder are deleted", folderName));
         } catch (MessagingException ex) {
-            log.error(String.format("Something gone wrong, exception:: %s", ex.getMessage()));
+            log.error("Message deleting error", ex);
         }
     }
 
-    public static void deleteAllMessages() {
+    /**
+     * Deletes all messages from inbox folder
+     *
+     * @see #deleteAllMessages(String)
+     */
+    public static void deleteAllInboxMessages() {
         deleteAllMessages("inbox");
     }
+
 }

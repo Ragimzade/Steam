@@ -1,6 +1,7 @@
 package steam.pages;
 
 import base.BasePage;
+import elements.BaseWebElement;
 import elements.Button;
 import elements.TextArea;
 import org.openqa.selenium.By;
@@ -9,11 +10,16 @@ import org.openqa.selenium.WebElement;
 import steam.model.GameData;
 import steam.table_manager.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class GamePage extends BasePage {
-
+    /**
+     * Base constructor
+     *
+     * @see BasePage#assertPageIsOpened(BaseWebElement)
+     */
     public GamePage() {
         assertPageIsOpened(communityHub);
     }
@@ -25,24 +31,49 @@ public class GamePage extends BasePage {
             .xpath("//div[@class='game_purchase_action_bg']//div[contains(@class,'final') or contains(@class,'purchase_price')]"), "priceArea");
     private final Table platformsBlock = new Table(By.xpath("/div[@class='block responsive_apppage_details_left']"), "platforms");
     private final Button communityHub = new Button(By.className("apphub_OtherSiteInfo"), "communityHub");
+    private final TextArea winTextAres = new TextArea(By.xpath("//span[@class='platform_img win']"), "winTextArea");
+    private static final String FREE_GAME = "Free To Play";
 
+    /**
+     * Navigates to GamePage using serial number of the game
+     *
+     * @return instance of GamePage class
+     */
     public GameData getGameData() {
-        return new GameData(getGameName(), getGamePrice(), getGameDiscount(), getPlatforms());
+        return new GameData(getGameName(), getGamePrice(), getGameDiscount(), getAllPlatforms());
     }
 
+    /**
+     * Gets name of the game
+     *
+     * @return name
+     */
     public String getGameName() {
         return gameTitle.getText();
     }
 
+    /**
+     * Gets game's discount
+     *
+     * @return discount if exists and null if doesn't
+     */
     public String getGameDiscount() {
         try {
+            if (getGamePrice().equals(FREE_GAME)) {
+                return null;
+            }
             return discountArea.getText();
-        } catch (Exception ex) {
+        } catch (TimeoutException ex) {
             return null;
         }
     }
 
-    public List<String> getPlatforms() {
+    /**
+     * Gets list game's of platforms
+     *
+     * @return list with platforms
+     */
+    private List<String> getPlatforms() {
         try {
             log.info(String.format("'%s'Getting list of platforms", getClass()));
             List<WebElement> platforms = platformsBlock.getElements(
@@ -55,15 +86,32 @@ public class GamePage extends BasePage {
         }
     }
 
-    public String getGamePrice() {
-        try {
-            String price = priceArea.getText();
-            if (!price.equals("Free")) {
-                return price.substring(0, price.length() - 4);
-            } else return price;
-        } catch (Exception ex) {
-            return null;
+    /**
+     * Gets list of game's platforms and adds to list windows platform if exists
+     *
+     * @return list of platforms including windows platform
+     */
+    public List<String> getAllPlatforms() {
+        List<String> allPlatform;
+        if (getPlatforms() != null) {
+            allPlatform = getPlatforms();
+        } else {
+            allPlatform = new ArrayList<>();
         }
+        allPlatform.add(winTextAres.getAttribute("class"));
+        return allPlatform;
+    }
+
+    /**
+     * Gets price of the game
+     *
+     * @return price
+     */
+    public String getGamePrice() {
+        String price = priceArea.getText();
+        if (!price.equals("Free To Play")) {
+            return price.replaceAll("[^0-9$.,]", "");
+        } else return price;
     }
 
 }
