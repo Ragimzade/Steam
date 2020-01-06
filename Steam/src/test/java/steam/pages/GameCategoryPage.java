@@ -20,6 +20,12 @@ public class GameCategoryPage extends BasePage {
     private static final String YEAR_OF_BIRTH = "1960";
     private static final int QUANTITY_OF_ROWS = 3;
 
+    private final Table table = new Table(By.xpath("//div[@id='tab_content_NewReleases']"), "gameTable");
+    private final Button newReleasesButton = new Button(By.id("tab_select_NewReleases"), "newReleasesButton");
+    private final TextArea ageValidationArea = new TextArea(By.className("main_content_ctn"), "ageValidationArea");
+    private final DropDown ageDropDown = new DropDown(By.name("ageYear"), "ageDropDown");
+    private final Button viewPageButton = new Button(By.xpath("//span[contains(.,'View Page')]"), "viewPageButton");
+
     /**
      * Base constructor
      *
@@ -29,11 +35,6 @@ public class GameCategoryPage extends BasePage {
         assertPageIsOpened(newReleasesButton);
     }
 
-    private final Table table = new Table(By.xpath("//div[@id='tab_content_NewReleases']"), "gameTable");
-    private final Button newReleasesButton = new Button(By.id("tab_select_NewReleases"), "newReleasesButton");
-    private final TextArea ageValidationArea = new TextArea(By.className("main_content_ctn"), "ageValidationArea");
-    private final DropDown ageDropDown = new DropDown(By.name("ageYear"), "ageDropDown");
-    private final Button viewPageButton = new Button(By.xpath("//span[contains(.,'View Page')]"), "viewPageButton");
 
     /**
      * Navigates to GamePage using serial number of the game

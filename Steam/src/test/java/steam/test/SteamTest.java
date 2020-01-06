@@ -16,14 +16,14 @@ import java.io.IOException;
 import java.util.List;
 
 import static steam.test_data.Categories.ACTION;
-import static steam.test_data.Categories.ADVENTURE;
+import static steam.test_data.Categories.VIRTUAL_REALITY;
 
 public class SteamTest extends BaseTestSteam {
     private MainPage mainPage;
 
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {
-        return new Object[][]{{ADVENTURE}, {ACTION}};
+        return new Object[][]{{VIRTUAL_REALITY}, {ACTION}};
     }
 
     @BeforeMethod(alwaysRun = true)

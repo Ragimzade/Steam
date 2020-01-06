@@ -5,6 +5,7 @@ import elements.Button;
 import elements.TextArea;
 import elements.TextField;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 
 
 public class MainPage extends BasePage {
@@ -19,6 +20,8 @@ public class MainPage extends BasePage {
     private final Button englishButton = new Button(By.xpath("//a[@class='popup_menu_item tight' and contains(.,'English')]"), "englishButton");
     private final TextArea featuredTextArea = new TextArea(By.xpath("//div[@class='home_title' and contains(.,'Featured')]"), "featuredTextArea");
     private final Button categoriesButton = new Button(By.xpath("//div[@id='genre_flyout']//a[@class='popup_menu_item']"), "categoriesButton");
+    private final Button findButton = new Button(By.xpath("//a[@id='store_search_link']//img"), "findButton");
+    private final Button searchResultButton = new Button(By.xpath("//div[@id='search_resultsRows']//a//div//span[@class='title']"), "searchResultButton");
 
     /**
      * Base constructor
@@ -73,14 +76,43 @@ public class MainPage extends BasePage {
     }
 
     /**
-     * Find games using search filed by game's name
+     * Finds game by name using search suggest
      *
      * @param value game's name
      * @return instance of GamePage class
      */
-    public GamePage findGame(String value) {
+    public GamePage findGameBySearchSuggest(String value) {
         searchField.typeValue(value);
         searchSuggest.clickByVisibleText(value);
+        return new GamePage();
+    }
+
+    /**
+     * Finds game by name using search result on the search page
+     *
+     * @param value game's name
+     * @return instance of GamePage class
+     */
+    public GamePage findGameBySearchResults(String value) {
+        findButton.click();
+        searchResultButton.clickByVisibleText(value);
+        return new GamePage();
+    }
+
+    /**
+     * Finds game by name using search suggest, if search suggest is not present game will be found by search results
+     *
+     * @param value game's name
+     * @return instance of GamePage class
+     * @see #findGameBySearchSuggest(String)
+     * @see #findGameBySearchResults(String)
+     */
+    public GamePage findGame(String value) {
+        try {
+            findGameBySearchSuggest(value);
+        } catch (TimeoutException e) {
+            findGameBySearchResults(value);
+        }
         return new GamePage();
     }
 
