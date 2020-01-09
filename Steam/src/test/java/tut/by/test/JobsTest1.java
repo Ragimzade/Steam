@@ -64,4 +64,18 @@ public class JobsTest1 extends BaseTest {
         }
         softAssert.assertAll();
     }
+
+    @Test(dataProvider = "testDataFromJSON")
+    public void searchVacanciesByHeadlineAndDescriptionsTest(JobsSearchData searchData) {
+        SoftAssert softAssert = new SoftAssert();
+        CommonSteps.goToSearchPageIfNotOpened();
+        CommonSteps.getVacanciesIfRequire(searchData.getSearchValue());
+        List<VacancyData> set = vacancyDataHashMap.get(searchData.getSearchValue());
+        for (VacancyData vacancyData : set) {
+            String vacancyDescriptionAndHeadline = vacancyData.getDescription() + vacancyData.getHeadline();
+            softAssert.assertTrue(searchData.getKeyWords().stream().anyMatch(vacancyDescriptionAndHeadline::contains),
+                    String.format("Vacancy '%s' doesn't contain any of key words: ", vacancyData.getHeadline()));
+        }
+        softAssert.assertAll();
+    }
 }
