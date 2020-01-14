@@ -57,7 +57,7 @@ public class Browser extends BaseEntity {
     /**
      * Scrolls the page to the middle
      */
-    protected void scrollToMiddle() {
+    public static void scrollToMiddle() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript(String.format("window.scrollBy(0, %s)", Browser.getWindowSize() / 2));
     }

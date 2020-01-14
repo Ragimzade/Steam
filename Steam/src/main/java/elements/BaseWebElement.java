@@ -110,7 +110,7 @@ public abstract class BaseWebElement extends BaseEntity {
      *
      * @return true if absent
      */
-    public boolean waitForAbsent() {
+    public boolean isElementAbsent() {
         try {
             waitForCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
             log.info(String.format("Element '%s' absent ", name));

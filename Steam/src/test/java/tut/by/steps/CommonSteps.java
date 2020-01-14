@@ -8,6 +8,7 @@ import tut.by.pages.SearchPage;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class CommonSteps extends BaseEntity {
 
@@ -29,7 +30,7 @@ public class CommonSteps extends BaseEntity {
             jobsPage.goToSearchPage();
             return new SearchPage();
         }
-        return null;
+        return new SearchPage();
     }
 
     /**
@@ -38,7 +39,7 @@ public class CommonSteps extends BaseEntity {
      * @param searchValue value for vacancy searching
      * @see SearchPage#getAllVacancies()
      */
-    public static void getVacancies(String searchValue) {
+    public static void readVacancies(String searchValue) {
         SearchPage searchPage = new SearchPage();
         searchPage.searchForJobs(searchValue);
         List<VacancyData> vacancies = searchPage.getAllVacancies();
@@ -46,15 +47,25 @@ public class CommonSteps extends BaseEntity {
     }
 
     /**
-     * Gets vacancies if there are no vacancies in "vacancyDataHashMap" on specified searchValue
+     * Gets vacancies if there are no vacancies in "vacancyDataHashMap" by specified searchValue
      *
      * @param searchValue value for vacancy searching
-     * @see #getVacancies(String)
+     * @see #readVacancies(String)
      */
-    public static void getVacanciesIfRequire(String searchValue) {
+    public static void readVacanciesIfRequire(String searchValue) {
         if (!vacancyDataHashMap.containsKey(searchValue)) {
             log.info(String.format("Getting vacancies for '%s' search value", searchValue));
-            getVacancies(searchValue);
+            readVacancies(searchValue);
         }
+    }
+
+    /**
+     * Get listed vacancies from vacancyDataHashMap by specified searchValue
+     *
+     * @param searchValue value for vacancy searching
+     * @return list of VacancyData.class instances
+     */
+    public static List<VacancyData> getListedVacancies(String searchValue) {
+        return Objects.requireNonNull(vacancyDataHashMap.get(searchValue));
     }
 }

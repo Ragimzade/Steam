@@ -28,6 +28,9 @@ public class Button extends BaseWebElement {
         clickWithAttempts();
     }
 
+    /**
+     * Scrolls a button into a view and clicks it
+     */
     public void scrollAndClick() {
         scrollToElement();
         waitForElementClickable();

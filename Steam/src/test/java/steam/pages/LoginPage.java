@@ -25,7 +25,8 @@ public class LoginPage extends BasePage {
 
     /**
      * Signs in with specified login and password
-     * @param login user login
+     *
+     * @param login    user login
      * @param password user password
      */
     public void signIn(String login, String password) {
@@ -37,6 +38,7 @@ public class LoginPage extends BasePage {
 
     /**
      * Verifies if user is logged in
+     *
      * @return true if logged in
      */
     public boolean isMessageButtonPresent() {

@@ -66,7 +66,7 @@ public class DownloadPage extends BasePage {
     private void waitForCaptchaValidation() {
         if (iframeTextArea.isElementPresent()) {
             log.info("waiting for absent of iframe");
-            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(iframeTextArea::waitForAbsent);
+            getDelay(TIMEOUT_IN_SECONDS, DELAY_IN_MILLIS).until(iframeTextArea::isElementAbsent);
             sendButton.click();
             clickOkButtonIfPresent();
         }

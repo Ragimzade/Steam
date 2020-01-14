@@ -10,4 +10,5 @@ public class VacancyData {
 
     private String headline;
     private String description;
+    private String pageUrl;
 }

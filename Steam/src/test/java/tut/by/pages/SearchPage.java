@@ -1,6 +1,7 @@
 package tut.by.pages;
 
 import base.BasePage;
+import browser.Browser;
 import elements.BaseWebElement;
 import elements.Button;
 import elements.TextField;
@@ -40,12 +41,13 @@ public class SearchPage extends BasePage {
      * Reads vacancies on current single page and creates a list with instances of VacancyData class
      *
      * @return list of VacancyData class instances
+     * @see #getVacancy(WebElement)
      */
     private List<VacancyData> getVacanciesOnPage() {
         List<WebElement> vacancies = findElements(By.xpath("//div[@class='vacancy-serp ']/div[contains(@data-qa,'vacancy')]"));
 
         return vacancies.stream()
-                .map(this::createVacancy)
+                .map(this::getVacancy)
                 .collect(Collectors.toList());
     }
 
@@ -55,14 +57,15 @@ public class SearchPage extends BasePage {
      * @param vacancy WebElement
      * @return instance of VacancyData class
      */
-    private VacancyData createVacancy(WebElement vacancy) {
+    private VacancyData getVacancy(WebElement vacancy) {
         String header = vacancy.findElement(By.xpath(".//a[contains(@data-qa,'vacancy-title')]")).getText();
         String description = vacancy.findElement(By.xpath(".//div[@class='g-user-content']")).getText();
-        return new VacancyData(header, description);
+        String pageUrl = Browser.getCurrentUrl();
+        return new VacancyData(header, description,pageUrl);
     }
 
     /**
-     * Reads vacancies on all pages using pagination button
+     * Reads vacancies from all pages using pagination button
      *
      * @return list with vacancies
      */

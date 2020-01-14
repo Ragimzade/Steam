@@ -105,7 +105,7 @@ public class GameCategoryPage extends BasePage {
     public String getPrice(int numberOfGame) {
         try {
             return table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
-                    .findElement(By.xpath(".//div[@class='discount_final_price']")).getText();
+                    .findElement(By.xpath(".//preceding-sibling::div//div[@class='discount_final_price']")).getText();
         } catch (NoSuchElementException ex) {
             return "";
         }
@@ -120,7 +120,7 @@ public class GameCategoryPage extends BasePage {
     public String getDiscount(int numberOfGame) {
         try {
             return table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
-                    .findElement(By.xpath(".//div[@class='discount_pct']")).getText();
+                    .findElement(By.xpath(".//preceding-sibling::div//div[@class='discount_pct']")).getText();
         } catch (NoSuchElementException e) {
             return null;
         }
@@ -151,10 +151,9 @@ public class GameCategoryPage extends BasePage {
     public List<String> getAllPlatforms(int numberOfGame) {
         List<String> allPlatform = getPlatforms(numberOfGame);
         String winPlatform = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
-                .findElement(By.xpath(".//span[@class='platform_img win']")).getAttribute("class");
+                .findElement(By.xpath(".//span[contains(@class,'platform_img')]")).getAttribute("class");
         allPlatform.add(winPlatform);
         return allPlatform;
     }
-
 }
 
