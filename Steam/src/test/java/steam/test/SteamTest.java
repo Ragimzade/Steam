@@ -16,14 +16,15 @@ import java.io.IOException;
 import java.util.List;
 
 import static steam.test_data.Categories.ACTION;
-import static steam.test_data.Categories.VIRTUAL_REALITY;
+import static steam.test_data.Categories.ADVENTURE;
 
 public class SteamTest extends BaseTestSteam {
+    private static final int QUANTITY_OF_GAMES = 3;
     private MainPage mainPage;
 
     @DataProvider(name = "data-provider")
     public Object[][] dataProviderMethod() {
-        return new Object[][]{{VIRTUAL_REALITY}, {ACTION}};
+        return new Object[][]{{ADVENTURE}, {ACTION}};
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -47,12 +48,12 @@ public class SteamTest extends BaseTestSteam {
         Assert.assertTrue(DownloadUtils.isFileDownloaded(STEAM_FILE_NAME));
     }
 
-    @Test(dataProvider = "data-provider", dependsOnMethods = "loginTest")
+    @Test(dataProvider = "data-provider")
     public void gameSearchTest(String data) {
         SoftAssert softAssert = new SoftAssert();
         GameCategoryPage gcPage = mainPage.goToCategoryByVisibleText(data);
-        List<GameData> games = gcPage.getSeveralGameData(3);
-        for (int i = 0; i < 3; i++) {
+        List<GameData> games = gcPage.getSeveralGameData(QUANTITY_OF_GAMES);
+        for (int i = 0; i < QUANTITY_OF_GAMES; i++) {
             mainPage.goToCategoryByVisibleText(data);
             GamePage gamePage = gcPage.goToGamePage(i);
             GameData game = gamePage.getGameData();

@@ -20,12 +20,6 @@ public class GameCategoryPage extends BasePage {
     private static final String YEAR_OF_BIRTH = "1960";
     private static final int QUANTITY_OF_ROWS = 3;
 
-    private final Table table = new Table(By.xpath("//div[@id='tab_content_NewReleases']"), "gameTable");
-    private final Button newReleasesButton = new Button(By.id("tab_select_NewReleases"), "newReleasesButton");
-    private final TextArea ageValidationArea = new TextArea(By.className("main_content_ctn"), "ageValidationArea");
-    private final DropDown ageDropDown = new DropDown(By.name("ageYear"), "ageDropDown");
-    private final Button viewPageButton = new Button(By.xpath("//span[contains(.,'View Page')]"), "viewPageButton");
-
     /**
      * Base constructor
      *
@@ -35,6 +29,11 @@ public class GameCategoryPage extends BasePage {
         assertPageIsOpened(newReleasesButton);
     }
 
+    private final Table table = new Table(By.xpath("//div[@id='tab_content_NewReleases']"), "gameTable");
+    private final Button newReleasesButton = new Button(By.id("tab_select_NewReleases"), "newReleasesButton");
+    private final TextArea ageValidationArea = new TextArea(By.className("main_content_ctn"), "ageValidationArea");
+    private final DropDown ageDropDown = new DropDown(By.name("ageYear"), "ageDropDown");
+    private final Button viewPageButton = new Button(By.xpath("//span[contains(.,'View Page')]"), "viewPageButton");
 
     /**
      * Navigates to GamePage using serial number of the game
@@ -106,7 +105,7 @@ public class GameCategoryPage extends BasePage {
     public String getPrice(int numberOfGame) {
         try {
             return table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
-                    .findElement(By.xpath(".//div[@class='discount_final_price']")).getText();
+                    .findElement(By.xpath(".//preceding-sibling::div//div[@class='discount_final_price']")).getText();
         } catch (NoSuchElementException ex) {
             return "";
         }
@@ -121,7 +120,7 @@ public class GameCategoryPage extends BasePage {
     public String getDiscount(int numberOfGame) {
         try {
             return table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
-                    .findElement(By.xpath(".//div[@class='discount_pct']")).getText();
+                    .findElement(By.xpath(".//preceding-sibling::div//div[@class='discount_pct']")).getText();
         } catch (NoSuchElementException e) {
             return null;
         }
@@ -152,10 +151,9 @@ public class GameCategoryPage extends BasePage {
     public List<String> getAllPlatforms(int numberOfGame) {
         List<String> allPlatform = getPlatforms(numberOfGame);
         String winPlatform = table.getSelectedRows(QUANTITY_OF_ROWS).get(numberOfGame)
-                .findElement(By.xpath(".//span[@class='platform_img win']")).getAttribute("class");
+                .findElement(By.xpath(".//span[contains(@class,'platform_img')]")).getAttribute("class");
         allPlatform.add(winPlatform);
         return allPlatform;
     }
-
 }
 

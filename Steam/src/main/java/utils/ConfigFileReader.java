@@ -38,16 +38,10 @@ public class ConfigFileReader {
     }
 
     public String getBrowser() {
-        String browser;
-        if (System.getenv("Browser") != null && !System.getenv("Browser").isEmpty()) {
-            return System.getenv("Browser");
-        } else {
-            browser = prop.getProperty("Browser", "CHROME");
-            Objects.requireNonNull(browser, "Set property browser in config");
-            return browser;
-        }
+        String browser = prop.getProperty("Browser", "CHROME");
+        Objects.requireNonNull(browser, "Set property browser in config");
+        return browser;
     }
-
 
     public String getBaseUrl() {
         String url = prop.getProperty("BaseUrl");
