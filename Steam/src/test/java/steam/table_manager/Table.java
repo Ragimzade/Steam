@@ -3,31 +3,45 @@ package steam.table_manager;
 import elements.BaseWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Table extends BaseWebElement {
+    private static final String TABLE_ROWS = "//div[@class='tab_item_content']";
 
-    private static final String TABLE_ROWS = "//a[@class='tab_item   app_impression_tracked']";
-
+    /**
+     * Base constructor
+     *
+     * @param locator Table locator
+     * @param name    Table name
+     */
     public Table(By locator, String name) {
         super(locator, name);
     }
 
-    public List<WebElement> getRows() {
+    /**
+     * Scrolls the page into view and gets all rows of the table
+     *
+     * @return list of rows
+     */
+    public List<WebElement> getAllRows() {
         scrollToElement(driver.findElement(By.xpath("//div[@class='tab_content' and contains(.,'Top')]")));
-        waitForConditions(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(TABLE_ROWS), 3));
-
         return driver.findElements(By.xpath(TABLE_ROWS));
     }
 
+    /**
+     * Gets list with selected number of rows
+     *
+     * @param numberOfRows required number of rows
+     * @return list with required number of rows
+     * @see #getAllRows()
+     */
     public List<WebElement> getSelectedRows(int numberOfRows) {
-        List<WebElement> rows = getRows();
+        List<WebElement> rows = getAllRows();
+
         return rows.stream()
                 .limit(numberOfRows)
                 .collect(Collectors.toList());
     }
-
 }

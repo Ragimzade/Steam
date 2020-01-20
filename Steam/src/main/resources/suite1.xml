@@ -1,0 +1,8 @@
+<suite name="suite">
+    <test name="tut.by">
+        <classes>
+            <class name="tut.by.test.JobsTest"/>
+            <class name="tut.by.test.JobsTest1"/>
+        </classes>
+    </test>
+</suite>

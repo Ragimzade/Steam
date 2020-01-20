@@ -15,9 +15,11 @@ screenshots_from_tests
 .allure
 
 # downloads folder
-downloads
+downloads/
 
-tokens
+tokens/
+
+*.iml
 
 
 
