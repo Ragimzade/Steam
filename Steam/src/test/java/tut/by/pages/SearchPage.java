@@ -44,7 +44,7 @@ public class SearchPage extends BasePage {
      * @see #getVacancy(WebElement)
      */
     private List<VacancyData> getVacanciesOnPage() {
-        List<WebElement> vacancies = findElements(By.xpath("//div[@class='vacancy-serp ']/div[contains(@data-qa,'vacancy')]"));
+        List<WebElement> vacancies = findElements(By.xpath("//div[@class='vacancy-serp']/div[contains(@class,'vacancy')]"));
 
         return vacancies.stream()
                 .map(this::getVacancy)
@@ -61,7 +61,7 @@ public class SearchPage extends BasePage {
         String header = vacancy.findElement(By.xpath(".//a[contains(@data-qa,'vacancy-title')]")).getText();
         String description = vacancy.findElement(By.xpath(".//div[@class='g-user-content']")).getText();
         String pageUrl = Browser.getCurrentUrl();
-        return new VacancyData(header, description,pageUrl);
+        return new VacancyData(header, description, pageUrl);
     }
 
     /**
