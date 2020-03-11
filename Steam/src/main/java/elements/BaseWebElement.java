@@ -139,7 +139,6 @@ public abstract class BaseWebElement extends BaseEntity {
     public void waitForElementClickable() {
         waitForCondition(ExpectedConditions.elementToBeClickable(locator));
         log.info(String.format("Button '%s' is clickable", name));
-
     }
 
     /**
